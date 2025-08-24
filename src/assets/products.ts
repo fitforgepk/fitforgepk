@@ -385,3 +385,5 @@ export const allProducts: Product[] = [
   ...gamingProducts,
   ...animeProducts
 ];
+
+export { featuredImage };
