@@ -46,6 +46,12 @@ import modelUnisexBlackVisionVoid2 from "@/assets/unisex-collection-framed/Visio
 import modelUnisexVisionVoid from "@/assets/unisex-collection-framed/Vision_Void_model.png";
 import modelUnisexVisionVoid2 from "@/assets/unisex-collection-framed/Vision_Void_model2.png";
 
+// New model images imports
+import modelMensEighty from "@/assets/unisex-collection-framed/80_Boys_model-min.png";
+import modelMensBlacksmith from "@/assets/mens-collection-framed/The_Blacksmith_model-min.png";
+import modelWomensGrace from "@/assets/womens-collection-framed/Grace_model-min.png";
+import modelWomensEighty from "@/assets/unisex-collection-framed/80_Girl_model-min.png";
+
 // Add a type for products that includes optional imageBack and additional images
 export interface Product {
   id: string;
@@ -81,8 +87,9 @@ export const featuredProducts: Product[] = [
     name: "The Blacksmith ",
     price: 1799,
     originalPrice: 2249,
-    image: mensCharcoalShirtFront,
-    imageBack: mensCharcoalShirtBack,
+    image: modelMensBlacksmith,
+    imageBack: mensCharcoalShirtFront,
+    additionalImages: [mensCharcoalShirtBack],
     category: "Regular Fit",
     isNew: true,
     isSale: false,
@@ -118,8 +125,8 @@ export const featuredProducts: Product[] = [
     name: "City Eighty ",
     price: 1999,
     originalPrice: 2499,
-    image: unisexEightysShirtFront,
-    imageBack: unisexEightysShirtBack,
+    image: modelMensEighty, 
+    additionalImages: [,unisexEightysShirtFront, unisexEightysShirtBack],
     category: "Oversized Tee",
     isNew: true,
     isSale: false,
@@ -159,13 +166,14 @@ export const menProducts: Product[] = [
     isSale: false,
     tag: "NEW" 
   },
-  {
+   {
     id: "m4",
     name: "The Blacksmith ",
     price: 1799,
     originalPrice: 2249,
-    image: mensCharcoalShirtFront,
-    imageBack: mensCharcoalShirtBack,
+    image: modelMensBlacksmith,
+    imageBack: mensCharcoalShirtFront,
+    additionalImages: [mensCharcoalShirtBack],
     category: "Regular Fit",
     isNew: true,
     isSale: false,
@@ -198,12 +206,12 @@ export const menProducts: Product[] = [
     tag: "NEW" 
   },
   {
-    id: "u2",
-    name: "City Eighty",
+    id: "u21",
+    name: "City Eighty ",
     price: 1999,
     originalPrice: 2499,
-    image: unisexEightysShirtFront,
-    imageBack: unisexEightysShirtBack,
+    image: modelMensEighty, 
+    additionalImages: [,unisexEightysShirtFront, unisexEightysShirtBack],
     category: "Oversized Tee",
     isNew: true,
     isSale: false,
@@ -233,20 +241,22 @@ export const womenProducts: Product[] = [
     name: "Varsity Grace",
     price: 1999,
     originalPrice: 2499,
-    image: unisexGraceShirtFront,
-    imageBack: unisexGraceShirtBack,
+    image: modelWomensGrace,
+    imageBack: unisexGraceShirtFront,
+    additionalImages: [unisexGraceShirtBack],
     category: "Drop Shoulder",
     isNew: true,
     isSale: false,
     tag: "NEW"
   },
   {
-    id: "u2",
+    id: "u22",
     name: "City Eighty",
     price: 1999,
     originalPrice: 2499,
-    image: unisexEightysShirtFront,
-    imageBack: unisexEightysShirtBack,
+    image: modelWomensEighty,
+    imageBack: unisexEightysShirtFront,
+    additionalImages: [unisexEightysShirtBack],
     category: "Oversized Tee",
     isNew: true,
     isSale: false,
@@ -314,8 +324,9 @@ export const unisexProducts: Product[] = [
     name: "City Eighty",
     price: 1999,
     originalPrice: 2499,
-    image: unisexEightysShirtFront,
-    imageBack: unisexEightysShirtBack,
+    image: modelMensEighty,
+    imageBack: modelWomensEighty,
+    additionalImages: [unisexEightysShirtFront, unisexEightysShirtBack],
     category: "Oversized Tee",
     isNew: true,
     isSale: false,

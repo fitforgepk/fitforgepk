@@ -5,6 +5,7 @@ import model2 from "@/assets/Front_page_models/Front_model2.png";
 // Removed model2 import to test Cloudinary integration
 import model3 from "@/assets/Front_page_models/Front_model3.png";
 import model4 from "@/assets/Front_page_models/Front_model.png";
+import modelWomensGrace from "@/assets/womens-collection-framed/Grace_model-min.png";
 
 const FrontPageModels = () => {
   // Model images array
@@ -13,16 +14,20 @@ const FrontPageModels = () => {
     { src: model2, alt: "Front Model 2" }, // Using original asset path for Cloudinary
     { src: model3, alt: "Front Model 3" },
     { src: model4, alt: "Front Model" },
+    { src: modelWomensGrace, alt: "Grace Model" },
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [loaded, setLoaded] = useState<boolean[]>(() => models.map(() => false));
 
   const markLoaded = (i: number) => {
-    setLoaded((prev) => {
-      const next = prev.slice();
-      next[i] = true;
-      return next;
+    // Use requestAnimationFrame for smoother UI updates on iOS
+    window.requestAnimationFrame(() => {
+      setLoaded((prev) => {
+        const next = prev.slice();
+        next[i] = true;
+        return next;
+      });
     });
   };
 
@@ -59,10 +64,17 @@ const FrontPageModels = () => {
     return isIPhone || isIPadOS;
   }, []);
 
-  // Image loading props, use eager on iOS to ensure they load reliably in webviews
+  // Image loading props, optimize for iOS to ensure faster loading
   const imageProps = useMemo(() => {
-    if (isIOS) return { decoding: 'async' as const };
-    return { loading: 'lazy' as const, decoding: 'async' as const };
+    if (isIOS) return { 
+      decoding: 'async' as const,
+      loading: 'eager' as const, // Force eager loading on iOS for reliability
+      fetchPriority: 'high' as const // Prioritize these images
+    };
+    return { 
+      loading: 'lazy' as const, 
+      decoding: 'async' as const 
+    };
   }, [isIOS]);
 
   // Auto-advance carousel every 4 seconds. Pauses on unmount.
@@ -130,6 +142,8 @@ const FrontPageModels = () => {
                         src={model.src}
                         alt={model.alt}
                         {...imageProps}
+                        width="400"
+                        height="600"
                         onLoad={() => markLoaded(index)}
                         onError={() => markLoaded(index)}
                         className={`w-full h-full object-contain bg-gradient-to-b from-[#f8f9fa] to-[#e9ecef] transition-opacity duration-500 ${loaded[index] ? 'opacity-100' : 'opacity-0'}`}
@@ -154,9 +168,9 @@ const FrontPageModels = () => {
             </div>
           </div>
 
-          {/* Desktop: Grid layout with auto-scroll highlight */}
+          {/* Desktop: Single row layout with auto-scroll highlight */}
           <div
-            className="hidden md:grid md:grid-cols-2 lg:grid-cols-4 gap-6"
+            className="hidden md:flex md:flex-row md:overflow-x-auto md:gap-4 md:pb-4 md:snap-x md:snap-mandatory"
             onMouseEnter={() => setPaused(true)}
             onMouseLeave={() => setPaused(false)}
             onFocus={() => setPaused(true)}
@@ -165,7 +179,7 @@ const FrontPageModels = () => {
               {models.map((model, index) => (
               <div
                 key={index}
-                className={`group relative bg-white rounded-2xl shadow-lg overflow-hidden transition-all duration-500 ${
+                className={`group relative bg-white rounded-2xl shadow-lg overflow-hidden transition-all duration-500 flex-shrink-0 md:w-1/4 lg:w-1/5 snap-center ${
                   index === currentIndex ? 'ring-4 ring-[#a67c52] shadow-2xl scale-105' : 'hover:shadow-xl hover:scale-102'
                 }`}
               >
@@ -181,6 +195,8 @@ const FrontPageModels = () => {
                       src={model.src}
                       alt={model.alt}
                       {...imageProps}
+                      width="400"
+                      height="600"
                       onLoad={() => markLoaded(index)}
                       onError={() => markLoaded(index)}
                       className={`w-full h-full object-contain bg-gradient-to-b from-[#f8f9fa] to-[#e9ecef] transition-opacity duration-500 group-hover:scale-110 ${loaded[index] ? 'opacity-100' : 'opacity-0'}`}
