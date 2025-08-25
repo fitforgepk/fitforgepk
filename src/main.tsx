@@ -32,10 +32,10 @@ async function prefetchImages(urls: string[]) {
 if (isInAppBrowser()) {
 	// List of small critical assets to prime for Instagram in-app browser
 	const critical = [
-		'/assets/FFlogo.png',
-		'/assets/hero-main.jpg',
-		'/assets/hero-product-mockup.png',
-		'/assets/Front_page_models/Front_model1.png',
+		'https://ik.imagekit.io/sy6soezys/assets/FFlogo.png',
+		'https://ik.imagekit.io/sy6soezys/assets/hero-main.jpg',
+		'https://ik.imagekit.io/sy6soezys/assets/hero-product-mockup.png',
+		'https://ik.imagekit.io/sy6soezys/assets/Front_page_models/Front_model1.png',
 	];
 
 	// Run prefetch in background but don't block rendering

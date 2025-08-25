@@ -10,6 +10,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { OptimizedImage } from "@/components/OptimizedImage";
 
 interface ProductCardProps {
   id: string;
@@ -351,10 +352,9 @@ const ProductCard = ({
              <DialogTitle className="text-xl font-bold text-foreground">Size Chart</DialogTitle>
            </DialogHeader>
            <div className="w-full">
-             <img
-               src="/assets/size_chart.jpg"
+             <OptimizedImage
+               src="https://ik.imagekit.io/sy6soezys/assets/public/size_chart.jpg"
                alt="Size chart"
-               {...imageProps}
                className="w-full h-auto max-h-[80vh] object-contain rounded-lg"
              />
            </div>

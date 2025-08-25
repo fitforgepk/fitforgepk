@@ -1,11 +1,13 @@
 // Import the model images
 import { useState, useEffect, useMemo, useRef } from "react";
-import model1 from "@/assets/Front_page_models/Front_model1.png";
-import model2 from "@/assets/Front_page_models/Front_model2.png";
-// Removed model2 import to test Cloudinary integration
-import model3 from "@/assets/Front_page_models/Front_model3.png";
-import model4 from "@/assets/Front_page_models/Front_model.png";
-import modelWomensGrace from "@/assets/womens-collection-framed/Grace_model-min.png";
+import { buildImageKitUrl, convertToImageKitPath } from "@/lib/imagekit";
+
+// ImageKit URLs
+const model1 = buildImageKitUrl(convertToImageKitPath("Front_page_models/Front_model1.png"));
+const model2 = buildImageKitUrl(convertToImageKitPath("Front_page_models/Front_model2.png"));
+const model3 = buildImageKitUrl(convertToImageKitPath("Front_page_models/Front_model3.png"));
+const model4 = buildImageKitUrl(convertToImageKitPath("Front_page_models/Front_model.png"));
+const modelWomensGrace = buildImageKitUrl(convertToImageKitPath("womens-collection-framed/Grace_model-min.png"));
 
 const FrontPageModels = () => {
   // Model images array

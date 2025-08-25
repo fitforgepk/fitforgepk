@@ -2,9 +2,11 @@ import React, { useState, useRef, useCallback, useEffect, useContext } from "rea
 import { useLoader } from "@/components/LoaderContext";
 import { Button } from "@/components/ui/button";
 import { Upload, Trash2 } from "lucide-react";
-import blackShirt from "@/assets/blackshirts1.png";
-import whiteShirt from "@/assets/whiteshirts1.png";
+import { buildImageKitUrl, convertToImageKitPath } from "@/lib/imagekit";
 import { animeProducts, gamingProducts } from "@/assets/products";
+
+const blackShirt = buildImageKitUrl("assets/public/images/blackshirts1.png");
+const whiteShirt = buildImageKitUrl("assets/public/images/whiteshirts1.png");
 import ProductCard from "@/components/ProductCard";
 import { CartContext } from "@/components/CartContext";
 import { CartUIContext } from "@/components/CartContext";

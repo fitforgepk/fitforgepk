@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ImageKit Test</title>
+</head>
+<body>
+    <h1>ImageKit URL Test</h1>
+    
+    <!-- Test multiple possible paths -->
+    <h2>Test 1: Try Different Path Structures</h2>
+    <p>Direct path:</p>
+    <img src="https://ik.imagekit.io/sy6soezys/featured-collection.png" alt="Direct" style="max-width: 200px;">
+    <p>With assets folder:</p>
+    <img src="https://ik.imagekit.io/sy6soezys/assets/featured-collection.png" alt="With assets" style="max-width: 200px;">
+    
+    <h2>Test 2: Try Known Files from Your Assets</h2>
+    <p>FFlogo.png (direct):</p>
+    <img src="https://ik.imagekit.io/sy6soezys/FFlogo.png" alt="FFlogo direct" style="max-width: 200px;">
+    <p>FFlogo.png (with assets):</p>
+    <img src="https://ik.imagekit.io/sy6soezys/assets/FFlogo.png" alt="FFlogo assets" style="max-width: 200px;">
+    
+    <h2>Test 3: Try Product Images</h2>
+    <p>Beige boy (direct):</p>
+    <img src="https://ik.imagekit.io/sy6soezys/mens-collection-framed/beigeboyfront.png" alt="Beige direct" style="max-width: 200px;">
+    <p>Beige boy (with assets):</p>
+    <img src="https://ik.imagekit.io/sy6soezys/assets/mens-collection-framed/beigeboyfront.png" alt="Beige assets" style="max-width: 200px;">
+    
+    <h2>Test 4: Check Console for Errors</h2>
+    <p>Open browser DevTools (F12) → Console tab to see error messages</p>
+    
+    <script>
+        // Log any image load errors
+        document.querySelectorAll('img').forEach((img, index) => {
+            img.onload = () => console.log(`Image ${index + 1} loaded successfully: ${img.src}`);
+            img.onerror = () => console.error(`Image ${index + 1} failed to load: ${img.src}`);
+        });
+    </script>
+</body>
+</html>

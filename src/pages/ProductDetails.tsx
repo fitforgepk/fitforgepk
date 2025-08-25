@@ -1,5 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { allProducts } from "@/assets/products";
+import { OptimizedImage } from "@/components/OptimizedImage";
 import { Button } from "@/components/ui/button";
 import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
@@ -345,8 +346,8 @@ const ProductDetails = () => {
             <DialogTitle className="text-xl font-bold text-[#1a1a1a]">Size Chart</DialogTitle>
           </DialogHeader>
           <div className="w-full">
-            <img
-              src="/assets/size_chart.jpg"
+            <OptimizedImage
+              src="https://ik.imagekit.io/sy6soezys/assets/public/size_chart.jpg"
               alt="Size chart"
               className="w-full h-auto max-h-[80vh] object-contain rounded-lg"
             />

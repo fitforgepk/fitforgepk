@@ -18,10 +18,12 @@ import {
 } from "@/components/ui/drawer";
 import { CartContext, CartUIContext } from "@/components/CartContext";
 import { useHeroBg } from "@/components/HeroBgContext";
-import FFlogo from "@/assets/FFlogo.png";
+import { buildImageKitUrl, convertToImageKitPath } from "@/lib/imagekit";
 import { allProducts } from "@/assets/products";
 import { getFitLabelByName } from "@/lib/utils";
 import { getImageUrl } from "@/lib/imageUtils";
+
+const FFlogo = buildImageKitUrl(convertToImageKitPath("FFlogo.png"));
 
 const FALLBACK_IMAGE = "https://via.placeholder.com/150?text=Custom+Design";
 

@@ -12,10 +12,10 @@ export const useLoader = () => useContext(LoaderContext);
 
 // Small set of critical assets to preload on first load. Adjust as needed.
 const CRITICAL_ASSETS = [
-  '/assets/FFlogo.png',
-  '/assets/hero-main.jpg',
-  '/assets/hero-product-mockup.png',
-  '/assets/Front_page_models/Front_model1.png',
+  'https://ik.imagekit.io/sy6soezys/assets/FFlogo.png',
+  'https://ik.imagekit.io/sy6soezys/assets/hero-main.jpg',
+  'https://ik.imagekit.io/sy6soezys/assets/hero-product-mockup.png',
+  'https://ik.imagekit.io/sy6soezys/assets/Front_page_models/Front_model1.png',
 ];
 
 function preloadImage(src: string): Promise<void> {

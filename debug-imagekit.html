@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ImageKit Debug</title>
+    <style>
+        .test-container { margin: 20px 0; padding: 10px; border: 1px solid #ccc; }
+        .broken-img { border: 2px solid red; }
+        .working-img { border: 2px solid green; }
+    </style>
+</head>
+<body>
+    <h1>ImageKit Debug Test</h1>
+    
+    <div class="test-container">
+        <h2>Test 1: Direct ImageKit URL</h2>
+        <p>Copy this URL and paste in new browser tab:</p>
+        <code>https://ik.imagekit.io/sy6soezys/assets/FFlogo.png</code>
+        <br><br>
+        <img id="test1" src="https://ik.imagekit.io/sy6soezys/assets/FFlogo.png" alt="FFlogo test" style="max-width: 200px;">
+    </div>
+    
+    <div class="test-container">
+        <h2>Test 2: Product Image</h2>
+        <code>https://ik.imagekit.io/sy6soezys/assets/mens-collection-framed/beigeboyfront.png</code>
+        <br><br>
+        <img id="test2" src="https://ik.imagekit.io/sy6soezys/assets/mens-collection-framed/beigeboyfront.png" alt="Product test" style="max-width: 200px;">
+    </div>
+    
+    <div class="test-container">
+        <h2>Test 3: With Transformations</h2>
+        <code>https://ik.imagekit.io/sy6soezys/tr:w-300,h-300,q-80,f-auto/assets/FFlogo.png</code>
+        <br><br>
+        <img id="test3" src="https://ik.imagekit.io/sy6soezys/tr:w-300,h-300,q-80,f-auto/assets/FFlogo.png" alt="Transformed test" style="max-width: 200px;">
+    </div>
+    
+    <div class="test-container">
+        <h2>Test 4: Local Image (for comparison)</h2>
+        <img id="test4" src="/assets/heropic1.jpg" alt="Local test" style="max-width: 200px;">
+    </div>
+    
+    <div class="test-container">
+        <h2>Debug Info</h2>
+        <div id="debug-info"></div>
+    </div>
+    
+    <script>
+        const images = document.querySelectorAll('img');
+        const debugInfo = document.getElementById('debug-info');
+        
+        images.forEach((img, index) => {
+            const testId = `test${index + 1}`;
+            
+            img.onload = function() {
+                console.log(`✅ ${testId} loaded: ${this.src}`);
+                console.log(`   Natural size: ${this.naturalWidth}x${this.naturalHeight}`);
+                this.classList.add('working-img');
+                
+                debugInfo.innerHTML += `<p style="color: green;">✅ ${testId}: LOADED (${this.naturalWidth}x${this.naturalHeight})</p>`;
+            };
+            
+            img.onerror = function() {
+                console.error(`❌ ${testId} failed: ${this.src}`);
+                this.classList.add('broken-img');
+                
+                debugInfo.innerHTML += `<p style="color: red;">❌ ${testId}: FAILED to load</p>`;
+            };
+            
+            // Check if image is already loaded (cached)
+            if (img.complete) {
+                if (img.naturalWidth > 0) {
+                    img.onload();
+                } else {
+                    img.onerror();
+                }
+            }
+        });
+        
+        // Additional debugging
+        setTimeout(() => {
+            debugInfo.innerHTML += '<h3>Additional Debug Info:</h3>';
+            debugInfo.innerHTML += `<p>User Agent: ${navigator.userAgent}</p>`;
+            debugInfo.innerHTML += `<p>Current URL: ${window.location.href}</p>`;
+            debugInfo.innerHTML += `<p>Document Ready State: ${document.readyState}</p>`;
+        }, 2000);
+    </script>
+</body>
+</html>

@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useLazyLoadImage } from '@/hooks/use-image-lazy-load';
 import { getOptimizedImageUrl, createSrcSet, getBestImageFormat, isSafariOrInAppBrowser } from '@/lib/imageFormatUtils';
+import { buildImageKitUrl, createImageKitSrcSet, isImageKitUrl, convertToImageKitPath } from '@/lib/imagekit';
 import { cn } from '@/lib/utils';
 
 export interface OptimizedImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
@@ -48,11 +49,41 @@ export function OptimizedImage({
   // Get the best format for the current browser
   const bestFormat = getBestImageFormat();
   
-  // Get the optimized image URL with format conversion (if optimization is enabled)
-  const optimizedSrc = disableOptimization ? src : getOptimizedImageUrl(src);
+  // Determine if we should use ImageKit or local optimization
+  const useImageKit = !isImageKitUrl(src) && !src.startsWith('data:') && !src.startsWith('http');
   
-  // Create srcset for responsive images (if optimization is enabled)
-  const srcSet = disableOptimization ? '' : createSrcSet(src);
+  // Get the optimized image URL with ImageKit
+  const optimizedSrc = disableOptimization 
+    ? src 
+    : useImageKit 
+      ? buildImageKitUrl(convertToImageKitPath(src), { 
+          width, 
+          height, 
+          quality,
+          format: 'auto'
+        })
+      : isImageKitUrl(src) 
+        ? src 
+        : getOptimizedImageUrl(src);
+
+  // Debug logging
+  if (import.meta.env.DEV) {
+    console.log('OptimizedImage Debug:', {
+      originalSrc: src,
+      useImageKit,
+      convertedPath: useImageKit ? convertToImageKitPath(src) : 'N/A',
+      finalSrc: optimizedSrc
+    });
+  }
+  
+  // Create srcset for responsive images
+  const srcSet = disableOptimization 
+    ? '' 
+    : useImageKit 
+      ? createImageKitSrcSet(convertToImageKitPath(src), [320, 640, 960, 1280, 1920], { quality })
+      : isImageKitUrl(src)
+        ? ''
+        : createSrcSet(src);
   
   // Set browser info for debugging
   useEffect(() => {
@@ -63,20 +94,25 @@ export function OptimizedImage({
     }
   }, [bestFormat, disableOptimization, browserInfo]);
   
-  // Use lazy loading hook (skip if priority is true)
-  const { isLoaded, isLoading, error, imageRef } = useLazyLoadImage({
-    src: optimizedSrc,
-    threshold: 0.1,
-    rootMargin: '200px',
-  });
+  // Temporarily disable lazy loading for debugging
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(false);
+  const imageRef = useRef<HTMLImageElement>(null);
   
   // Handle image load event
   const handleLoad = () => {
+    setIsLoaded(true);
+    setIsLoading(false);
+    setError(false);
     if (onLoad) onLoad();
   };
   
   // Handle image error event
   const handleError = () => {
+    setIsLoaded(false);
+    setIsLoading(false);
+    setError(true);
     if (onError) onError();
   };
   

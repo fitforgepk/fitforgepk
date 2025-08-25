@@ -1,7 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useLoader } from './LoaderContext';
-import FFlogo from '@/assets/FFlogo.png';
+import { buildImageKitUrl, convertToImageKitPath } from '@/lib/imagekit';
+
+const FFlogo = buildImageKitUrl(convertToImageKitPath('FFlogo.png'));
 
 const Loader = () => {
   const { progress } = useLoader();

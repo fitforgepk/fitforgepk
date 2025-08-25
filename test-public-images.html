@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Public Images Test</title>
+    <style>
+        .test-container { margin: 20px 0; padding: 10px; border: 1px solid #ccc; }
+        .image-test { max-width: 200px; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <h1>Public Folder Images Test</h1>
+    
+    <div class="test-container">
+        <h2>Test 1: Hero Images (public/assets/)</h2>
+        <p>heropic1.jpg:</p>
+        <img class="image-test" src="https://ik.imagekit.io/sy6soezys/assets/public/assets/heropic1.jpg" alt="Hero Pic 1">
+        <p>heropic2.jpg:</p>
+        <img class="image-test" src="https://ik.imagekit.io/sy6soezys/assets/public/assets/heropic2.jpg" alt="Hero Pic 2">
+    </div>
+    
+    <div class="test-container">
+        <h2>Test 2: Shirt Images (public/images/)</h2>
+        <p>blackshirts1.png:</p>
+        <img class="image-test" src="https://ik.imagekit.io/sy6soezys/assets/public/images/blackshirts1.png" alt="Black Shirt">
+        <p>whiteshirts1.png:</p>
+        <img class="image-test" src="https://ik.imagekit.io/sy6soezys/assets/public/images/whiteshirts1.png" alt="White Shirt">
+    </div>
+    
+    <div class="test-container">
+        <h2>Test 3: Other Public Assets</h2>
+        <p>FFlogo.png (from public/logos/):</p>
+        <img class="image-test" src="https://ik.imagekit.io/sy6soezys/assets/public/logos/FFlogo.png" alt="FF Logo Public">
+    </div>
+    
+    <script>
+        document.querySelectorAll('img').forEach((img, index) => {
+            img.onload = () => console.log(`✅ Image ${index + 1} loaded: ${img.src}`);
+            img.onerror = () => console.error(`❌ Image ${index + 1} failed: ${img.src}`);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>React Image Test</title>
+    <style>
+        .test-container { margin: 20px 0; padding: 10px; border: 1px solid #ccc; }
+        .image-test { max-width: 300px; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <h1>React Image Display Test</h1>
+    
+    <div class="test-container">
+        <h2>Test 1: Simple IMG tag (should work)</h2>
+        <img class="image-test" src="https://ik.imagekit.io/sy6soezys/assets/FFlogo.png" alt="FFlogo simple">
+    </div>
+    
+    <div class="test-container">
+        <h2>Test 2: IMG with opacity transition (like OptimizedImage)</h2>
+        <img class="image-test" id="opacity-test" src="https://ik.imagekit.io/sy6soezys/assets/mens-collection-framed/beigeboyfront.png" alt="Product with opacity" style="opacity: 0; transition: opacity 300ms;">
+    </div>
+    
+    <div class="test-container">
+        <h2>Test 3: IMG with lazy loading</h2>
+        <img class="image-test" src="https://ik.imagekit.io/sy6soezys/assets/featured-collection.png" alt="Featured lazy" loading="lazy">
+    </div>
+    
+    <script>
+        // Simulate OptimizedImage opacity behavior
+        const opacityImg = document.getElementById('opacity-test');
+        opacityImg.onload = function() {
+            console.log('Image loaded, setting opacity to 1');
+            this.style.opacity = '1';
+        };
+        
+        opacityImg.onerror = function() {
+            console.error('Image failed to load');
+            this.style.opacity = '1';
+            this.style.backgroundColor = '#f0f0f0';
+        };
+    </script>
+</body>
+</html>

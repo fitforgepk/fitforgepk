@@ -2,11 +2,14 @@ import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { useHeroBg } from "@/components/HeroBgContext";
-import heroImage1 from "@/assets/beigeblack.jpg";
-import heroImage2 from "@/assets/beigeblack2.png";
-import heroPic1 from "/assets/heropic1.jpg";
-import heroPic2 from "/assets/heropic2.jpg";
-import FFlogo from "@/assets/FFlogo.png";
+import { buildImageKitUrl, convertToImageKitPath } from "@/lib/imagekit";
+
+// ImageKit URLs - public folder images are now in assets/public structure
+const heroImage1 = buildImageKitUrl("assets/beigeblack.jpg");
+const heroImage2 = buildImageKitUrl("assets/beigeblack2.png");
+const heroPic1 = buildImageKitUrl("assets/public/assets/heropic1.jpg");
+const heroPic2 = buildImageKitUrl("assets/public/assets/heropic2.jpg");
+const FFlogo = buildImageKitUrl(convertToImageKitPath("FFlogo.png"));
 
 // BlurUpImage component for progressive image loading
 const BlurUpImage = ({ 
@@ -40,8 +43,13 @@ const BlurUpImage = ({
           canvas.width = 20;
           canvas.height = 20;
           ctx.drawImage(img, 0, 0, 20, 20);
-          const tinyUrl = canvas.toDataURL('image/jpeg', 0.1);
-          setImageSrc(tinyUrl);
+          try {
+            const tinyUrl = canvas.toDataURL('image/jpeg', 0.1);
+            setImageSrc(tinyUrl);
+          } catch (error) {
+            // CORS error - use original src as fallback
+            setImageSrc(src);
+          }
         }
       };
       img.src = src;

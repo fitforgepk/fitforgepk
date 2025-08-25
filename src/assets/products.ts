@@ -1,56 +1,59 @@
-import featuredImage from "@/assets/featured-collection.png";
-import mensBeigeShirtFront from "@/assets/mens-collection-framed/beigeboyfront.png";
-import mensBeigeShirtBack from "@/assets/mens-collection-framed/beigeboyback.png";
-import mensCharcoalShirtFront from "@/assets/mens-collection-framed/charcoalboyfront.png";
-import mensCharcoalShirtBack from "@/assets/mens-collection-framed/charcoalboyback.png";
-import womensWhiteShirtFront from "@/assets/womens-collection-framed/whitegirlfront.png";
-import womensWhiteShirtBack from "@/assets/womens-collection-framed/whitegirlback.png";
+import { buildImageKitUrl, convertToImageKitPath } from "@/lib/imagekit";
 
-// New product imports
-import mensBlackVisionVoidFront from "@/assets/mens-collection-framed/black-warrior.png";
-import mensBlackVisionVoidBack from "@/assets/mens-collection-framed/black-warrior(back).png";
-import mensGraceFront from "@/assets/mens-collection-framed/gracefront.jpg";
-import mensGraceBack from "@/assets/mens-collection-framed/graceback.jpg";
-import mensEightysFront from "@/assets/mens-collection-framed/eightysfront.jpg";
-import mensEightysBack from "@/assets/mens-collection-framed/eightysback.jpg";
-import mensWhiteVisionVoidBack from "@/assets/mens-collection-framed/Vision Void (White Version).png";
-import mensWhiteVisionVoidFront from "@/assets/mens-collection-framed/Vision Void (White Version)f.png";
-import mensVisionaryWhiteFront from "@/assets/mens-collection-framed/Visionary_w_front.png";
+// ImageKit URLs for all product images
+const featuredImage = buildImageKitUrl(convertToImageKitPath("featured-collection.png"));
+const mensBeigeShirtFront = buildImageKitUrl(convertToImageKitPath("mens-collection-framed/beigeboyfront.png"));
+const mensBeigeShirtBack = buildImageKitUrl(convertToImageKitPath("mens-collection-framed/beigeboyback.png"));
+const mensCharcoalShirtFront = buildImageKitUrl(convertToImageKitPath("mens-collection-framed/charcoalboyfront.png"));
+const mensCharcoalShirtBack = buildImageKitUrl(convertToImageKitPath("mens-collection-framed/charcoalboyback.png"));
+const womensWhiteShirtFront = buildImageKitUrl(convertToImageKitPath("womens-collection-framed/whitegirlfront.png"));
+const womensWhiteShirtBack = buildImageKitUrl(convertToImageKitPath("womens-collection-framed/whitegirlback.png"));
 
-// Unisex collection imports
-import unisexGraceShirtFront from "@/assets/unisex-collection-framed/gracefront.png";
-import unisexGraceShirtBack from "@/assets/unisex-collection-framed/graceback.png";
-import unisexEightysShirtFront from "@/assets/unisex-collection-framed/eightysfront.png";
-import unisexEightysShirtBack from "@/assets/unisex-collection-framed/eightysback.png";
+// New product ImageKit URLs
+const mensBlackVisionVoidFront = buildImageKitUrl(convertToImageKitPath("mens-collection-framed/black-warrior.png"));
+const mensBlackVisionVoidBack = buildImageKitUrl(convertToImageKitPath("mens-collection-framed/black-warrior(back).png"));
+const mensGraceFront = buildImageKitUrl(convertToImageKitPath("mens-collection-framed/gracefront.jpg"));
+const mensGraceBack = buildImageKitUrl(convertToImageKitPath("mens-collection-framed/graceback.jpg"));
+const mensEightysFront = buildImageKitUrl(convertToImageKitPath("mens-collection-framed/eightysfront.jpg"));
+const mensEightysBack = buildImageKitUrl(convertToImageKitPath("mens-collection-framed/eightysback.jpg"));
+const mensWhiteVisionVoidBack = buildImageKitUrl(convertToImageKitPath("mens-collection-framed/Vision Void (White Version).png"));
+const mensWhiteVisionVoidFront = buildImageKitUrl(convertToImageKitPath("mens-collection-framed/Vision Void (White Version)f.png"));
+const mensVisionaryWhiteFront = buildImageKitUrl(convertToImageKitPath("mens-collection-framed/Visionary_w_front.png"));
 
-// Anime collection imports
-import animeSoloLevelingFront from "@/assets/Anime/Solo-Leveling_front.png";
-import animeSoloLevelingBack from "@/assets/Anime/Solo-Leveling_back.png";
-import animeZoroStyleFront from "@/assets/Anime/Zoro-Style_front.png";
-import animeZoroStyleBack from "@/assets/Anime/Zoro-Style_back.png";
-import animeZenitsuFront from "@/assets/Anime/Zenitsu_front.png";
-import animeZenitsuBack from "@/assets/Anime/Zenitsu_back.png";
+// Unisex collection ImageKit URLs
+const unisexGraceShirtFront = buildImageKitUrl(convertToImageKitPath("unisex-collection-framed/gracefront.png"));
+const unisexGraceShirtBack = buildImageKitUrl(convertToImageKitPath("unisex-collection-framed/graceback.png"));
+const unisexEightysShirtFront = buildImageKitUrl(convertToImageKitPath("unisex-collection-framed/eightysfront.png"));
+const unisexEightysShirtBack = buildImageKitUrl(convertToImageKitPath("unisex-collection-framed/eightysback.png"));
 
-// Front page models imports
-import frontModel1 from "@/assets/Front_page_models/Front_model1.png";
-import frontModel2 from "@/assets/Front_page_models/Front_model2.png";
-import frontModel3 from "@/assets/Front_page_models/Front_model3.png";
-import frontModel4 from "@/assets/Front_page_models/Front_model.png";
+// Anime collection ImageKit URLs
+const animeSoloLevelingFront = buildImageKitUrl(convertToImageKitPath("Anime/Solo-Leveling_front.png"));
+const animeSoloLevelingBack = buildImageKitUrl(convertToImageKitPath("Anime/Solo-Leveling_back.png"));
+const animeZoroStyleFront = buildImageKitUrl(convertToImageKitPath("Anime/Zoro-Style_front.png"));
+const animeZoroStyleBack = buildImageKitUrl(convertToImageKitPath("Anime/Zoro-Style_back.png"));
+const animeZenitsuFront = buildImageKitUrl(convertToImageKitPath("Anime/Zenitsu_front.png"));
+const animeZenitsuBack = buildImageKitUrl(convertToImageKitPath("Anime/Zenitsu_back.png"));
 
-// New model imports for updated products
-import modelMensBeigeShirt from "@/assets/mens-collection-framed/BeigeBoymodel.png";
-import modelMensBeigeShirt2 from "@/assets/mens-collection-framed/BeigeBoymodel2.png";
-import modelWomensAfterlightShirt from "@/assets/womens-collection-framed/Afterlightmodel.png";
-import modelUnisexBlackVisionVoid from "@/assets/unisex-collection-framed/Vision_Void_Bmodel.png";
-import modelUnisexBlackVisionVoid2 from "@/assets/unisex-collection-framed/Vision_Void_Bmodel2.png";
-import modelUnisexVisionVoid from "@/assets/unisex-collection-framed/Vision_Void_model.png";
-import modelUnisexVisionVoid2 from "@/assets/unisex-collection-framed/Vision_Void_model2.png";
+// Front page models ImageKit URLs
+const frontModel1 = buildImageKitUrl(convertToImageKitPath("Front_page_models/Front_model1.png"));
+const frontModel2 = buildImageKitUrl(convertToImageKitPath("Front_page_models/Front_model2.png"));
+const frontModel3 = buildImageKitUrl(convertToImageKitPath("Front_page_models/Front_model3.png"));
+const frontModel4 = buildImageKitUrl(convertToImageKitPath("Front_page_models/Front_model.png"));
 
-// New model images imports
-import modelMensEighty from "@/assets/unisex-collection-framed/80_Boys_model-min.png";
-import modelMensBlacksmith from "@/assets/mens-collection-framed/The_Blacksmith_model-min.png";
-import modelWomensGrace from "@/assets/womens-collection-framed/Grace_model-min.png";
-import modelWomensEighty from "@/assets/unisex-collection-framed/80_Girl_model-min.png";
+// Model images ImageKit URLs
+const modelMensBeigeShirt = buildImageKitUrl(convertToImageKitPath("mens-collection-framed/BeigeBoymodel.png"));
+const modelMensBeigeShirt2 = buildImageKitUrl(convertToImageKitPath("mens-collection-framed/BeigeBoymodel2.png"));
+const modelWomensAfterlightShirt = buildImageKitUrl(convertToImageKitPath("womens-collection-framed/Afterlightmodel.png"));
+const modelUnisexBlackVisionVoid = buildImageKitUrl(convertToImageKitPath("unisex-collection-framed/Vision_Void_Bmodel.png"));
+const modelUnisexBlackVisionVoid2 = buildImageKitUrl(convertToImageKitPath("unisex-collection-framed/Vision_Void_Bmodel2.png"));
+const modelUnisexVisionVoid = buildImageKitUrl(convertToImageKitPath("unisex-collection-framed/Vision_Void_model.png"));
+const modelUnisexVisionVoid2 = buildImageKitUrl(convertToImageKitPath("unisex-collection-framed/Vision_Void_model2.png"));
+
+// Additional model images ImageKit URLs
+const modelMensEighty = buildImageKitUrl(convertToImageKitPath("unisex-collection-framed/80_Boys_model-min.png"));
+const modelMensBlacksmith = buildImageKitUrl(convertToImageKitPath("mens-collection-framed/The_Blacksmith_model-min.png"));
+const modelWomensGrace = buildImageKitUrl(convertToImageKitPath("womens-collection-framed/Grace_model-min.png"));
+const modelWomensEighty = buildImageKitUrl(convertToImageKitPath("unisex-collection-framed/80_Girl_model-min.png"));
 
 // Add a type for products that includes optional imageBack and additional images
 export interface Product {
