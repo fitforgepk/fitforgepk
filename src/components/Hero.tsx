@@ -4,7 +4,8 @@ import { ArrowRight } from "lucide-react";
 import { useHeroBg } from "@/components/HeroBgContext";
 import heroImage1 from "@/assets/beigeblack.jpg";
 import heroImage2 from "@/assets/beigeblack2.png";
-import heroVideo from "@/assets/hero-back.mp4";
+import heroPic1 from "/assets/heropic1.jpg";
+import heroPic2 from "/assets/heropic2.jpg";
 import FFlogo from "@/assets/FFlogo.png";
 
 // BlurUpImage component for progressive image loading
@@ -189,37 +190,25 @@ const Hero = () => {
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
       aria-label="Hero section"
     >
-      {/* Video Background - defer loading until visible to reduce initial payload */}
-      <video
-        className="absolute inset-0 w-full h-full object-cover z-0"
-        data-src={heroVideo}
-        loop
-        muted
-        playsInline
-        aria-hidden="true"
-        ref={(el) => {
-          // use attribute to allow lazy-loading via IntersectionObserver
-          if (!el) return;
-          // If src already set (SSR/hydration), skip
-          if ((el as HTMLVideoElement).src) return;
-          const observer = new IntersectionObserver(
-            (entries) => {
-              entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                  // set src and play when hero becomes visible
-                  (el as HTMLVideoElement).src = heroVideo;
-                  (el as HTMLVideoElement).play().catch(() => {
-                    /* play may be blocked; that's okay */
-                  });
-                  observer.disconnect();
-                }
-              });
-            },
-            { root: null, rootMargin: '200px', threshold: 0.01 }
-          );
-          observer.observe(el);
-        }}
-      />
+      {/* Background Images - alternating based on heroBg state */}
+      <div className="absolute inset-0 w-full h-full z-0">
+        {/* First background image */}
+        <img 
+          src={heroPic1}
+          alt="Hero background"
+          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 filter blur-sm ${heroBg === 'beigeblack.jpg' ? 'opacity-100' : 'opacity-0'}`}
+          aria-hidden="true"
+        />
+        {/* Second background image */}
+        <img 
+          src={heroPic2}
+          alt="Hero background"
+          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 filter blur-sm ${heroBg === 'beigeblack.jpg' ? 'opacity-0' : 'opacity-100'}`}
+          aria-hidden="true"
+        />
+        {/* Overlay for better text contrast */}
+        <div className="absolute inset-0 bg-black/30"></div>
+      </div>
       {/* Parallax Background Image (fallback, can be removed if not needed) */}
       {/*
       <div
