@@ -347,16 +347,18 @@ const ProductCard = ({
 
        {/* Size Chart Dialog */}
        <Dialog open={showSizeChart} onOpenChange={setShowSizeChart}>
-         <DialogContent className="bg-card border border-border rounded-2xl max-w-3xl">
-           <DialogHeader>
+         <DialogContent className="bg-card border border-border rounded-2xl max-w-4xl w-[90vw] h-[85vh] p-0">
+           <DialogHeader className="p-6 pb-2">
              <DialogTitle className="text-xl font-bold text-foreground">Size Chart</DialogTitle>
            </DialogHeader>
-           <div className="w-full">
-             <OptimizedImage
-               src="https://ik.imagekit.io/sy6soezys/assets/public/size_chart.jpg"
-               alt="Size chart"
-               className="w-full h-auto max-h-[80vh] object-contain rounded-lg"
-             />
+           <div className="flex-1 overflow-auto px-6 pb-6" style={{height: 'calc(85vh - 80px)'}}>
+             <div className="w-full h-full">
+               <OptimizedImage
+                 src="https://ik.imagekit.io/sy6soezys/assets/public/assets/size_chart.jpg"
+                 alt="Size chart"
+                 className="w-full h-auto min-h-full object-contain"
+               />
+             </div>
            </div>
          </DialogContent>
        </Dialog>

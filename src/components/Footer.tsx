@@ -1,6 +1,11 @@
 import { Instagram, Mail } from "lucide-react";
+import { useState } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog";
+import { OptimizedImage } from "./OptimizedImage";
 
 const Footer = () => {
+  const [showSizeChart, setShowSizeChart] = useState(false);
+
   return (
     <footer className="bg-[linear-gradient(135deg,_hsl(0,0%,14%),_hsl(0,0%,8%))] text-[hsl(45,33%,90%)]">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -28,7 +33,18 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div className="flex items-center space-x-6 text-sm">
-            <a href="#" className="text-[hsl(45,33%,90%)] hover:text-brand-purple transition-colors">Size Guide</a>
+            <button 
+              type="button"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log('Size Guide clicked');
+                setShowSizeChart(true);
+              }}
+              className="text-[hsl(45,33%,90%)] hover:text-brand-purple transition-colors cursor-pointer bg-transparent border-none p-0 m-0"
+            >
+              Size Guide
+            </button>
             <a href="#" className="text-[hsl(45,33%,90%)] hover:text-brand-purple transition-colors">Shipping</a>
             <a href="#" className="text-[hsl(45,33%,90%)] hover:text-brand-purple transition-colors">Returns</a>
           </div>
@@ -48,6 +64,24 @@ const Footer = () => {
           </a>
         </div>
       </div>
+
+      {/* Size Chart Dialog */}
+      <Dialog open={showSizeChart} onOpenChange={setShowSizeChart}>
+        <DialogContent className="bg-white border border-[#a67c52]/20 rounded-2xl max-w-4xl w-[90vw] h-[85vh] p-0">
+          <DialogHeader className="p-6 pb-2">
+            <DialogTitle className="text-xl font-bold text-[#1a1a1a]">Size Chart</DialogTitle>
+          </DialogHeader>
+          <div className="flex-1 overflow-auto px-6 pb-6" style={{height: 'calc(85vh - 80px)'}}>
+            <div className="w-full h-full">
+              <OptimizedImage
+                src="https://ik.imagekit.io/sy6soezys/assets/public/assets/size_chart.jpg"
+                alt="Size chart"
+                className="w-full h-auto min-h-full object-contain"
+              />
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </footer>
   );
 };

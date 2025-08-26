@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import ProductCard from "./ProductCard";
-import { menProducts, womenProducts, unisexProducts } from "@/assets/products";
+import { menProducts, womenProducts, unisexProducts, animeProducts, gamingProducts } from "@/assets/products";
 import { useNavigate } from "react-router-dom";
 
 interface FeaturedSectionProps {
@@ -10,14 +10,18 @@ interface FeaturedSectionProps {
 const FeaturedSection = ({ onAddToCart }: FeaturedSectionProps) => {
   const navigate = useNavigate();
   
-  // Get one product from each category (men, women, unisex)
-  // Filter out products marked as "COMING SOON" and select the first available one from each
-  const menProduct = menProducts.find(p => p.tag !== "COMING SOON" && p.image);
-  const womenProduct = womenProducts.find(p => p.tag !== "COMING SOON" && p.image);
-  const unisexProduct = unisexProducts.find(p => p.tag !== "COMING SOON" && p.image);
+  // Get multiple products from available categories to reach 5 total
+  // Filter out products marked as "COMING SOON" and select available ones
+  const availableMenProducts = menProducts.filter(p => p.tag !== "COMING SOON" && p.image);
+  const availableWomenProducts = womenProducts.filter(p => p.tag !== "COMING SOON" && p.image);
+  const availableUnisexProducts = unisexProducts.filter(p => p.tag !== "COMING SOON" && p.image);
 
-  // Create array of the 3 selected products
-  const selectedProducts = [menProduct, womenProduct, unisexProduct].filter(Boolean);
+  // Select up to 5 products from available collections
+  const selectedProducts = [
+    ...availableMenProducts.slice(0, 2),      // Take first 2 men's products
+    ...availableWomenProducts.slice(0, 1),   // Take first 1 women's product
+    ...availableUnisexProducts.slice(0, 2)   // Take first 2 unisex products
+  ].slice(0, 5); // Ensure we don't exceed 5 products
 
   const handleViewAllProducts = () => {
     navigate('/collection');
@@ -40,8 +44,8 @@ const FeaturedSection = ({ onAddToCart }: FeaturedSectionProps) => {
           </p>
         </div>
 
-        {/* Products Grid - Exactly 3 products (one from each category) */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-12 max-w-4xl mx-auto">
+        {/* Products Grid - 5 products (one from each category) */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
           {selectedProducts.map((product) => (
             <ProductCard
               key={product.id}
