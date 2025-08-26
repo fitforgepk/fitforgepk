@@ -15,7 +15,7 @@ const OrderHistory = () => {
     setError("");
     
     try {
-      const response = await fetch(`http://localhost:5000/api/orders?identifier=${encodeURIComponent(identifier)}`);
+      const response = await fetch(`/api/orders?identifier=${encodeURIComponent(identifier)}`);
       const data = await response.json();
       
       if (data.success) {
