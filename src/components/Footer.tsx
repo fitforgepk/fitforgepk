@@ -1,4 +1,6 @@
-import { Instagram, Mail } from "lucide-react";
+import { Instagram } from "lucide-react";
+import { FaFacebookF, FaWhatsapp } from "react-icons/fa";
+import { SiTiktok } from "react-icons/si";
 import { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog";
 import { OptimizedImage } from "./OptimizedImage";
@@ -28,6 +30,36 @@ const Footer = () => {
                 className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-tr from-pink-500 via-yellow-400 to-purple-600 shadow-lg hover:scale-110 transition-transform">
                 <Instagram className="h-5 w-5 text-white" />
               </a>
+              <a
+                href="https://wa.me/923218819657"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="WhatsApp"
+                title="WhatsApp"
+                className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-tr from-emerald-500 via-green-400 to-lime-500 shadow-lg hover:scale-110 transition-transform"
+              >
+                <FaWhatsapp className="h-5 w-5 text-white" />
+              </a>
+              <a
+                href="https://www.facebook.com/share/1BMXu3zxWA/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Facebook"
+                title="Facebook"
+                className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-tr from-blue-600 via-blue-500 to-sky-500 shadow-lg hover:scale-110 transition-transform"
+              >
+                <FaFacebookF className="h-5 w-5 text-white" />
+              </a>
+              <a
+                href="https://www.tiktok.com/@fitforge.pk?_t=ZS-8zCbsxpLj4z&_r=1"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="TikTok"
+                title="TikTok"
+                className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-tr from-zinc-900 via-neutral-700 to-gray-600 shadow-lg hover:scale-110 transition-transform"
+              >
+                <SiTiktok className="h-5 w-5 text-white" />
+              </a>
             </div>
           </div>
 
@@ -45,8 +77,11 @@ const Footer = () => {
             >
               Size Guide
             </button>
-            <a href="#" className="text-[hsl(45,33%,90%)] hover:text-brand-purple transition-colors">Shipping</a>
-            <a href="#" className="text-[hsl(45,33%,90%)] hover:text-brand-purple transition-colors">Returns</a>
+            <a href="/collection" className="text-[hsl(45,33%,90%)] hover:text-brand-purple transition-colors">Shop All</a>
+            <a href="/collection#unisex" className="text-[hsl(45,33%,90%)] hover:text-brand-purple transition-colors">Unisex</a>
+            <a href="/collection#men" className="text-[hsl(45,33%,90%)] hover:text-brand-purple transition-colors">Men</a>
+            <a href="/collection#women" className="text-[hsl(45,33%,90%)] hover:text-brand-purple transition-colors">Women</a>
+            <a href="/collection#oversized" className="text-[hsl(45,33%,90%)] hover:text-brand-purple transition-colors">Oversized T-Shirts</a>
           </div>
         </div>
 

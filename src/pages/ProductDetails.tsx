@@ -8,6 +8,7 @@ import { useState, useContext, useEffect } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { X, Star, Truck, Shield, CheckCircle, ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react";
 import { CartContext, CartUIContext } from "@/components/CartContext";
+import SEO from "@/components/SEO";
 
 const SIZES = [ "S", "M", "L"];
 
@@ -29,6 +30,34 @@ const ProductDetails = () => {
     product?.imageBack,
     ...(product?.additionalImages || [])
   ].filter(Boolean); // Remove any undefined/null values
+
+  // Build Product JSON-LD
+  const productJsonLd = product
+    ? {
+        "@context": "https://schema.org",
+        "@type": "Product",
+        name: product.name,
+        image: productImages,
+        description:
+          "Premium oversized/unisex streetwear from FitForgePK. Quality fabrics, comfortable fit, and fast delivery in Pakistan.",
+        brand: {
+          "@type": "Brand",
+          name: "FitForgePK",
+        },
+        sku: product.id,
+        category: product.category,
+        offers: {
+          "@type": "Offer",
+          priceCurrency: "PKR",
+          price: product.price,
+          availability:
+            !product.tag || product.tag !== "COMING SOON"
+              ? "https://schema.org/InStock"
+              : "https://schema.org/PreOrder",
+          url: `https://www.fitforgepk.com/product/${product.id}`,
+        },
+      }
+    : undefined;
 
   // Navigation functions for image gallery
   const nextImage = () => {
@@ -120,6 +149,16 @@ const ProductDetails = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#e7dbc7]/20 via-background to-[#a67c52]/10">
+      {product && (
+        <SEO
+          title={`${product.name} – ${product.category} | FitForgePK`}
+          description={`Shop ${product.name} – premium ${product.category} by FitForgePK. Quality fabrics, comfortable fit, fast delivery across Pakistan.`}
+          canonical={`https://www.fitforgepk.com/product/${product.id}`}
+          image={productImages?.[0]}
+          type="product"
+          jsonLd={productJsonLd}
+        />
+      )}
       {/* Header Navigation */}
       <div className="absolute top-8 left-8 z-30">
         <Button
@@ -159,7 +198,7 @@ const ProductDetails = () => {
                   >
                     <img
                       src={productImages[currentImageIndex]}
-                      alt={`${product.name} - Image ${currentImageIndex + 1}`}
+                      alt={`${product.name} – ${product.category} – view ${currentImageIndex + 1} – FitForgePK`}
                       className="w-full h-full object-contain bg-gradient-to-b from-[#f8f9fa] to-[#e9ecef] transition-all duration-500 hover:scale-105 select-none"
                       draggable={false}
                     />

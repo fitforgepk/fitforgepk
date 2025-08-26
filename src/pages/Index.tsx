@@ -7,6 +7,7 @@ import FeaturedSection from "@/components/FeaturedSection";
 import Categories from "@/components/Categories";
 import Newsletter from "@/components/Newsletter";
 import { Shield, Truck, Star, Users, Award, CheckCircle } from "lucide-react";
+import SEO from "@/components/SEO";
 
 const Index = () => {
   const { addToCart } = useContext(CartContext);
@@ -42,6 +43,12 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title="FitForgePK – Oversized T‑Shirts & Unisex Streetwear in Pakistan"
+        description="Shop premium oversized t‑shirts and unisex streetwear for men and women in Pakistan. Quality fabrics, fast delivery, easy returns."
+        canonical="https://www.fitforgepk.com/"
+        image="https://ik.imagekit.io/sy6soezys/assets/hero-product-mockup.png"
+      />
       <Header />
       <main className="flex flex-col">
         <Hero />

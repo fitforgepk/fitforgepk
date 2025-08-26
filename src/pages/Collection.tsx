@@ -10,6 +10,7 @@ import {
   animeProducts, 
   gamingProducts 
 } from "@/assets/products";
+import SEO from "@/components/SEO";
 
 const Collection = () => {
   const { addToCart } = useContext(CartContext);
@@ -34,8 +35,13 @@ const Collection = () => {
     <div className="min-h-screen bg-background">
       <Header />
       <main className="space-y-24 py-24">
+        <SEO
+          title="Shop All – Oversized T‑Shirts, Unisex, Men’s & Women’s | FitForgePK"
+          description="Browse FitForgePK’s complete collection: oversized t‑shirts, unisex streetwear, men’s and women’s styles. Premium quality, fast delivery, easy returns."
+          canonical="https://www.fitforgepk.com/collection"
+        />
         {/* Page Header */}
-        <section className="text-center">
+        <section className="text-center" id="oversized">
           <h1 className="text-5xl md:text-7xl font-black text-foreground mb-6">Complete Collection</h1>
           <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto">
             Explore our entire range of premium streetwear, from classic designs to exclusive anime and gaming collections.
@@ -44,7 +50,7 @@ const Collection = () => {
 
         {/* Men's Collection */}
         {realMenProducts.length > 0 && (
-          <section className="max-w-7xl mx-auto px-4">
+          <section className="max-w-7xl mx-auto px-4" id="men">
             <div className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Men's Collection</h2>
               <p className="text-muted-foreground">Bold styles for the modern man</p>
@@ -63,7 +69,7 @@ const Collection = () => {
 
         {/* Women's Collection */}
         {realWomenProducts.length > 0 && (
-          <section className="max-w-7xl mx-auto px-4">
+          <section className="max-w-7xl mx-auto px-4" id="women">
             <div className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Women's Collection</h2>
               <p className="text-muted-foreground">Elegance meets street style</p>
@@ -82,7 +88,7 @@ const Collection = () => {
 
         {/* Unisex Collection */}
         {realUnisexProducts.length > 0 && (
-          <section className="max-w-7xl mx-auto px-4">
+          <section className="max-w-7xl mx-auto px-4" id="unisex">
             <div className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Unisex Collection</h2>
               <p className="text-muted-foreground">Versatile styles for everyone</p>

@@ -233,7 +233,7 @@ const ProductCard = ({
                 <img
                   key={index}
                   src={img}
-                  alt={index === 0 ? name : `${name} view ${index + 1}`}
+                  alt={index === 0 ? `${name} – ${displayCategory} – FitForgePK` : `${name} – alternate view ${index + 1} – FitForgePK`}
                   {...imageProps}
                   className={`w-full h-full object-contain bg-gradient-to-b from-[#f8f9fa] to-[#e9ecef] transition-all duration-700 ${
                     index === currentImageIndex
