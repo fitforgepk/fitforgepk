@@ -18,9 +18,8 @@ const Index = () => {
   });
 
   useEffect(() => {
-    // Set end date to 7 days from now
-    const endDate = new Date();
-    endDate.setDate(endDate.getDate() + 7);
+    // Set fixed end date - February 15, 2025 at 23:59:59
+    const endDate = new Date('2025-09-01T23:59:59');
 
     const timer = setInterval(() => {
       const now = new Date().getTime();

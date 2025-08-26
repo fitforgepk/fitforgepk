@@ -174,7 +174,6 @@ const Collection = () => {
           </div>
         </section>
       </main>
-      <Footer />
     </div>
   );
 };
