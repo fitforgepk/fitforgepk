@@ -140,18 +140,6 @@ function useTypewriter(text: string, speed = 60) {
   return displayed;
 }
 
-const HotlineBanner = () => (
-  <div className="bg-gradient-to-r from-brand-purple via-brand-light to-brand-purple py-3 overflow-hidden mt-20 sticky top-0 z-50 shadow-lg">
-    <div className="whitespace-nowrap animate-marquee text-sm md:text-base font-extrabold text-white [text-shadow:1px_1px_0_rgba(0,0,0,0.5),-1px_-1px_0_rgba(0,0,0,0.5),1px_-1px_0_rgba(0,0,0,0.5),-1px_1px_0_rgba(0,0,0,0.5)]">
-      {[...Array(16)].map((_, i) => (
-        <span key={i} className="mx-6">
-          • NEW ARRIVAL • SALE 20% OFF • 
-        </span>
-      ))}
-    </div>
-  </div>
-);
-
 const Hero = () => {
   const marqueeStyle = `
     @keyframes marquee {
@@ -217,7 +205,6 @@ const Hero = () => {
   return (
     <>
       <style dangerouslySetInnerHTML={{ __html: marqueeStyle }} />
-      <HotlineBanner />
       <section
         id="hero"
         className="relative min-h-screen flex items-center justify-center overflow-hidden"

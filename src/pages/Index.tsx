@@ -52,6 +52,20 @@ const Index = () => {
       <Header />
       <main className="flex flex-col">
         <Hero />
+        {/* New Arrival Banner */}
+        <div className="w-full bg-gradient-to-r from-brand-purple via-brand-light to-brand-purple py-3">
+          <div className="whitespace-nowrap animate-marquee text-sm md:text-base font-extrabold text-white [text-shadow:1px_1px_0_rgba(0,0,0,0.5),-1px_-1px_0_rgba(0,0,0,0.5),1px_-1px_0_rgba(0,0,0,0.5),-1px_1px_0_rgba(0,0,0,0.5)]">
+            {[...Array(16)].map((_, i) => (
+              <span key={i} className="mx-6">
+                • NEW ARRIVAL • SALE 20% OFF • 
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* Front Page Models Carousel */}
+        <FrontPageModels />
+
         {/* 7 Days Sale Timer */}
         <div className="w-full py-4 bg-gradient-to-r from-brand-purple via-[#e7dbc7] to-brand-purple">
           <div className="text-center">
@@ -66,9 +80,6 @@ const Index = () => {
             </div>
           </div>
         </div>
-
-        {/* Front Page Models Carousel */}
-        <FrontPageModels />
 
         <div className="bg-background">
           <FeaturedSection onAddToCart={addToCart} />
@@ -117,7 +128,7 @@ const Index = () => {
             {/* Customer Testimonials */}
             <div className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-bold text-[#1a1a1a] mb-4">
-                Loved by <span className="text-brand-purple">Thousands</span>
+                <span className="text-red-600">Loved by</span> <span className="text-brand-purple">Thousands</span>
               </h2>
               <p className="text-lg text-[#805206] max-w-2xl mx-auto">
                 Join our community of satisfied customers who trust FitForge for their style needs
