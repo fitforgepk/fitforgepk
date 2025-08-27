@@ -140,7 +140,29 @@ function useTypewriter(text: string, speed = 60) {
   return displayed;
 }
 
+const HotlineBanner = () => (
+  <div className="bg-gradient-to-r from-brand-purple via-brand-light to-brand-purple py-3 overflow-hidden mt-20 sticky top-0 z-50 shadow-lg">
+    <div className="whitespace-nowrap animate-marquee text-sm md:text-base font-extrabold text-white [text-shadow:1px_1px_0_rgba(0,0,0,0.5),-1px_-1px_0_rgba(0,0,0,0.5),1px_-1px_0_rgba(0,0,0,0.5),-1px_1px_0_rgba(0,0,0,0.5)]">
+      {[...Array(16)].map((_, i) => (
+        <span key={i} className="mx-6">
+          • NEW ARRIVAL • SALE 20% OFF • 
+        </span>
+      ))}
+    </div>
+  </div>
+);
+
 const Hero = () => {
+  const marqueeStyle = `
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .animate-marquee {
+      display: inline-block;
+      animation: marquee 30s linear infinite;
+    }
+  `;
   const bgRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const [contentVisible, setContentVisible] = useState(false);
@@ -193,109 +215,111 @@ const Hero = () => {
   };
 
   return (
-    <section
-      id="hero"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden"
-      aria-label="Hero section"
-    >
-      {/* Background Images - alternating based on heroBg state */}
-      <div className="absolute inset-0 w-full h-full z-0">
-        {/* First background image */}
-        <img 
-          src={heroPic1}
-          alt="Hero background"
-          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 filter blur-sm ${heroBg === 'beigeblack.jpg' ? 'opacity-100' : 'opacity-0'}`}
-          aria-hidden="true"
-        />
-        {/* Second background image */}
-        <img 
-          src={heroPic2}
-          alt="Hero background"
-          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 filter blur-sm ${heroBg === 'beigeblack.jpg' ? 'opacity-0' : 'opacity-100'}`}
-          aria-hidden="true"
-        />
-        {/* Overlay for better text contrast */}
-        <div className="absolute inset-0 bg-black/30"></div>
-      </div>
-      {/* Parallax Background Image (fallback, can be removed if not needed) */}
-      {/*
-      <div
-        ref={bgRef}
-        className="absolute inset-0 w-full h-full will-change-transform transition-transform duration-700 z-10"
-        aria-hidden="true"
+    <>
+      <style dangerouslySetInnerHTML={{ __html: marqueeStyle }} />
+      <HotlineBanner />
+      <section
+        id="hero"
+        className="relative min-h-screen flex items-center justify-center overflow-hidden"
+        aria-label="Hero section"
       >
-        <BlurUpImage
-          src={heroBg === 'beigeblack.jpg' ? heroImage1 : heroImage2}
-          alt="Hero background"
-          className="w-full h-full opacity-50"
-          style={{ objectFit: 'cover', objectPosition: 'center' }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-brand-dark/80 via-brand-dark/60 to-transparent" />
-      </div>
-      */}
+        {/* Background Images - alternating based on heroBg state */}
+        <div className="absolute inset-0 w-full h-full z-0">
+          {/* First background image */}
+          <img 
+            src={heroPic1}
+            alt="Hero background"
+            className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 filter blur-sm ${heroBg === 'beigeblack.jpg' ? 'opacity-100' : 'opacity-0'}`}
+            aria-hidden="true"
+          />
+          {/* Second background image */}
+          <img 
+            src={heroPic2}
+            alt="Hero background"
+            className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 filter blur-sm ${heroBg === 'beigeblack.jpg' ? 'opacity-0' : 'opacity-100'}`}
+            aria-hidden="true"
+          />
+          {/* Overlay for better text contrast */}
+          <div className="absolute inset-0 bg-black/30"></div>
+        </div>
+        {/* Parallax Background Image (fallback, can be removed if not needed) */}
+        {/*
+        <div
+          ref={bgRef}
+          className="absolute inset-0 w-full h-full will-change-transform transition-transform duration-700 z-10"
+          aria-hidden="true"
+        >
+          <BlurUpImage
+            src={heroBg === 'beigeblack.jpg' ? heroImage1 : heroImage2}
+            alt="Hero background"
+            className="w-full h-full opacity-50"
+            style={{ objectFit: 'cover', objectPosition: 'center' }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-brand-dark/80 via-brand-dark/60 to-transparent" />
+        </div>
+        */}
 
-      {/* Animated Sparkle/Glow Background */}
-      <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
-        {/* Example sparkles using CSS animation, can be enhanced with a library if desired */}
-        <span className="absolute left-1/4 top-1/3 w-6 h-6 bg-gradient-to-br from-yellow-100/80 to-yellow-300/40 rounded-full blur-2xl opacity-60 animate-pulse-slow" />
-        <span className="absolute right-1/5 top-1/4 w-4 h-4 bg-gradient-to-br from-purple-200/70 to-brand-purple/30 rounded-full blur-xl opacity-50 animate-pulse-slow2" />
-        <span className="absolute left-1/3 bottom-1/4 w-8 h-8 bg-gradient-to-br from-white/60 to-yellow-100/30 rounded-full blur-2xl opacity-40 animate-pulse-slow3" />
-        <span className="absolute right-1/3 bottom-1/5 w-5 h-5 bg-gradient-to-br from-brand-purple/60 to-white/20 rounded-full blur-xl opacity-40 animate-pulse-slow4" />
-      </div>
-
-      {/* Animated Content + Side Image */}
-      <div
-        ref={contentRef}
-        className="relative z-20 container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center min-h-screen text-center pt-16 md:pt-24 opacity-100"
-        tabIndex={-1}
-        aria-label="FitForge Hero Content"
-      >
-        {/* Glassmorphism background removed */}
-        {/* <div className="absolute inset-0 mx-auto max-w-3xl h-full rounded-3xl bg-white/30 backdrop-blur-xl shadow-2xl border border-white/40 z-[-1]" aria-hidden="true"></div> */}
-        <h1 className="text-6xl md:text-8xl lg:text-9xl font-black text-white mb-8 leading-tight tracking-tight animate-hero-slide-in flex flex-col items-center animate-float-slow" style={{ fontFamily: 'Ethnocentric Bold, Playfair Display, DM Serif Display, serif' }}>
-          <span className="block mb-4 pt-6 md:pt-8 relative">
-            <BlurUpImage 
-              src={FFlogo} 
-              alt="FitForge Logo" 
-              className="mx-auto animate-bounce-slow rounded-full shadow-2xl border-4 border-white/70" 
-              style={{ width: '120px', height: '120px', objectFit: 'cover', boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37)' }} 
-            />
-            {/* Glowing circle behind logo, color changes with toggle */}
-            <span
-              className={`absolute inset-0 rounded-full z-[-1] blur-2xl opacity-70 animate-pulse-slow ${heroBg === 'beigeblack.jpg' ? 'bg-yellow-200' : 'bg-gray-200'}`}
-              style={{ boxShadow: heroBg === 'beigeblack.jpg' ? '0 0 60px 20px #f7e9b0' : '0 0 60px 20px #e5e7eb' }}
-              aria-hidden="true"
-            />
-          </span>
-          <span className="text-white">Forge</span>
-          <span
-            className={`block bg-clip-text text-transparent animate-hero-slide-in-delay ${heroBg === 'beigeblack.jpg' ? 'bg-gradient-hero' : 'bg-gradient-to-r from-[hsl(45,33%,40%)] via-[hsl(45,33%,50%)] to-[hsl(45,33%,40%)]'}`}
-            style={{
-              WebkitTextStroke: '1px rgba(0,0,0,0.3)',
-              textShadow: '0 2px 4px rgba(0,0,0,0.2)'
-            }}
-          >
-            Your Style
-          </span>
-        </h1>
-        {/* Tagline/subtitle for extra brand messaging with typewriter effect */}
-        <div className="text-lg md:text-2xl text-white font-serif italic mb-8 animate-hero-fade-in-delay2 min-h-[2.5em] mt-8">
-          {tagline}
-          <span className="inline-block w-2 h-6 align-middle bg-white animate-typewriter-cursor ml-1" />
+        {/* Animated Sparkle/Glow Background */}
+        <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
+          {/* Example sparkles using CSS animation, can be enhanced with a library if desired */}
+          <span className="absolute left-1/4 top-1/3 w-6 h-6 bg-gradient-to-br from-yellow-100/80 to-yellow-300/40 rounded-full blur-2xl opacity-60 animate-pulse-slow" />
+          <span className="absolute right-1/5 top-1/4 w-4 h-4 bg-gradient-to-br from-purple-200/70 to-brand-purple/30 rounded-full blur-xl opacity-50 animate-pulse-slow2" />
+          <span className="absolute left-1/3 bottom-1/4 w-8 h-8 bg-gradient-to-br from-white/60 to-yellow-100/30 rounded-full blur-2xl opacity-40 animate-pulse-slow3" />
+          <span className="absolute right-1/3 bottom-1/5 w-5 h-5 bg-gradient-to-br from-brand-purple/60 to-white/20 rounded-full blur-xl opacity-40 animate-pulse-slow4" />
         </div>
 
-
-
-        <Button
-          onClick={handleDiscover}
-          className="relative inline-flex items-center px-6 py-3 text-lg font-semibold text-brand-dark bg-brand-light rounded-full shadow-md hover:bg-brand-light/90 transition-all duration-300 group focus:ring-2 focus:ring-brand-purple focus:outline-none before:absolute before:inset-0 before:rounded-full before:opacity-0 before:transition-opacity before:duration-300 before:bg-gradient-to-r before:from-brand-purple/30 before:to-brand-light/30 hover:before:opacity-100"
-          aria-label="Scroll to featured collection"
+        {/* Animated Content + Side Image */}
+        <div
+          ref={contentRef}
+          className="relative z-20 container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center min-h-screen text-center pt-16 md:pt-24 opacity-100"
+          tabIndex={-1}
+          aria-label="FitForge Hero Content"
         >
-          Discover More
-          <ArrowRight className="w-5 h-5 ml-2 transition-transform duration-300 transform group-hover:translate-x-1" />
-        </Button>
-      </div>
-    </section>
+          {/* Glassmorphism background removed */}
+          {/* <div className="absolute inset-0 mx-auto max-w-3xl h-full rounded-3xl bg-white/30 backdrop-blur-xl shadow-2xl border border-white/40 z-[-1]" aria-hidden="true"></div> */}
+          <h1 className="text-6xl md:text-8xl lg:text-9xl font-black text-white mb-8 leading-tight tracking-tight animate-hero-slide-in flex flex-col items-center animate-float-slow" style={{ fontFamily: 'Ethnocentric Bold, Playfair Display, DM Serif Display, serif' }}>
+            <span className="block mb-4 pt-6 md:pt-8 relative">
+              <BlurUpImage 
+                src={FFlogo} 
+                alt="FitForge Logo" 
+                className="mx-auto animate-bounce-slow rounded-full shadow-2xl border-4 border-white/70" 
+                style={{ width: '120px', height: '120px', objectFit: 'cover', boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37)' }} 
+              />
+              {/* Glowing circle behind logo, color changes with toggle */}
+              <span
+                className={`absolute inset-0 rounded-full z-[-1] blur-2xl opacity-70 animate-pulse-slow ${heroBg === 'beigeblack.jpg' ? 'bg-yellow-200' : 'bg-gray-200'}`}
+                style={{ boxShadow: heroBg === 'beigeblack.jpg' ? '0 0 60px 20px #f7e9b0' : '0 0 60px 20px #e5e7eb' }}
+                aria-hidden="true"
+              />
+            </span>
+            <span className="text-white">Forge</span>
+            <span
+              className={`block bg-clip-text text-transparent animate-hero-slide-in-delay ${heroBg === 'beigeblack.jpg' ? 'bg-gradient-hero' : 'bg-gradient-to-r from-[hsl(45,33%,40%)] via-[hsl(45,33%,50%)] to-[hsl(45,33%,40%)]'}`}
+              style={{
+                WebkitTextStroke: '1px rgba(0,0,0,0.3)',
+                textShadow: '0 2px 4px rgba(0,0,0,0.2)'
+              }}
+            >
+              Your Style
+            </span>
+          </h1>
+          {/* Tagline/subtitle for extra brand messaging with typewriter effect */}
+          <div className="text-lg md:text-2xl text-white font-serif italic mb-8 animate-hero-fade-in-delay2 min-h-[2.5em] mt-8">
+            {tagline}
+            <span className="inline-block w-2 h-6 align-middle bg-white animate-typewriter-cursor ml-1" />
+          </div>
+
+          <Button
+            onClick={handleDiscover}
+            className="relative inline-flex items-center px-6 py-3 text-lg font-semibold text-brand-dark bg-brand-light rounded-full shadow-md hover:bg-brand-light/90 transition-all duration-300 group focus:ring-2 focus:ring-brand-purple focus:outline-none before:absolute before:inset-0 before:rounded-full before:opacity-0 before:transition-opacity before:duration-300 before:bg-gradient-to-r before:from-brand-purple/30 before:to-brand-light/30 hover:before:opacity-100"
+            aria-label="Scroll to featured collection"
+          >
+            Discover More
+            <ArrowRight className="w-5 h-5 ml-2 transition-transform duration-300 transform group-hover:translate-x-1" />
+          </Button>
+        </div>
+      </section>
+    </>
   );
 };
 
