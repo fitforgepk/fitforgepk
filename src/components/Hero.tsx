@@ -270,6 +270,10 @@ const Hero = () => {
           <span className="text-white">Forge</span>
           <span
             className={`block bg-clip-text text-transparent animate-hero-slide-in-delay ${heroBg === 'beigeblack.jpg' ? 'bg-gradient-hero' : 'bg-gradient-to-r from-[hsl(45,33%,40%)] via-[hsl(45,33%,50%)] to-[hsl(45,33%,40%)]'}`}
+            style={{
+              WebkitTextStroke: '1px rgba(0,0,0,0.3)',
+              textShadow: '0 2px 4px rgba(0,0,0,0.2)'
+            }}
           >
             Your Style
           </span>
