@@ -6,7 +6,7 @@ import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from "@
 import { Input } from "@/components/ui/input";
 import { useState, useContext, useEffect } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { X, Star, Truck, Shield, CheckCircle, ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react";
+import { X, Star, Truck, Shield, CheckCircle, ArrowLeft, ChevronLeft, ChevronRight, ZoomIn } from "lucide-react";
 import { CartContext, CartUIContext } from "@/components/CartContext";
 import SEO from "@/components/SEO";
 
@@ -68,19 +68,55 @@ const ProductDetails = () => {
     setCurrentImageIndex((prev) => (prev - 1 + productImages.length) % productImages.length);
   };
 
-  // Touch/swipe handling for mobile
+  // Touch/swipe handling for mobile and zoom state
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
+  const [isZoomed, setIsZoomed] = useState(false);
+  const [zoomPosition, setZoomPosition] = useState({ x: 0, y: 0 });
+  const [showZoom, setShowZoom] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Check if device is mobile
+  useEffect(() => {
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth < 768); // md breakpoint in Tailwind
+    };
+    
+    checkIfMobile();
+    window.addEventListener('resize', checkIfMobile);
+    return () => window.removeEventListener('resize', checkIfMobile);
+  }, []);
 
   const handleTouchStart = (e: React.TouchEvent) => {
-    setTouchStart(e.targetTouches[0].clientX);
+    if (isZoomed) {
+      // If zoomed, handle panning
+      setTouchStart(e.touches[0].clientX);
+      setTouchEnd(e.touches[0].clientY);
+    } else {
+      // If not zoomed, handle swiping
+      setTouchStart(e.touches[0].clientX);
+    }
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
-    setTouchEnd(e.targetTouches[0].clientX);
+    if (isZoomed) {
+      // Pan the image when zoomed
+      setZoomPosition(prev => ({
+        x: Math.max(0, Math.min(100, (e.touches[0].clientX / window.innerWidth) * 100)),
+        y: Math.max(0, Math.min(100, (e.touches[0].clientY / window.innerHeight) * 100))
+      }));
+    } else {
+      // Handle swipe for image navigation
+      setTouchEnd(e.touches[0].clientX);
+    }
   };
 
   const handleTouchEnd = () => {
+    if (isZoomed) {
+      // No action needed when ending touch on zoomed image
+      return;
+    }
+    
     if (!touchStart || !touchEnd) return;
     
     const distance = touchStart - touchEnd;
@@ -89,8 +125,7 @@ const ProductDetails = () => {
 
     if (isLeftSwipe && productImages.length > 1) {
       nextImage();
-    }
-    if (isRightSwipe && productImages.length > 1) {
+    } else if (isRightSwipe && productImages.length > 1) {
       prevImage();
     }
   };
@@ -196,12 +231,76 @@ const ProductDetails = () => {
                     onTouchMove={handleTouchMove}
                     onTouchEnd={handleTouchEnd}
                   >
-                    <img
-                      src={productImages[currentImageIndex]}
-                      alt={`${product.name} – ${product.category} – view ${currentImageIndex + 1} – FitForgePK`}
-                      className="w-full h-full object-contain bg-gradient-to-b from-[#f8f9fa] to-[#e9ecef] transition-all duration-500 hover:scale-105 select-none"
-                      draggable={false}
-                    />
+                    <div 
+                      className="relative w-full h-full overflow-hidden touch-none"
+                      onMouseEnter={() => !isMobile && setShowZoom(true)}
+                      onMouseLeave={() => {
+                        if (!isMobile) {
+                          setIsZoomed(false);
+                          setShowZoom(false);
+                        }
+                      }}
+                      onMouseMove={(e) => {
+                        if (!showZoom || isMobile) return;
+                        
+                        const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
+                        const x = ((e.clientX - left) / width) * 100;
+                        const y = ((e.clientY - top) / height) * 100;
+                        setZoomPosition({ x, y });
+                      }}
+                      onTouchStart={handleTouchStart}
+                      onTouchMove={handleTouchMove}
+                      onTouchEnd={handleTouchEnd}
+                      onClick={() => {
+                        if (isMobile) {
+                          setIsZoomed(!isZoomed);
+                          if (!isZoomed) {
+                            // Center zoom on mobile tap
+                            setZoomPosition({ x: 50, y: 50 });
+                          }
+                        } else {
+                          setIsZoomed(!isZoomed);
+                        }
+                      }}
+                    >
+                      <img
+                        src={productImages[currentImageIndex]}
+                        alt={`${product.name} – ${product.category} – view ${currentImageIndex + 1} – FitForgePK`}
+                        className={`w-full h-full object-contain bg-gradient-to-b from-[#f8f9fa] to-[#e9ecef] transition-all duration-300 select-none ${
+                          isZoomed ? 'cursor-move' : 'cursor-zoom-in md:hover:scale-105'
+                        }`}
+                        style={{
+                          transform: isZoomed 
+                            ? `scale(${isMobile ? 2.5 : 2}) translate(${50 - zoomPosition.x}%, ${50 - zoomPosition.y}%)`
+                            : 'scale(1)',
+                          transformOrigin: isZoomed ? `${zoomPosition.x}% ${zoomPosition.y}%` : 'center',
+                          touchAction: isZoomed ? 'none' : 'pan-y',
+                          WebkitUserSelect: 'none',
+                          userSelect: 'none',
+                          WebkitTouchCallout: 'none'
+                        }}
+                        draggable={false}
+                        onDragStart={(e) => e.preventDefault()}
+                      />
+                      {!isZoomed && showZoom && !isMobile && (
+                        <div className="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                          <div className="bg-white/90 p-2 rounded-full">
+                            <ZoomIn className="w-6 h-6 text-[#1a1a1a]" />
+                          </div>
+                        </div>
+                      )}
+                      {isZoomed && isMobile && (
+                        <div 
+                          className="absolute bottom-4 right-4 bg-black/50 text-white p-2 rounded-full"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setIsZoomed(false);
+                          }}
+                        >
+                          <X className="w-5 h-5" />
+                        </div>
+                      )}
+                    </div>
                     
                     {/* Navigation Arrows - Only show if multiple images */}
                     {productImages.length > 1 && (
