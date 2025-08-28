@@ -50,16 +50,18 @@ const Index = () => {
         image="https://ik.imagekit.io/sy6soezys/assets/hero-product-mockup.png"
       />
       <Header />
-      <main className="flex flex-col">
+      <main className="flex flex-col w-full overflow-x-hidden">
         <Hero />
         {/* New Arrival Banner */}
-        <div className="w-full bg-gradient-to-r from-brand-purple via-brand-light to-brand-purple py-3">
-          <div className="whitespace-nowrap animate-marquee text-sm md:text-base font-extrabold text-white [text-shadow:1px_1px_0_rgba(0,0,0,0.5),-1px_-1px_0_rgba(0,0,0,0.5),1px_-1px_0_rgba(0,0,0,0.5),-1px_1px_0_rgba(0,0,0,0.5)]">
-            {[...Array(16)].map((_, i) => (
-              <span key={i} className="mx-6">
-                • NEW ARRIVAL • SALE 20% OFF • 
-              </span>
-            ))}
+        <div className="w-screen relative left-1/2 right-1/2 -mx-[50vw] bg-gradient-to-r from-brand-purple via-brand-light to-brand-purple py-3">
+          <div className="w-screen overflow-hidden">
+            <div className="whitespace-nowrap animate-marquee text-sm md:text-base font-extrabold text-white [text-shadow:1px_1px_0_rgba(0,0,0,0.5),-1px_-1px_0_rgba(0,0,0,0.5),1px_-1px_0_rgba(0,0,0,0.5),-1px_1px_0_rgba(0,0,0,0.5)]">
+              {[...Array(8)].map((_, i) => (
+                <span key={i} className="inline-block mx-3 sm:mx-6">
+                  • NEW ARRIVAL • SALE 20% OFF •
+                </span>
+              ))}
+            </div>
           </div>
         </div>
 
@@ -67,7 +69,7 @@ const Index = () => {
         <FrontPageModels />
 
         {/* 7 Days Sale Timer */}
-        <div className="w-full py-4 bg-gradient-to-r from-brand-purple via-[#e7dbc7] to-brand-purple">
+        <div className="w-screen relative left-1/2 right-1/2 -mx-[50vw] py-4 bg-gradient-to-r from-brand-purple via-[#e7dbc7] to-brand-purple">
           <div className="text-center">
             <div className="text-[#805206] font-extrabold text-xl mb-2 tracking-wide">
               🎉 FLASH SALE: 20% OFF ALL PRODUCTS! 🎉

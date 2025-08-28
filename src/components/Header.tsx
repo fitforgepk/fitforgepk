@@ -81,11 +81,23 @@ const Header = () => {
   };
 
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 backdrop-blur-xl bg-[rgba(30,30,36,0.85)] shadow-xl border-b-0 before:content-[''] before:absolute before:inset-x-0 before:bottom-0 before:h-1 before:bg-gradient-to-r before:from-brand-purple before:via-[#e7dbc7] before:to-brand-purple before:rounded-b-xl before:blur-[2px] ${
-      isScrolled 
-        ? 'bg-[linear-gradient(135deg,_hsl(0,0%,15%),_hsl(45,33%,30%))]/90 shadow-elegant border-b border-[hsl(45,33%,30%)]' 
-        : 'bg-gradient-hero/80'
-    }`} style={{boxShadow: '0 8px 32px 0 rgba(31,38,135,0.10)'}}>
+    <div className="relative">
+      <header 
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 backdrop-blur-xl bg-[rgba(30,30,36,0.85)] shadow-xl border-b-0 before:content-[''] before:absolute before:inset-x-0 before:bottom-0 before:h-1 before:bg-gradient-to-r before:from-brand-purple before:via-[#e7dbc7] before:to-brand-purple before:rounded-b-xl before:blur-[2px] ${
+          isScrolled 
+            ? 'bg-[linear-gradient(135deg,_hsl(0,0%,15%),_hsl(45,33%,30%))]/90 shadow-elegant border-b border-[hsl(45,33%,30%)]' 
+            : 'bg-gradient-hero/80'
+        }`} 
+        style={{
+          boxShadow: '0 8px 32px 0 rgba(31,38,135,0.10)',
+          width: '100vw',
+          maxWidth: '100%',
+          overflowX: 'hidden',
+          position: 'fixed',
+          left: 0,
+          right: 0
+        }}
+      >
       {/* Search Modal */}
       <Dialog open={searchOpen} onOpenChange={setSearchOpen}>
         <DialogContent className="max-w-xl">
@@ -115,8 +127,10 @@ const Header = () => {
                     >
                       <img src={product.image} alt={product.name} className="w-12 h-12 object-contain bg-gradient-to-b from-[#f8f9fa] to-[#e9ecef] rounded-lg border border-border" />
                       <div className="flex-1">
-                        <div className="font-semibold text-foreground">{product.name}</div>
-                        <div className="text-xs text-muted-foreground">{product.category}</div>
+                        <div className="font-semibold text-2xl mb-1">FitForgePK</div>
+                        <div className="text-sm text-muted-foreground whitespace-nowrap overflow-hidden text-ellipsis">
+                          Premium Streetwear & Urban Fashion
+                        </div>
                         <div className="text-sm font-bold text-[#e7dbc7]">Rs {product.price}</div>
                       </div>
                     </Link>
@@ -135,43 +149,39 @@ const Header = () => {
             <DrawerTitle>Your Cart</DrawerTitle>
           </DrawerHeader>
           {/* Static Red Banner */}
-    <div className="w-full py-2 bg-red-600 text-center">
-      <span className="text-white font-bold text-sm tracking-wide">
-        Free shipping over 2000-Rs (for Lahore only)
-      </span>
-    </div>
+          <div className="w-full py-2 bg-red-600 text-center">
+            <span className="text-white font-bold text-sm tracking-wide">
+              Free shipping over 2000-Rs (for Lahore only)
+            </span>
+          </div>
           <div className="p-4 space-y-4">
             {cartItems.length === 0 ? (
               <div className="text-muted-foreground">Your cart is empty.</div>
             ) : (
               <div className="space-y-4">
-                
-
-{cartItems.map((item) => (
-  <div key={`${item.id}-${item.size}`} className="flex items-center gap-4 border-b pb-2 relative">
-    <img src={getImageUrl(item.image)} alt={item.name} className="w-16 h-16 rounded-lg object-contain bg-gradient-to-b from-[#f8f9fa] to-[#e9ecef]" onError={e => { e.currentTarget.src = FALLBACK_IMAGE; }} />
-    <div className="flex-1">
-      <div className="font-semibold text-foreground">{item.name}</div>
-      <div className="text-xs text-muted-foreground">
-        {(() => {
-          const fit = getFitLabelByName(item.name);
-          return fit ? `${fit} • ` : "";
-        })()}
-        Size: {item.size} | Rs {item.price} x {item.quantity}
-      </div>
-    </div>
-    <div className="font-bold text-[#e7dbc7]">Rs {item.price * item.quantity}</div>
-    <button
-      className="absolute top-1 right-0 p-1 text-muted-foreground hover:text-destructive"
-      onClick={() => removeFromCart(item.id)}
-      aria-label={`Remove ${item.name} from cart`}
-    >
-      <X className="w-4 h-4" />
-    </button>
-  </div>
-))}
-
-
+                {cartItems.map((item) => (
+                  <div key={`${item.id}-${item.size}`} className="flex items-center gap-4 border-b pb-2 relative">
+                    <img src={getImageUrl(item.image)} alt={item.name} className="w-16 h-16 rounded-lg object-contain bg-gradient-to-b from-[#f8f9fa] to-[#e9ecef]" onError={e => { e.currentTarget.src = FALLBACK_IMAGE; }} />
+                    <div className="flex-1">
+                      <div className="font-semibold text-foreground">{item.name}</div>
+                      <div className="text-xs text-muted-foreground">
+                        {(() => {
+                          const fit = getFitLabelByName(item.name);
+                          return fit ? `${fit} • ` : "";
+                        })()}
+                        Size: {item.size} | Rs {item.price} x {item.quantity}
+                      </div>
+                    </div>
+                    <div className="font-bold text-[#e7dbc7]">Rs {item.price * item.quantity}</div>
+                    <button
+                      className="absolute top-1 right-0 p-1 text-muted-foreground hover:text-destructive"
+                      onClick={() => removeFromCart(item.id)}
+                      aria-label={`Remove ${item.name} from cart`}
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  </div>
+                ))}
               </div>
             )}
             <Button
@@ -251,49 +261,63 @@ const Header = () => {
           </div>
 
           {/* Mobile menu button */}
-          <div className="md:hidden">
+          <div className="md:hidden z-50">
             <Button
               variant="ghost"
               size="icon"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="text-white hover:bg-white/10 relative"
+              aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
             >
-              {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              {isMenuOpen ? (
+                <X className="w-6 h-6" />
+              ) : (
+                <Menu className="w-6 h-6" />
+              )}
             </Button>
           </div>
         </div>
 
         {/* Mobile Navigation */}
         {isMenuOpen && (
-          <>
+          <div
+            className={`fixed inset-0 bg-[#1e1e24] z-40 transform transition-transform duration-300 ease-in-out ${
+              isMenuOpen ? 'translate-x-0' : '-translate-x-full'
+            } md:hidden pt-20 overflow-y-auto`}
+            style={{
+              width: '100vw',
+              maxWidth: '100%',
+              height: '100vh',
+              WebkitOverflowScrolling: 'touch'
+            }}
+          >
+            {/* Mobile Menu Header with Close Button */}
+            <div className="flex items-center justify-between px-4 py-3 bg-card border-t border-border">
+              <h3 className="text-lg font-semibold text-foreground">Menu</h3>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setIsMenuOpen(false)}
+                className="hover:bg-brand-purple/20"
+              >
+                <X className="h-5 w-5" />
+              </Button>
+            </div>
+            
             {/* Backdrop Overlay - Touch to Close */}
             <div 
               className="md:hidden fixed inset-0 bg-black/50 z-40"
               onClick={() => setIsMenuOpen(false)}
             />
             
-            {/* Mobile Menu */}
-            <div className="md:hidden relative z-50">
-              {/* Mobile Menu Header with Close Button */}
-              <div className="flex items-center justify-between px-4 py-3 bg-card border-t border-border">
-                <h3 className="text-lg font-semibold text-foreground">Menu</h3>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => setIsMenuOpen(false)}
-                  className="hover:bg-brand-purple/20"
-                >
-                  <X className="h-5 w-5" />
-                </Button>
-              </div>
-              
-              {/* Mobile Menu Content */}
-              <div className="px-2 pb-3 space-y-1 bg-card">
-                <Link
-                  to="/collection"
-                  className="block px-3 py-3 text-foreground hover:text-brand-purple hover:bg-brand-purple/10 transition-colors rounded-lg"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Collection
+            {/* Mobile Menu Content */}
+            <div className="px-2 pb-3 space-y-1 bg-card">
+              <Link
+                to="/collection"
+                className="block px-3 py-3 text-foreground hover:text-brand-purple hover:bg-brand-purple/10 transition-colors rounded-lg"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Collection
                 </Link>
                 <Link
                   to="/men"
@@ -324,27 +348,36 @@ const Header = () => {
                   Customized
                 </Link>
                 
-                {/* Action Buttons */}
-                <div className="flex items-center justify-center space-x-4 px-3 py-4 border-t border-border mt-4">
-                  <Button variant="ghost" size="icon" onClick={() => setSearchOpen(true)} className="hover:bg-brand-purple/20">
-                    <Search className="h-5 w-5" />
-                  </Button>
-                  <Button variant="ghost" size="icon" onClick={() => window.location.href = '/order-history'} className="hover:bg-brand-purple/20">
-                    <Clock className="h-5 w-5" />
-                  </Button>
-                  <Button variant="ghost" size="icon" className="relative hover:bg-brand-purple/20" onClick={() => setCartOpen(true)}>
-                    <ShoppingBag className="h-5 w-5" />
-                    <span className="absolute -top-1 -right-1 bg-brand-purple text-brand-light text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                      {cartCount}
-                    </span>
-                  </Button>
-                </div>
+              {/* Action Buttons */}
+              <div className="flex items-center justify-center space-x-4 px-3 py-4 border-t border-border mt-4">
+                <Button variant="ghost" size="icon" onClick={() => {
+                  setSearchOpen(true);
+                  setIsMenuOpen(false);
+                }} className="hover:bg-brand-purple/20">
+                  <Search className="h-5 w-5" />
+                </Button>
+                <Button variant="ghost" size="icon" onClick={() => {
+                  window.location.href = '/order-history';
+                  setIsMenuOpen(false);
+                }} className="hover:bg-brand-purple/20">
+                  <Clock className="h-5 w-5" />
+                </Button>
+                <Button variant="ghost" size="icon" className="relative hover:bg-brand-purple/20" onClick={() => {
+                  setCartOpen(true);
+                  setIsMenuOpen(false);
+                }}>
+                  <ShoppingBag className="h-5 w-5" />
+                  <span className="absolute -top-1 -right-1 bg-brand-purple text-brand-light text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                    {cartCount}
+                  </span>
+                </Button>
               </div>
             </div>
-          </>
+          </div>
         )}
       </div>
     </header>
+    </div>
   );
 };
 
