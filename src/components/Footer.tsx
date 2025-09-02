@@ -90,13 +90,23 @@ const Footer = () => {
           <p className="text-[hsl(45,33%,90%)] text-xs">
             © 2025 FitForge. All rights reserved.
           </p>
-          <a
-            href="mailto:fitforge.pk@gmail.com"
-            className="text-xs text-[hsl(45,33%,90%)] hover:text-brand-purple transition-colors"
-            title="Contact the developer"
-          >
-            Developed by fitforge.pk@gmail.com
-          </a>
+          <div className="flex items-center space-x-4">
+            <a
+              href="mailto:fitforge.pk@gmail.com"
+              className="text-xs text-[hsl(45,33%,90%)] hover:text-brand-purple transition-colors"
+              title="Contact the developer"
+            >
+              Developed by fitforge.pk@gmail.com
+            </a>
+            {/* Hidden Admin Link - Very subtle */}
+            <a
+              href="/admin/login"
+              className="text-xs text-[hsl(45,33%,20%)] hover:text-[hsl(45,33%,40%)] transition-colors opacity-30 hover:opacity-60"
+              title="Admin Access"
+            >
+              Admin
+            </a>
+          </div>
         </div>
       </div>
 

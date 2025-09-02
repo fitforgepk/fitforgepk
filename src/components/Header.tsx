@@ -229,6 +229,7 @@ const Header = () => {
               Customized
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-brand-purple via-[#e7dbc7] to-brand-purple group-hover:w-full transition-all duration-300 rounded-full"></span>
             </Link>
+
           </nav>
 
           {/* Desktop Actions */}
@@ -322,6 +323,15 @@ const Header = () => {
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Customized
+                </Link>
+                
+                {/* Hidden Admin Link for Mobile */}
+                <Link
+                  to="/admin/login"
+                  className="block px-3 py-2 text-foreground/40 hover:text-foreground/60 hover:bg-brand-purple/5 transition-colors rounded-lg text-sm opacity-50"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Admin
                 </Link>
                 
                 {/* Action Buttons */}
