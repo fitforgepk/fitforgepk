@@ -1,8 +1,21 @@
 import Header from "@/components/Header";
 import ProductCard from "@/components/ProductCard";
 import { menProducts } from "@/assets/products";
+import { useContext } from "react";
+import { CartContext } from "@/components/CartContext";
 
 const Men = () => {
+  const { addToCart } = useContext(CartContext);
+
+  const handleAddToCart = (product: { id: string; name: string; price: number; image: string; size: string }) => {
+    addToCart({
+      id: product.id + (product.size ? `-${product.size}` : ""),
+      name: `${product.name}${product.size ? ` (${product.size})` : ""}`,
+      price: product.price,
+      image: product.image,
+    });
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -13,7 +26,7 @@ const Men = () => {
         </section>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {menProducts.map((product) => (
-            <ProductCard key={product.id} {...product} />
+            <ProductCard key={product.id} {...product} onAddToCart={handleAddToCart} />
           ))}
         </div>
       </main>

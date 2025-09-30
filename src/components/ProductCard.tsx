@@ -58,6 +58,12 @@ const ProductCard = ({
     : 0;
   
   const isComingSoon = tag === "COMING SOON";
+  
+  // Map specific product names to display garment type labels
+  const normalizedName = name.trim().toLowerCase();
+  
+  // Check if this product has Large size out of stock
+  const isLargeOutOfStock = (normalizedName === "breath of sea" || normalizedName === "city eighty");
 
   // Detect iOS/iPadOS (including in-app webviews). Avoid native lazy-loading there.
   const isIOS = useMemo(() => {
@@ -77,7 +83,6 @@ const ProductCard = ({
   const images = imageBack ? [image, imageBack] : [image];
 
   // Map specific product names to display garment type labels
-  const normalizedName = name.trim().toLowerCase();
   let displayCategory = category;
   if (
     normalizedName === "breath of sea" ||
@@ -321,16 +326,27 @@ const ProductCard = ({
               Choose your size for: <span className="font-semibold text-foreground">{name}</span>
             </p>
             <div className="grid grid-cols-3 gap-3">
-              {sizes.map((size) => (
-                <Button
-                  key={size}
-                  variant="outline"
-                  className="h-12 text-lg font-semibold border-2 hover:border-brand-purple hover:bg-brand-purple/10 transition-all duration-200"
-                  onClick={() => handleSizeSelect(size)}
-                >
-                  {size}
-                </Button>
-              ))}
+              {sizes.map((size) => {
+                const isSizeDisabled = isLargeOutOfStock && size === "L";
+                return (
+                  <Button
+                    key={size}
+                    variant="outline"
+                    disabled={isSizeDisabled}
+                    className={`h-12 text-lg font-semibold border-2 transition-all duration-200 ${
+                      isSizeDisabled
+                        ? "opacity-50 blur-[1px] cursor-not-allowed bg-gray-100 text-gray-400 border-gray-300"
+                        : "hover:border-brand-purple hover:bg-brand-purple/10"
+                    }`}
+                    onClick={isSizeDisabled ? undefined : () => handleSizeSelect(size)}
+                  >
+                    {size}
+                    {isSizeDisabled && (
+                      <span className="ml-1 text-xs text-red-500">(Out of Stock)</span>
+                    )}
+                  </Button>
+                );
+              })}
             </div>
               <div className="pt-2">
                 <button
