@@ -62,8 +62,9 @@ const ProductCard = ({
   // Map specific product names to display garment type labels
   const normalizedName = name.trim().toLowerCase();
   
-  // Check if this product has Large size out of stock
+  // Check if this product has sizes out of stock
   const isLargeOutOfStock = (normalizedName === "breath of sea" || normalizedName === "city eighty");
+  const isMediumOutOfStock = normalizedName === "breath of sea";
 
   // Detect iOS/iPadOS (including in-app webviews). Avoid native lazy-loading there.
   const isIOS = useMemo(() => {
@@ -327,7 +328,7 @@ const ProductCard = ({
             </p>
             <div className="grid grid-cols-3 gap-3">
               {sizes.map((size) => {
-                const isSizeDisabled = isLargeOutOfStock && size === "L";
+                const isSizeDisabled = (isLargeOutOfStock && size === "L") || (isMediumOutOfStock && size === "M");
                 return (
                   <Button
                     key={size}

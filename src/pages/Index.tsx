@@ -80,6 +80,18 @@ const Index = () => {
           </div>
         </div>
 
+        {/* Stock Notification Banner */}
+        <div className="w-full py-3 bg-gradient-to-r from-orange-500 via-red-500 to-orange-500">
+          <div className="text-center">
+            <div className="text-white font-bold text-lg tracking-wide">
+              ⚠️ STOCK ALERT: Breath of Sea - M & L sizes out of stock | City Eighty - L size out of stock
+            </div>
+            <div className="text-orange-100 text-sm mt-1">
+              Small (S) size still available for all products
+            </div>
+          </div>
+        </div>
+
         {/* Front Page Models Carousel */}
         <FrontPageModels />
 

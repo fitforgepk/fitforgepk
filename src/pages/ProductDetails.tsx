@@ -25,9 +25,10 @@ const ProductDetails = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [showSizeChart, setShowSizeChart] = useState(false);
 
-  // Check if this product has Large size out of stock
+  // Check if this product has sizes out of stock
   const normalizedName = product?.name.trim().toLowerCase() || "";
   const isLargeOutOfStock = (normalizedName === "breath of sea" || normalizedName === "city eighty");
+  const isMediumOutOfStock = normalizedName === "breath of sea";
 
   // Create array of all available images for the product
   const productImages = [
@@ -323,7 +324,7 @@ const ProductDetails = () => {
                         </SelectTrigger>
                         <SelectContent>
                           {SIZES.map((s) => {
-                            const isSizeDisabled = isLargeOutOfStock && s === "L";
+                            const isSizeDisabled = (isLargeOutOfStock && s === "L") || (isMediumOutOfStock && s === "M");
                             return (
                               <SelectItem 
                                 key={s} 
