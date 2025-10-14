@@ -28,7 +28,7 @@ const ProductDetails = () => {
   // Check if this product has sizes out of stock
   const normalizedName = product?.name.trim().toLowerCase() || "";
   const isLargeOutOfStock = (normalizedName === "breath of sea" || normalizedName === "city eighty");
-  const isMediumOutOfStock = normalizedName === "breath of sea";
+  const isMediumOutOfStock = (normalizedName === "breath of sea" || normalizedName === "city eighty");
 
   // Create array of all available images for the product
   const productImages = [

@@ -64,7 +64,7 @@ const ProductCard = ({
   
   // Check if this product has sizes out of stock
   const isLargeOutOfStock = (normalizedName === "breath of sea" || normalizedName === "city eighty");
-  const isMediumOutOfStock = normalizedName === "breath of sea";
+  const isMediumOutOfStock = (normalizedName === "breath of sea" || normalizedName === "city eighty");
 
   // Detect iOS/iPadOS (including in-app webviews). Avoid native lazy-loading there.
   const isIOS = useMemo(() => {
