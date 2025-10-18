@@ -277,13 +277,16 @@ const ProductDetails = () => {
                 {/* Product Header */}
                 <div className="mb-6">
                   <div className="flex items-center gap-2 mb-3">
-                    {product.isNew && (
+                    {isCompletelySoldOut && (
+                      <span className="bg-red-600 text-white px-3 py-1 rounded-full text-xs font-bold">SOLD OUT</span>
+                    )}
+                    {product.isNew && !isCompletelySoldOut && (
                       <span className="bg-[#a67c52] text-white px-3 py-1 rounded-full text-xs font-bold">NEW</span>
                     )}
-                    {product.isSale && (
+                    {product.isSale && !isCompletelySoldOut && (
                       <span className="bg-[#e7dbc7] text-[#1a1a1a] px-3 py-1 rounded-full text-xs font-bold border border-[#a67c52]/30">SALE</span>
                     )}
-                    {product.tag === 'COMING SOON' && (
+                    {product.tag === 'COMING SOON' && !isCompletelySoldOut && (
                       <span className="bg-orange-500 text-white px-3 py-1 rounded-full text-xs font-bold">COMING SOON</span>
                     )}
                   </div>
@@ -374,7 +377,7 @@ const ProductDetails = () => {
                     </button>
                     <div className="flex items-center gap-2 text-sm text-[#805206]">
                       <CheckCircle className="w-4 h-4 text-[#a67c52]" />
-                      <span>Free shipping on orders above 2000 PKR</span>
+                      <span>Free shipping on all orders</span>
                     </div>
                   </div>
                 </div>

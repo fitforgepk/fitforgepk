@@ -195,8 +195,16 @@ const ProductCard = ({
       transition={{ duration: 0.5 }}
     >
       <Card
-        className={`group relative overflow-hidden border border-foreground bg-gradient-card glass-effect shadow-lg hover:shadow-2xl hover:scale-[1.03] transition-all duration-300 hover-lift rounded-2xl sm:rounded-3xl focus-within:ring-2 focus-within:ring-brand-purple h-full flex flex-col mx-3 sm:mx-0 ${isCompletelySoldOut ? 'blur-sm' : ''}`}
+        className={`group relative overflow-hidden border border-foreground bg-gradient-card glass-effect shadow-lg hover:shadow-2xl hover:scale-[1.03] transition-all duration-300 hover-lift rounded-2xl sm:rounded-3xl focus-within:ring-2 focus-within:ring-brand-purple h-full flex flex-col mx-3 sm:mx-0`}
       >
+        {/* SOLD OUT Badge - Outside blurred content */}
+        {isCompletelySoldOut && (
+          <div className="absolute top-3 right-3 z-50">
+            <span className="px-3 py-1 text-xs font-bold bg-red-600 text-white rounded-full shadow-lg blur-none">
+              SOLD OUT
+            </span>
+          </div>
+        )}
          {/* Tag Badge - Add this back */}
          {tag && (
           <div className="absolute top-3 left-3 z-20">
@@ -218,12 +226,14 @@ const ProductCard = ({
               </span>
             </div>
           )}
-        <Link
-          to={`/product/${id}`}
-          className={`block focus:outline-none flex flex-col h-full ${isComingSoon || isCompletelySoldOut ? 'pointer-events-none cursor-not-allowed opacity-95' : ''}`}
-          aria-disabled={isComingSoon || isCompletelySoldOut}
-          style={{ textDecoration: "none", color: "inherit" }}
-        >
+        {/* Blurred Content Container */}
+        <div className={`flex flex-col h-full ${isCompletelySoldOut ? 'blur-sm' : ''}`}>
+          <Link
+            to={`/product/${id}`}
+            className={`block focus:outline-none flex flex-col h-full ${isComingSoon || isCompletelySoldOut ? 'pointer-events-none cursor-not-allowed opacity-95' : ''}`}
+            aria-disabled={isComingSoon || isCompletelySoldOut}
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
           <div className="relative overflow-hidden rounded-t-2xl sm:rounded-t-3xl">
             {/* Image Container with Swipe Functionality */}
             <div
@@ -276,14 +286,6 @@ const ProductCard = ({
                 </div>
               )}
               
-              {/* SOLD OUT Overlay */}
-              {isCompletelySoldOut && (
-                <div className="absolute inset-0 bg-black/40 backdrop-blur-[1px] flex items-center justify-center z-20">
-                  <span className="px-3 py-1 rounded-full text-xs font-bold bg-red-600 text-white shadow blur-none">
-                    SOLD OUT
-                  </span>
-                </div>
-              )}
             </div>
           </div>
 
@@ -311,6 +313,21 @@ const ProductCard = ({
             </div>
           </CardContent>
         </Link>
+        </div>
+
+        {/* Large SOLD OUT Overlay - Outside blurred content */}
+        {isCompletelySoldOut && (
+          <div className="absolute inset-0 z-40 flex items-center justify-center bg-black/30">
+            <div className="text-center">
+              <div className="px-6 py-3 rounded-full text-lg font-black bg-red-600 text-white shadow-2xl blur-none mb-2">
+                SOLD OUT
+              </div>
+              <div className="px-4 py-2 rounded-full text-sm font-bold bg-white/95 text-red-600 shadow blur-none">
+                All Sizes Unavailable
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Add to Cart Button */}
         {!isComingSoon && !isCompletelySoldOut && onAddToCart && (

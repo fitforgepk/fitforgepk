@@ -16,7 +16,7 @@ const Checkout = () => {
   const navigate = useNavigate();
 
   const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const deliveryFee = subtotal < 2000 ? 150 : 0;
+  const deliveryFee = 0; // Free delivery on all orders
   const total = subtotal + deliveryFee;
 
   // Scroll to top when component mounts or when submitted changes
@@ -224,12 +224,6 @@ const Checkout = () => {
                 ))}
               </div>
 
-              {deliveryFee > 0 && (
-                <div className="flex justify-between text-sm text-[#805206] mt-3 bg-red-50 p-3 rounded-lg">
-                  <span>Delivery Fee:</span>
-                  <span>Rs {deliveryFee}</span>
-                </div>
-              )}
 
               <div className="flex justify-between font-bold text-xl mt-6 pt-4 border-t border-[#a67c52]/30">
                 <span className="text-[#1a1a1a]">Total:</span>
@@ -296,7 +290,7 @@ const Checkout = () => {
         <div className="text-center">
           <div className="flex items-center justify-center gap-2 text-white font-bold text-lg tracking-wide">
             <Truck className="w-5 h-5" />
-            <span>Free shipping over 2000 PKR (Lahore only)</span>
+            <span>Free shipping on all orders</span>
             <Truck className="w-5 h-5" />
           </div>
         </div>
@@ -345,12 +339,6 @@ const Checkout = () => {
                   <span>Subtotal:</span>
                   <span className="font-semibold">Rs {subtotal}</span>
                 </div>
-                {deliveryFee > 0 && (
-                  <div className="flex justify-between text-[#805206]">
-                    <span>Delivery Fee:</span>
-                    <span className="font-semibold">Rs {deliveryFee}</span>
-                  </div>
-                )}
                 <div className="flex justify-between font-bold text-2xl pt-3 border-t border-[#a67c52]/30">
                   <span className="text-[#1a1a1a]">Total:</span>
                   <span className="text-[#a67c52]">Rs {total}</span>

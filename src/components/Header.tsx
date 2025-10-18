@@ -137,7 +137,7 @@ const Header = () => {
           {/* Static Red Banner */}
     <div className="w-full py-2 bg-red-600 text-center">
       <span className="text-white font-bold text-sm tracking-wide">
-        Free shipping over 2000-Rs (for Lahore only)
+        Free shipping on all orders
       </span>
     </div>
           <div className="p-4 space-y-4">

@@ -37,7 +37,7 @@ const Collection = () => {
       <main className="space-y-24 py-24">
         <SEO
           title="Shop All – Oversized T‑Shirts, Unisex, Men’s & Women’s | FitForgePK"
-          description="Browse FitForgePK’s complete collection: oversized t‑shirts, unisex streetwear, men’s and women’s styles. Premium quality, fast delivery, easy returns."
+          description="Browse FitForgePK's complete collection: oversized t‑shirts, unisex streetwear, men's and women's styles. Premium quality, free delivery, easy returns."
           canonical="https://www.fitforgepk.com/collection"
         />
         {/* Page Header */}

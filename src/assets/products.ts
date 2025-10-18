@@ -75,7 +75,7 @@ export const featuredProducts: Product[] = [
   {
     id: "u1",
     name: "Breath of SEA ",
-    price: 1200,
+    price: 1400,
     originalPrice: 2400,
     image: modelMensBeigeShirt,
     imageBack: modelMensBeigeShirt2,
@@ -101,7 +101,7 @@ export const featuredProducts: Product[] = [
   {
     id: "m7",
     name: "Vision Void",
-    price: 1200,
+    price: 1400,
     originalPrice: 2400,
     image: frontModel4,
     imageBack: modelUnisexBlackVisionVoid2,
@@ -159,7 +159,7 @@ export const menProducts: Product[] = [
   {
     id: "u1",
     name: "Breath of SEA",
-    price: 1200,
+    price: 1400,
     originalPrice: 2400,
     image: modelMensBeigeShirt,
     imageBack: modelMensBeigeShirt2,
@@ -185,7 +185,7 @@ export const menProducts: Product[] = [
   {
     id: "m5",
     name: "Vision Void ",
-    price: 1200,
+    price: 1400,
     originalPrice: 2400,
     image: frontModel4,
     imageBack: frontModel2,
@@ -198,7 +198,7 @@ export const menProducts: Product[] = [
   {
     id: "m6",
     name: "Vision Void (White Version)",
-    price: 1200,
+    price: 1400,
     originalPrice: 2400,
   image: mensVisionaryWhiteFront,
   imageBack: modelUnisexBlackVisionVoid,
@@ -268,7 +268,7 @@ export const womenProducts: Product[] = [
   {
     id: "w4",
     name: "Vision Void ",
-    price: 1200,
+    price: 1400,
     originalPrice: 2400,
     image: modelUnisexBlackVisionVoid2,
     imageBack: modelUnisexVisionVoid,
@@ -281,7 +281,7 @@ export const womenProducts: Product[] = [
   {
     id: "w5",
     name: "Vision Void (White Version)",
-    price: 1200,
+    price: 1400,
     originalPrice: 2400,
     image: modelUnisexVisionVoid2,
     imageBack: frontModel3,
@@ -299,7 +299,7 @@ export const unisexProducts: Product[] = [
   {
     id: "m7",
     name: "Vision Void ",
-    price: 1200,
+    price: 1400,
     originalPrice: 2400,
     image: modelUnisexVisionVoid,
     imageBack: modelUnisexBlackVisionVoid2,
@@ -312,7 +312,7 @@ export const unisexProducts: Product[] = [
   {
     id: "n6",
     name: "Vision Void (White Version)",
-    price: 1200,
+    price: 1400,
     originalPrice: 2400,
     image: mensVisionaryWhiteFront,
     imageBack: modelUnisexBlackVisionVoid,

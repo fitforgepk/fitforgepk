@@ -52,14 +52,16 @@ const Index = () => {
         image="https://ik.imagekit.io/sy6soezys/assets/hero-product-mockup.png"
       />
       <Header />
+
       <main className="flex flex-col">
         <Hero />
-        {/* New Arrival Tag */}
+
+        {/* Mega Sale Banner */}
         <div className="w-full overflow-x-hidden bg-gradient-to-r from-brand-purple via-brand-light to-brand-purple py-2 md:py-3">
           <div className="whitespace-nowrap animate-marquee text-[11px] xs:text-xs sm:text-sm md:text-base font-extrabold text-white [text-shadow:1px_1px_0_rgba(0,0,0,0.5),-1px_-1px_0_rgba(0,0,0,0.5),1px_-1px_0_rgba(0,0,0,0.5),-1px_1px_0_rgba(0,0,0,0.5)]">
             {[...Array(12)].map((_, i) => (
               <span key={i} className="mx-2 xs:mx-3 sm:mx-4 md:mx-5">
-                • NEW ARRIVAL • MEGA SALE 50% OFF • 
+                • MEGA SALE UP TO 50% OFF • 
               </span>
             ))}
           </div>
@@ -69,10 +71,10 @@ const Index = () => {
         <div className="w-full py-4 bg-gradient-to-r from-brand-purple via-[#e7dbc7] to-brand-purple">
           <div className="text-center">
             <div className="text-[#805206] font-extrabold text-xl mb-2 tracking-wide">
-              🔥 MEGA SALE: 50% OFF SELECTED PRODUCTS! 🔥
+              🔥 MEGA SALE: UP TO 50% OFF SELECTED PRODUCTS! 🔥
             </div>
             <div className="text-rose-400 text-lg font-semibold">
-              New prices after 50% discount: Blacksmith (Rs 1100), AfterLight (Rs 1100), Vision Void (Rs 1200), Grace (Rs 1250)
+              Limited time offer - Don't miss out!
             </div>
           </div>
         </div>
@@ -231,6 +233,17 @@ const Index = () => {
           </div>
         </section>
       </main>
+
+      {/* Fixed Bottom Free Delivery Banner */}
+      <div className="fixed bottom-0 left-0 right-0 z-50 w-full overflow-x-hidden bg-gradient-to-r from-green-600 via-green-500 to-green-600 py-2 md:py-3 shadow-lg">
+        <div className="whitespace-nowrap animate-marquee text-[11px] xs:text-xs sm:text-sm md:text-base font-extrabold text-white [text-shadow:1px_1px_0_rgba(0,0,0,0.5),-1px_-1px_0_rgba(0,0,0,0.5),1px_-1px_0_rgba(0,0,0,0.5),-1px_1px_0_rgba(0,0,0,0.5)]">
+          {[...Array(12)].map((_, i) => (
+            <span key={i} className="mx-2 xs:mx-3 sm:mx-4 md:mx-5">
+              🚚 FREE DELIVERY ON ALL ORDERS 🚚
+            </span>
+          ))}
+        </div>
+      </div>
     </div>
   );
 };
