@@ -82,10 +82,9 @@ export default async function handler(req, res) {
         .sort((a, b) => b.revenue - a.revenue)
         .slice(0, 10);
       
-      // Get recent orders
+      // Get all orders (no limit)
       const recentOrders = orders
         .sort((a, b) => new Date(b.date) - new Date(a.date))
-        .slice(0, 10)
         .map(order => ({
           id: order.orderNumber,
           customer: order.name,

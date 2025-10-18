@@ -29,6 +29,9 @@ const ProductDetails = () => {
   const normalizedName = product?.name.trim().toLowerCase() || "";
   const isLargeOutOfStock = (normalizedName === "breath of sea" || normalizedName === "city eighty");
   const isMediumOutOfStock = (normalizedName === "breath of sea" || normalizedName === "city eighty");
+  
+  // Check if product is completely sold out (all sizes out of stock)
+  const isCompletelySoldOut = (normalizedName === "breath of sea" || normalizedName === "city eighty");
 
   // Create array of all available images for the product
   const productImages = [
@@ -180,7 +183,7 @@ const ProductDetails = () => {
 
       <div className="container mx-auto px-4 py-24">
         <div className="max-w-6xl mx-auto">
-          <div className="bg-white rounded-3xl shadow-2xl border border-[#a67c52]/10 overflow-hidden relative">
+          <div className={`bg-white rounded-3xl shadow-2xl border border-[#a67c52]/10 overflow-hidden relative ${isCompletelySoldOut ? 'blur-sm' : ''}`}>
             {/* Close Button Inside Product Card */}
             <button
               onClick={() => navigate(-1)}
@@ -190,6 +193,15 @@ const ProductDetails = () => {
             >
               <X className="w-5 h-5" />
             </button>
+
+            {/* SOLD OUT Overlay */}
+            {isCompletelySoldOut && (
+              <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/20 backdrop-blur-sm">
+                <div className="bg-red-600 text-white px-8 py-4 rounded-2xl shadow-2xl border-4 border-white/30 blur-none">
+                  <h2 className="text-4xl font-black tracking-wider blur-none">SOLD OUT</h2>
+                </div>
+              </div>
+            )}
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
               {/* Image Gallery Section */}
@@ -318,13 +330,13 @@ const ProductDetails = () => {
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <label className="block text-sm font-semibold mb-2 text-[#1a1a1a]">Size</label>
-                      <Select value={size} onValueChange={setSize}>
-                        <SelectTrigger className="w-full border-[#a67c52]/30 focus:border-[#a67c52] focus:ring-[#a67c52]/20">
-                          <SelectValue placeholder="Select size" />
+                      <Select value={size} onValueChange={setSize} disabled={isCompletelySoldOut}>
+                        <SelectTrigger className={`w-full border-[#a67c52]/30 focus:border-[#a67c52] focus:ring-[#a67c52]/20 ${isCompletelySoldOut ? 'opacity-50 cursor-not-allowed' : ''}`}>
+                          <SelectValue placeholder={isCompletelySoldOut ? "SOLD OUT" : "Select size"} />
                         </SelectTrigger>
                         <SelectContent>
                           {SIZES.map((s) => {
-                            const isSizeDisabled = (isLargeOutOfStock && s === "L") || (isMediumOutOfStock && s === "M");
+                            const isSizeDisabled = (isLargeOutOfStock && s === "L") || (isMediumOutOfStock && s === "M") || isCompletelySoldOut;
                             return (
                               <SelectItem 
                                 key={s} 
@@ -346,7 +358,8 @@ const ProductDetails = () => {
                         min={1}
                         value={quantity}
                         onChange={e => setQuantity(Number(e.target.value))}
-                        className="w-full border-[#a67c52]/30 focus:border-[#a67c52] focus:ring-[#a67c52]/20"
+                        disabled={isCompletelySoldOut}
+                        className={`w-full border-[#a67c52]/30 focus:border-[#a67c52] focus:ring-[#a67c52]/20 ${isCompletelySoldOut ? 'opacity-50 cursor-not-allowed' : ''}`}
                       />
                     </div>
                   </div>
@@ -371,10 +384,10 @@ const ProductDetails = () => {
                   variant="default"
                   size="lg"
                   className="w-full bg-[#a67c52] hover:bg-[#805206] text-white font-bold text-lg py-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-                  disabled={product.tag === 'COMING SOON' || !size}
+                  disabled={product.tag === 'COMING SOON' || !size || isCompletelySoldOut}
                   onClick={handleAddToCart}
                 >
-                  {product.tag === 'COMING SOON' ? 'Coming Soon' : (added ? 'Added to Cart!' : 'Add to Cart')}
+                  {isCompletelySoldOut ? 'SOLD OUT' : (product.tag === 'COMING SOON' ? 'Coming Soon' : (added ? 'Added to Cart!' : 'Add to Cart'))}
                 </Button>
 
                 {/* Product Description */}

@@ -251,25 +251,8 @@ const AdminDashboard: React.FC = () => {
 
   const theme = getThemeClasses();
 
-  useEffect(() => {
-    if (!isAuthenticated) {
-      navigate('/admin/login');
-      return;
-    }
-
-    // Load settings from localStorage
-    const savedSettings = localStorage.getItem('adminSettings');
-    if (savedSettings) {
-      try {
-        const parsedSettings = JSON.parse(savedSettings);
-        setSettings(parsedSettings);
-      } catch (error) {
-        console.error('Error loading settings:', error);
-      }
-    }
-
-    // Load real dashboard data from API
-    const loadDashboardData = async () => {
+  // Load real dashboard data from API
+  const loadDashboardData = async () => {
       setIsLoading(true);
       try {
         // Load stats and chart data in parallel
@@ -331,6 +314,23 @@ const AdminDashboard: React.FC = () => {
         setIsLoading(false);
       }
     };
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate('/admin/login');
+      return;
+    }
+
+    // Load settings from localStorage
+    const savedSettings = localStorage.getItem('adminSettings');
+    if (savedSettings) {
+      try {
+        const parsedSettings = JSON.parse(savedSettings);
+        setSettings(parsedSettings);
+      } catch (error) {
+        console.error('Error loading settings:', error);
+      }
+    }
 
     loadDashboardData();
   }, [isAuthenticated, navigate]);
@@ -782,7 +782,7 @@ const AdminDashboard: React.FC = () => {
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
-                    {recentOrders.slice(0, 5).map((order) => (
+                    {recentOrders.map((order) => (
                       <div key={order.id} className="flex items-center justify-between p-3 border rounded-lg">
                         <div className="space-y-1">
                           <p className="font-medium">{order.customer}</p>

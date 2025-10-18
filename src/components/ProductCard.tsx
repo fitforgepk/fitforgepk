@@ -65,6 +65,9 @@ const ProductCard = ({
   // Check if this product has sizes out of stock
   const isLargeOutOfStock = (normalizedName === "breath of sea" || normalizedName === "city eighty");
   const isMediumOutOfStock = (normalizedName === "breath of sea" || normalizedName === "city eighty");
+  
+  // Check if product is completely sold out (all sizes out of stock)
+  const isCompletelySoldOut = (normalizedName === "breath of sea" || normalizedName === "city eighty");
 
   // Detect iOS/iPadOS (including in-app webviews). Avoid native lazy-loading there.
   const isIOS = useMemo(() => {
@@ -192,7 +195,7 @@ const ProductCard = ({
       transition={{ duration: 0.5 }}
     >
       <Card
-        className="group relative overflow-hidden border border-foreground bg-gradient-card glass-effect shadow-lg hover:shadow-2xl hover:scale-[1.03] transition-all duration-300 hover-lift rounded-2xl sm:rounded-3xl focus-within:ring-2 focus-within:ring-brand-purple h-full flex flex-col mx-3 sm:mx-0"
+        className={`group relative overflow-hidden border border-foreground bg-gradient-card glass-effect shadow-lg hover:shadow-2xl hover:scale-[1.03] transition-all duration-300 hover-lift rounded-2xl sm:rounded-3xl focus-within:ring-2 focus-within:ring-brand-purple h-full flex flex-col mx-3 sm:mx-0 ${isCompletelySoldOut ? 'blur-sm' : ''}`}
       >
          {/* Tag Badge - Add this back */}
          {tag && (
@@ -217,8 +220,8 @@ const ProductCard = ({
           )}
         <Link
           to={`/product/${id}`}
-          className={`block focus:outline-none flex flex-col h-full ${isComingSoon ? 'pointer-events-none cursor-not-allowed opacity-95' : ''}`}
-          aria-disabled={isComingSoon}
+          className={`block focus:outline-none flex flex-col h-full ${isComingSoon || isCompletelySoldOut ? 'pointer-events-none cursor-not-allowed opacity-95' : ''}`}
+          aria-disabled={isComingSoon || isCompletelySoldOut}
           style={{ textDecoration: "none", color: "inherit" }}
         >
           <div className="relative overflow-hidden rounded-t-2xl sm:rounded-t-3xl">
@@ -272,6 +275,15 @@ const ProductCard = ({
                   </span>
                 </div>
               )}
+              
+              {/* SOLD OUT Overlay */}
+              {isCompletelySoldOut && (
+                <div className="absolute inset-0 bg-black/40 backdrop-blur-[1px] flex items-center justify-center z-20">
+                  <span className="px-3 py-1 rounded-full text-xs font-bold bg-red-600 text-white shadow blur-none">
+                    SOLD OUT
+                  </span>
+                </div>
+              )}
             </div>
           </div>
 
@@ -301,7 +313,7 @@ const ProductCard = ({
         </Link>
 
         {/* Add to Cart Button */}
-        {!isComingSoon && onAddToCart && (
+        {!isComingSoon && !isCompletelySoldOut && onAddToCart && (
           <div className="absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-4 sm:right-4 opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-4 group-hover:translate-y-0 z-10">
             <Button
               className="w-full backdrop-blur-md rounded-2xl font-bold bg-[hsl(45,33%,90%)] text-[hsl(0,0%,10%)] border border-[hsl(45,33%,90%)] hover:bg-[hsl(45,33%,95%)] hover:text-[hsl(0,0%,0%)]"
@@ -328,7 +340,7 @@ const ProductCard = ({
             </p>
             <div className="grid grid-cols-3 gap-3">
               {sizes.map((size) => {
-                const isSizeDisabled = (isLargeOutOfStock && size === "L") || (isMediumOutOfStock && size === "M");
+                const isSizeDisabled = isCompletelySoldOut || (isLargeOutOfStock && size === "L") || (isMediumOutOfStock && size === "M");
                 return (
                   <Button
                     key={size}
@@ -343,7 +355,9 @@ const ProductCard = ({
                   >
                     {size}
                     {isSizeDisabled && (
-                      <span className="ml-1 text-xs text-red-500">(Out of Stock)</span>
+                      <span className="ml-1 text-xs text-red-500">
+                        {isCompletelySoldOut ? "(SOLD OUT)" : "(Out of Stock)"}
+                      </span>
                     )}
                   </Button>
                 );

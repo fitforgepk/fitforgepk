@@ -59,7 +59,7 @@ const Index = () => {
           <div className="whitespace-nowrap animate-marquee text-[11px] xs:text-xs sm:text-sm md:text-base font-extrabold text-white [text-shadow:1px_1px_0_rgba(0,0,0,0.5),-1px_-1px_0_rgba(0,0,0,0.5),1px_-1px_0_rgba(0,0,0,0.5),-1px_1px_0_rgba(0,0,0,0.5)]">
             {[...Array(12)].map((_, i) => (
               <span key={i} className="mx-2 xs:mx-3 sm:mx-4 md:mx-5">
-                • NEW ARRIVAL • SALE 20% OFF • 
+                • NEW ARRIVAL • MEGA SALE 50% OFF • 
               </span>
             ))}
           </div>
@@ -69,28 +69,14 @@ const Index = () => {
         <div className="w-full py-4 bg-gradient-to-r from-brand-purple via-[#e7dbc7] to-brand-purple">
           <div className="text-center">
             <div className="text-[#805206] font-extrabold text-xl mb-2 tracking-wide">
-              🎉 FLASH SALE: 20% OFF ALL PRODUCTS! 🎉
+              🔥 MEGA SALE: 50% OFF SELECTED PRODUCTS! 🔥
             </div>
             <div className="text-rose-400 text-lg font-semibold">
-              Ends in: 
-              <span className="font-bold mx-2 bg-white text-rose-500 px-3 py-1 rounded-lg">
-                {timeLeft.days}d {timeLeft.hours}h {timeLeft.minutes}m {timeLeft.seconds}s
-              </span>
+              New prices after 50% discount: Blacksmith (Rs 1100), AfterLight (Rs 1100), Vision Void (Rs 1200), Grace (Rs 1250)
             </div>
           </div>
         </div>
 
-        {/* Stock Notification Banner */}
-        <div className="w-full py-3 bg-gradient-to-r from-orange-500 via-red-500 to-orange-500">
-          <div className="text-center">
-            <div className="text-white font-bold text-lg tracking-wide">
-              ⚠️ STOCK ALERT: Breath of Sea & City Eighty - M & L sizes out of stock
-            </div>
-            <div className="text-orange-100 text-sm mt-1">
-              Small (S) size still available for all products
-            </div>
-          </div>
-        </div>
 
         {/* Front Page Models Carousel */}
         <FrontPageModels />

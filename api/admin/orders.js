@@ -8,8 +8,7 @@ export default async function handler(req, res) {
     try {
       // Get all orders for admin dashboard
       const orders = await Order.find({})
-        .sort({ date: -1 })
-        .limit(100); // Limit to recent 100 orders for performance
+        .sort({ date: -1 });
 
       res.status(200).json({ success: true, data: orders });
     } catch (error) {
