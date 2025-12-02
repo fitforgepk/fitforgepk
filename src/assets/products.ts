@@ -1,7 +1,7 @@
 import { buildImageKitUrl, convertToImageKitPath } from "@/lib/imagekit";
 
 // ImageKit URLs for all product images
-const featuredImage = buildImageKitUrl(convertToImageKitPath("featured-collection.png"));
+export const featuredImage = buildImageKitUrl(convertToImageKitPath("featured-collection.png"));
 const mensBeigeShirtFront = buildImageKitUrl(convertToImageKitPath("mens-collection-framed/beigeboyfront.png"));
 const mensBeigeShirtBack = buildImageKitUrl(convertToImageKitPath("mens-collection-framed/beigeboyback.png"));
 const mensCharcoalShirtFront = buildImageKitUrl(convertToImageKitPath("mens-collection-framed/charcoalboyfront.png"));
@@ -55,6 +55,11 @@ const modelMensBlacksmith = buildImageKitUrl(convertToImageKitPath("mens-collect
 const modelWomensGrace = buildImageKitUrl(convertToImageKitPath("womens-collection-framed/Grace_model-min.png"));
 const modelWomensEighty = buildImageKitUrl(convertToImageKitPath("unisex-collection-framed/80_Girl_model-min.png"));
 
+export const winterWC1 = buildImageKitUrl(convertToImageKitPath("Winter-Collection/WC1.jpg"));
+export const winterWC2 = buildImageKitUrl(convertToImageKitPath("Winter-Collection/WC2.jpg"));
+export const winterWC3 = buildImageKitUrl(convertToImageKitPath("Winter-Collection/WC3.jpg"));
+export const winterShowcaseImages = [winterWC1, winterWC2, winterWC3];
+
 // Add a type for products that includes optional imageBack and additional images
 export interface Product {
   id: string;
@@ -69,6 +74,33 @@ export interface Product {
   isSale?: boolean;
   tag?: string; // Add tag property
 }
+
+export const winterProducts: Product[] = [
+  {
+    id: "winter-1",
+    name: "Winter Look 1",
+    price: 0,
+    image: winterWC1,
+    category: "Winter",
+    tag: "COMING SOON"
+  },
+  {
+    id: "winter-2",
+    name: "Winter Look 2",
+    price: 0,
+    image: winterWC2,
+    category: "Winter",
+    tag: "COMING SOON"
+  },
+  {
+    id: "winter-3",
+    name: "Winter Look 3",
+    price: 0,
+    image: winterWC3,
+    category: "Winter",
+    tag: "COMING SOON"
+  }
+];
 
 export const featuredProducts: Product[] = [
   // Real T-shirt products (with actual images)
@@ -397,7 +429,7 @@ export const allProducts: Product[] = [
   ...womenProducts,
   ...unisexProducts,
   ...gamingProducts,
-  ...animeProducts
+  ...animeProducts,
+  ...winterProducts
 ];
 
-export { featuredImage };

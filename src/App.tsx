@@ -16,7 +16,7 @@ import Women from "./pages/Women";
 import Sale from "./pages/Sale";
 import Unisex from "./pages/Unisex";
 import Customized from "./pages/Customized";
-import Winter from "./pages/Winter";
+import Winter from "@/pages/Winter";
 import { CartProvider, CartUIProvider } from "@/components/CartContext";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";

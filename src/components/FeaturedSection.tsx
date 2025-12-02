@@ -1,7 +1,8 @@
 import { Button } from "@/components/ui/button";
 import ProductCard from "./ProductCard";
-import { menProducts, womenProducts, unisexProducts, animeProducts, gamingProducts, featuredImage } from "@/assets/products";
+import { menProducts, womenProducts, unisexProducts, animeProducts, gamingProducts, winterShowcaseImages } from "@/assets/products";
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 interface FeaturedSectionProps {
   onAddToCart?: (product: { id: string; name: string; price: number; image: string }) => void;
@@ -9,6 +10,13 @@ interface FeaturedSectionProps {
 
 const FeaturedSection = ({ onAddToCart }: FeaturedSectionProps) => {
   const navigate = useNavigate();
+  const [bgIndex, setBgIndex] = useState(0);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setBgIndex((prev) => (prev + 1) % winterShowcaseImages.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, []);
   
   // Get multiple products from available categories to reach 5 total
   // Filter out products marked as "COMING SOON" and select available ones
@@ -21,7 +29,7 @@ const FeaturedSection = ({ onAddToCart }: FeaturedSectionProps) => {
     id: "winter-feature",
     name: "Winter Collection",
     price: 0,
-    image: featuredImage,
+    image: winterShowcaseImages[0],
     category: "Winter",
     isNew: false,
     isSale: false,
@@ -41,8 +49,14 @@ const FeaturedSection = ({ onAddToCart }: FeaturedSectionProps) => {
   };
 
   return (
-    <section id="featured" className="py-20 bg-background">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="featured" className="relative py-20 bg-background overflow-hidden">
+      <div className="absolute inset-0 opacity-20 pointer-events-none">
+        {winterShowcaseImages.map((src, i) => (
+          <img key={i} src={src} alt="Winter Background" className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${bgIndex === i ? 'opacity-100' : 'opacity-0'}`} />
+        ))}
+        <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-background/60 to-background" />
+      </div>
+      <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">

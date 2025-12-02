@@ -3,14 +3,10 @@ import { Button } from "@/components/ui/button";
 import ProductCard from "@/components/ProductCard";
 import { useContext } from "react";
 import { CartContext } from "@/components/CartContext";
-import { featuredImage } from "@/assets/products";
+import { winterProducts as comingSoonWinterProducts, winterShowcaseImages } from "@/assets/products";
 import { Snowflake } from "lucide-react";
 
-const winterProducts = [
-  { id: "winter-hoodie", name: "Premium Hoodie", price: 0, image: featuredImage, category: "Winter", isNew: false, isSale: false, tag: "COMING SOON" },
-  { id: "winter-crewneck", name: "Cozy Crewneck", price: 0, image: featuredImage, category: "Winter", isNew: false, isSale: false, tag: "COMING SOON" },
-  { id: "winter-jacket", name: "Warm Jacket", price: 0, image: featuredImage, category: "Winter", isNew: false, isSale: false, tag: "COMING SOON" }
-];
+const winterProducts = comingSoonWinterProducts;
 
 const Winter = () => {
   const { addToCart } = useContext(CartContext);
@@ -47,6 +43,20 @@ const Winter = () => {
         </section>
 
         <section className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground">Showcase</h2>
+            <p className="text-muted-foreground">A first look at the Winter visuals</p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {winterShowcaseImages.map((src, idx) => (
+              <div key={idx} className="relative rounded-2xl overflow-hidden shadow-brand-lg border border-[#a67c52]/30 bg-white">
+                <img src={src} alt={`Winter Collection ${idx + 1}`} className="w-full h-full object-cover" />
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {winterProducts.map((product) => (
               <ProductCard key={product.id} {...product} onAddToCart={handleAddToCart} />
@@ -59,4 +69,3 @@ const Winter = () => {
 };
 
 export default Winter;
-
