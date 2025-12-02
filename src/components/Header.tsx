@@ -225,8 +225,8 @@ const Header = () => {
               Unisex
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-brand-purple via-[#e7dbc7] to-brand-purple group-hover:w-full transition-all duration-300 rounded-full"></span>
             </Link>
-            <Link to="/customized" className="relative group text-foreground hover:text-brand-purple transition-all duration-300 font-semibold tracking-wide text-lg px-2">
-              Customized
+            <Link to="/winter" className="relative group text-foreground hover:text-brand-purple transition-all duration-300 font-semibold tracking-wide text-lg px-2">
+              Winter
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-brand-purple via-[#e7dbc7] to-brand-purple group-hover:w-full transition-all duration-300 rounded-full"></span>
             </Link>
 
@@ -318,11 +318,11 @@ const Header = () => {
                   Unisex
                 </Link>
                 <Link
-                  to="/customized"
+                  to="/winter"
                   className="block px-3 py-3 text-foreground hover:text-brand-purple hover:bg-brand-purple/10 transition-colors rounded-lg"
                   onClick={() => setIsMenuOpen(false)}
                 >
-                  Customized
+                  Winter
                 </Link>
                 
                 {/* Hidden Admin Link for Mobile */}

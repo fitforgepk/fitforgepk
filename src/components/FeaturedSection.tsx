@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import ProductCard from "./ProductCard";
-import { menProducts, womenProducts, unisexProducts, animeProducts, gamingProducts } from "@/assets/products";
+import { menProducts, womenProducts, unisexProducts, animeProducts, gamingProducts, featuredImage } from "@/assets/products";
 import { useNavigate } from "react-router-dom";
 
 interface FeaturedSectionProps {
@@ -16,12 +16,25 @@ const FeaturedSection = ({ onAddToCart }: FeaturedSectionProps) => {
   const availableWomenProducts = womenProducts.filter(p => p.tag !== "COMING SOON" && p.image);
   const availableUnisexProducts = unisexProducts.filter(p => p.tag !== "COMING SOON" && p.image);
 
-  // Select up to 5 products from available collections
+  // Prepend Winter feature (Coming Soon) to featured grid
+  const winterFeature = {
+    id: "winter-feature",
+    name: "Winter Collection",
+    price: 0,
+    image: featuredImage,
+    category: "Winter",
+    isNew: false,
+    isSale: false,
+    tag: "COMING SOON"
+  };
+
+  // Select up to 5 products with Winter feature first
   const selectedProducts = [
-    ...availableMenProducts.slice(0, 2),      // Take first 2 men's products
-    ...availableWomenProducts.slice(0, 1),   // Take first 1 women's product
-    ...availableUnisexProducts.slice(0, 2)   // Take first 2 unisex products
-  ].slice(0, 5); // Ensure we don't exceed 5 products
+    winterFeature,
+    ...availableMenProducts.slice(0, 2),
+    ...availableWomenProducts.slice(0, 1),
+    ...availableUnisexProducts.slice(0, 2)
+  ].slice(0, 5);
 
   const handleViewAllProducts = () => {
     navigate('/collection');

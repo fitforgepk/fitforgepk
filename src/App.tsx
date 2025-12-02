@@ -16,6 +16,7 @@ import Women from "./pages/Women";
 import Sale from "./pages/Sale";
 import Unisex from "./pages/Unisex";
 import Customized from "./pages/Customized";
+import Winter from "./pages/Winter";
 import { CartProvider, CartUIProvider } from "@/components/CartContext";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -103,6 +104,7 @@ const App = () => {
                             <Route path="/sale" element={<Sale />} />
                             <Route path="/unisex" element={<Unisex />} />
                             <Route path="/customized" element={<Customized />} />
+                            <Route path="/winter" element={<Winter />} />
                             <Route path="/checkout" element={<Checkout />} />
                             <Route path="/product/:id" element={<ProductDetails />} />
                             <Route path="/order-history" element={<OrderHistory />} />

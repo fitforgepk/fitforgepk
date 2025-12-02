@@ -6,7 +6,8 @@ import FrontPageModels from "@/components/FrontPageModels";
 import FeaturedSection from "@/components/FeaturedSection";
 import Categories from "@/components/Categories";
 import Newsletter from "@/components/Newsletter";
-import { Shield, Truck, Star, Users, Award, CheckCircle } from "lucide-react";
+import { Shield, Truck, Star, Users, Award, CheckCircle, Snowflake } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import SEO from "@/components/SEO";
 
 const Index = () => {
@@ -56,37 +57,46 @@ const Index = () => {
       <main className="flex flex-col">
         <Hero />
 
-        {/* Mega Sale Banner */}
-        <div className="w-full overflow-x-hidden bg-gradient-to-r from-brand-purple via-brand-light to-brand-purple py-2 md:py-3">
-          <div className="whitespace-nowrap animate-marquee text-[11px] xs:text-xs sm:text-sm md:text-base font-extrabold text-white [text-shadow:1px_1px_0_rgba(0,0,0,0.5),-1px_-1px_0_rgba(0,0,0,0.5),1px_-1px_0_rgba(0,0,0,0.5),-1px_1px_0_rgba(0,0,0,0.5)]">
-            {[...Array(12)].map((_, i) => (
-              <span key={i} className="mx-2 xs:mx-3 sm:mx-4 md:mx-5">
-                • MEGA SALE UP TO 50% OFF • 
-              </span>
-            ))}
+        {/* Winter Collection — Coming Soon (under Hero) */}
+        <section className="relative py-12 md:py-20 bg-gradient-to-br from-brand-purple/10 via-[#e7dbc7]/15 to-brand-purple/10">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-4xl rounded-3xl bg-[#1a1a1a]/70 backdrop-blur-xl border border-[#a67c52]/30 shadow-2xl p-8 md:p-12">
+              <div className="flex items-center justify-center gap-2 mb-4">
+                <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#a67c52]/20 text-[#a67c52] font-bold uppercase text-xs tracking-widest">
+                  <Snowflake className="w-4 h-4" /> Coming Soon
+                </span>
+              </div>
+              <h2 className="text-4xl md:text-5xl font-black bg-clip-text text-transparent bg-gradient-to-r from-brand-purple via-[#e7dbc7] to-brand-purple tracking-tight text-center">
+                Winter Collection
+              </h2>
+              <p className="mt-4 text-base md:text-lg text-[#e7dbc7] text-center max-w-2xl mx-auto">
+                Elevate your season with cozy layers, premium warmth, and refined streetwear aesthetics.
+              </p>
+              <div className="mt-8 flex items-center justify-center">
+                <a href="#newsletter">
+                  <Button className="px-8 py-3 font-bold" variant="brand">
+                    Notify Me
+                  </Button>
+                </a>
+              </div>
+            </div>
           </div>
-        </div>
+        </section>
 
-        {/* 7 Days Sale Timer */}
-        <div className="w-full py-4 bg-gradient-to-r from-brand-purple via-[#e7dbc7] to-brand-purple">
-          <div className="text-center">
-            <div className="text-[#805206] font-extrabold text-xl mb-2 tracking-wide">
-              🔥 MEGA SALE: UP TO 50% OFF SELECTED PRODUCTS! 🔥
-            </div>
-            <div className="text-rose-400 text-lg font-semibold">
-              Limited time offer - Don't miss out!
-            </div>
-          </div>
-        </div>
+        
 
 
         {/* Front Page Models Carousel */}
         <FrontPageModels />
 
+        
+
         <div className="bg-background">
           <FeaturedSection onAddToCart={addToCart} />
           <Categories />
-          <Newsletter />
+          <div id="newsletter">
+            <Newsletter />
+          </div>
         </div>
 
         {/* Trust Building Section - Moved to end of page */}
@@ -234,16 +244,7 @@ const Index = () => {
         </section>
       </main>
 
-      {/* Fixed Bottom Free Delivery Banner */}
-      <div className="fixed bottom-0 left-0 right-0 z-50 w-full overflow-x-hidden bg-gradient-to-r from-green-600 via-green-500 to-green-600 py-2 md:py-3 shadow-lg">
-        <div className="whitespace-nowrap animate-marquee text-[11px] xs:text-xs sm:text-sm md:text-base font-extrabold text-white [text-shadow:1px_1px_0_rgba(0,0,0,0.5),-1px_-1px_0_rgba(0,0,0,0.5),1px_-1px_0_rgba(0,0,0,0.5),-1px_1px_0_rgba(0,0,0,0.5)]">
-          {[...Array(12)].map((_, i) => (
-            <span key={i} className="mx-2 xs:mx-3 sm:mx-4 md:mx-5">
-              🚚 FREE DELIVERY ON ALL ORDERS 🚚
-            </span>
-          ))}
-        </div>
-      </div>
+      
     </div>
   );
 };
