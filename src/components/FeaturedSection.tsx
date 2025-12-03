@@ -1,8 +1,8 @@
 import { Button } from "@/components/ui/button";
 import ProductCard from "./ProductCard";
-import { menProducts, womenProducts, unisexProducts, animeProducts, gamingProducts, winterShowcaseImages } from "@/assets/products";
+import { menProducts, womenProducts, unisexProducts, animeProducts, gamingProducts, winterProducts } from "@/assets/products";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+ 
 
 interface FeaturedSectionProps {
   onAddToCart?: (product: { id: string; name: string; price: number; image: string }) => void;
@@ -10,13 +10,7 @@ interface FeaturedSectionProps {
 
 const FeaturedSection = ({ onAddToCart }: FeaturedSectionProps) => {
   const navigate = useNavigate();
-  const [bgIndex, setBgIndex] = useState(0);
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setBgIndex((prev) => (prev + 1) % winterShowcaseImages.length);
-    }, 4000);
-    return () => clearInterval(interval);
-  }, []);
+  
   
   // Get multiple products from available categories to reach 5 total
   // Filter out products marked as "COMING SOON" and select available ones
@@ -24,39 +18,24 @@ const FeaturedSection = ({ onAddToCart }: FeaturedSectionProps) => {
   const availableWomenProducts = womenProducts.filter(p => p.tag !== "COMING SOON" && p.image);
   const availableUnisexProducts = unisexProducts.filter(p => p.tag !== "COMING SOON" && p.image);
 
-  // Prepend Winter feature (Coming Soon) to featured grid
-  const winterFeature = {
-    id: "winter-feature",
-    name: "Winter Collection",
-    price: 0,
-    image: winterShowcaseImages[0],
-    category: "Winter",
-    isNew: false,
-    isSale: false,
-    tag: "COMING SOON"
-  };
-
-  // Select up to 5 products with Winter feature first
+  // Build featured grid: prioritize Winter Collection and exclude sold-out items
+  const excludedSoldNames = new Set(["breath of sea", "city eighty"]);
   const selectedProducts = [
-    winterFeature,
+    ...winterProducts,
     ...availableMenProducts.slice(0, 2),
     ...availableWomenProducts.slice(0, 1),
     ...availableUnisexProducts.slice(0, 2)
-  ].slice(0, 5);
+  ]
+    .filter((p) => !excludedSoldNames.has(p.name.trim().toLowerCase()))
+    .slice(0, 5);
 
   const handleViewAllProducts = () => {
     navigate('/collection');
   };
 
   return (
-    <section id="featured" className="relative py-20 bg-background overflow-hidden">
-      <div className="absolute inset-0 opacity-20 pointer-events-none">
-        {winterShowcaseImages.map((src, i) => (
-          <img key={i} src={src} alt="Winter Background" className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${bgIndex === i ? 'opacity-100' : 'opacity-0'}`} />
-        ))}
-        <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-background/60 to-background" />
-      </div>
-      <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="featured" className="py-20 bg-background">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">

@@ -59,6 +59,15 @@ export const winterWC1 = buildImageKitUrl(convertToImageKitPath("Winter-Collecti
 export const winterWC2 = buildImageKitUrl(convertToImageKitPath("Winter-Collection/WC2.jpg"));
 export const winterWC3 = buildImageKitUrl(convertToImageKitPath("Winter-Collection/WC3.jpg"));
 export const winterShowcaseImages = [winterWC1, winterWC2, winterWC3];
+export const winterSphynxFront = buildImageKitUrl(convertToImageKitPath("Winter-Collection/Sphynx-front.jpg"));
+export const winterSphynxBack = buildImageKitUrl(convertToImageKitPath("Winter-Collection/Sphynx-back.jpg"));
+export const puffyFront = buildImageKitUrl(convertToImageKitPath("Winter-Collection/Puffy-front.jpg"));
+export const puffyFront2 = buildImageKitUrl(convertToImageKitPath("Winter-Collection/Puffy-front2.jpg"));
+export const sweaterFront = buildImageKitUrl(convertToImageKitPath("Winter-Collection/Sweater-front.jpg"));
+export const sweaterBack = buildImageKitUrl(convertToImageKitPath("Winter-Collection/Sweater-back.jpg"));
+export const sweaterBack2 = buildImageKitUrl(convertToImageKitPath("Winter-Collection/Sweater-back2.jpg"));
+export const crimsonFront = buildImageKitUrl(convertToImageKitPath("Winter-Collection/Crimson-front.jpg"));
+export const crimsonBack = buildImageKitUrl(convertToImageKitPath("Winter-Collection/Crimson-back.jpg"));
 
 // Add a type for products that includes optional imageBack and additional images
 export interface Product {
@@ -78,27 +87,45 @@ export interface Product {
 export const winterProducts: Product[] = [
   {
     id: "winter-1",
-    name: "Winter Look 1",
-    price: 0,
-    image: winterWC1,
-    category: "Winter",
-    tag: "COMING SOON"
+    name: "Puffy",
+    price: 6199,
+    image: puffyFront,
+    imageBack: winterWC1,
+    additionalImages: [puffyFront2],
+    category: "Winter Collection",
+    tag: "HOT",
+    isNew: true
   },
   {
     id: "winter-2",
-    name: "Winter Look 2",
-    price: 0,
-    image: winterWC2,
-    category: "Winter",
-    tag: "COMING SOON"
+    name: "Crimson's Crest",
+    price: 4999,
+    image: crimsonFront,
+    imageBack: crimsonBack,
+    category: "Winter Collection",
+    tag: "HOT",
+    isNew: true
   },
   {
     id: "winter-3",
-    name: "Winter Look 3",
-    price: 0,
-    image: winterWC3,
-    category: "Winter",
-    tag: "COMING SOON"
+    name: "Sweater",
+    price: 2799,
+    image: sweaterFront,
+    imageBack: sweaterBack,
+    additionalImages: [sweaterBack2],
+    category: "Winter Collection",
+    tag: "HOT",
+    isNew: true
+  },
+  {
+    id: "winter-4",
+    name: "Sphynx",
+    price: 3099,
+    image: winterSphynxFront,
+    imageBack: winterSphynxBack,
+    category: "Winter Collection",
+    tag: "HOT",
+    isNew: true
   }
 ];
 

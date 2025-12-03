@@ -9,6 +9,7 @@ import Newsletter from "@/components/Newsletter";
 import { Shield, Truck, Star, Users, Award, CheckCircle, Snowflake } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import SEO from "@/components/SEO";
+import { winterProducts, winterShowcaseImages, puffyFront, puffyFront2, sweaterFront, sweaterBack, sweaterBack2, crimsonFront, winterSphynxFront } from "@/assets/products";
 
 const Index = () => {
   const { addToCart } = useContext(CartContext);
@@ -57,9 +58,36 @@ const Index = () => {
       <main className="flex flex-col">
         <Hero />
 
-        {/* Winter Collection — Coming Soon (under Hero) */}
-        <section className="relative py-12 md:py-20 bg-gradient-to-br from-brand-purple/10 via-[#e7dbc7]/15 to-brand-purple/10">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Winter Collection Banner */}
+        <section className="relative py-12 md:py-20 bg-gradient-to-br from-brand-purple/10 via-[#e7dbc7]/15 to-brand-purple/10 overflow-hidden">
+          {/* Background Slideshow */}
+          {(() => {
+            const bannerImages = [
+              puffyFront,
+              puffyFront2,
+              winterShowcaseImages[0],
+              sweaterFront,
+              sweaterBack,
+              sweaterBack2,
+              crimsonFront,
+              winterSphynxFront,
+              ...winterShowcaseImages,
+            ].filter(Boolean);
+            return (
+              <div className="absolute inset-0 opacity-25 pointer-events-none">
+                {bannerImages.map((src, i) => (
+                  <img
+                    key={i}
+                    src={src}
+                    alt="Winter Visual"
+                    className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${i === (timeLeft.seconds % bannerImages.length) ? 'opacity-100' : 'opacity-0'}`}
+                  />
+                ))}
+                <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-background/60 to-background" />
+              </div>
+            );
+          })()}
+          <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="mx-auto max-w-4xl rounded-3xl bg-[#1a1a1a]/70 backdrop-blur-xl border border-[#a67c52]/30 shadow-2xl p-8 md:p-12">
               <div className="flex items-center justify-center gap-2 mb-4">
                 <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#a67c52]/20 text-[#a67c52] font-bold uppercase text-xs tracking-widest">
@@ -72,10 +100,20 @@ const Index = () => {
               <p className="mt-4 text-base md:text-lg text-[#e7dbc7] text-center max-w-2xl mx-auto">
                 Elevate your season with cozy layers, premium warmth, and refined streetwear aesthetics.
               </p>
+              <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
+                {winterProducts.slice(0,3).map((p) => (
+                  <a key={p.id} href={`/product/${p.id}`} className="block group">
+                    <div className="rounded-2xl border border-[#a67c52]/30 bg-white/90 backdrop-blur-sm p-4 text-center shadow-md group-hover:shadow-lg transition">
+                      <div className="text-sm font-semibold text-[#805206]">{p.name}</div>
+                      <div className="text-2xl font-black text-[#1a1a1a]">Rs {p.price.toLocaleString()}</div>
+                    </div>
+                  </a>
+                ))}
+              </div>
               <div className="mt-8 flex items-center justify-center">
-                <a href="#newsletter">
+                <a href="/winter">
                   <Button className="px-8 py-3 font-bold" variant="brand">
-                    Notify Me
+                    Go to Collection
                   </Button>
                 </a>
               </div>

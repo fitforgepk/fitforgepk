@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import ProductCard from "@/components/ProductCard";
 import { useContext } from "react";
 import { CartContext } from "@/components/CartContext";
-import { winterProducts as comingSoonWinterProducts, winterShowcaseImages } from "@/assets/products";
+import { winterProducts as comingSoonWinterProducts } from "@/assets/products";
 import { Snowflake } from "lucide-react";
 
 const winterProducts = comingSoonWinterProducts;
@@ -33,28 +33,12 @@ const Winter = () => {
               <p className="mt-4 text-lg md:text-xl text-[#e7dbc7] max-w-2xl mx-auto">
                 Stay warm with premium fabrics and elevated streetwear silhouettes.
               </p>
-              <div className="mt-8">
-                <a href="/#newsletter">
-                  <Button className="px-8 py-3 font-bold" variant="brand">Notify Me</Button>
-                </a>
-              </div>
+              
             </div>
           </div>
         </section>
 
-        <section className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground">Showcase</h2>
-            <p className="text-muted-foreground">A first look at the Winter visuals</p>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {winterShowcaseImages.map((src, idx) => (
-              <div key={idx} className="relative rounded-2xl overflow-hidden shadow-brand-lg border border-[#a67c52]/30 bg-white">
-                <img src={src} alt={`Winter Collection ${idx + 1}`} className="w-full h-full object-cover" />
-              </div>
-            ))}
-          </div>
-        </section>
+        
 
         <section className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">

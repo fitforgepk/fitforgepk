@@ -226,7 +226,10 @@ const Header = () => {
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-brand-purple via-[#e7dbc7] to-brand-purple group-hover:w-full transition-all duration-300 rounded-full"></span>
             </Link>
             <Link to="/winter" className="relative group text-foreground hover:text-brand-purple transition-all duration-300 font-semibold tracking-wide text-lg px-2">
-              Winter
+              <span className="inline-flex items-center">
+                Winter
+                <span className="ml-1 px-1 py-0.3 text-[7px] font-extrabold rounded-full bg-gradient-to-r from-blue-500 to-blue-500 text-white shadow">COLD</span>
+              </span>
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-brand-purple via-[#e7dbc7] to-brand-purple group-hover:w-full transition-all duration-300 rounded-full"></span>
             </Link>
 
@@ -322,7 +325,10 @@ const Header = () => {
                   className="block px-3 py-3 text-foreground hover:text-brand-purple hover:bg-brand-purple/10 transition-colors rounded-lg"
                   onClick={() => setIsMenuOpen(false)}
                 >
-                  Winter
+                  <span className="inline-flex items-center">
+                    Winter
+                    <span className="ml-2 px-2 py-0.5 text-[10px] font-extrabold rounded-full bg-gradient-to-r from-red-500 to-orange-500 text-white">HOT</span>
+                  </span>
                 </Link>
                 
                 {/* Hidden Admin Link for Mobile */}

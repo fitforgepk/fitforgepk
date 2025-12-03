@@ -19,6 +19,7 @@ interface ProductCardProps {
   originalPrice?: number;
   image: string;
   imageBack?: string;
+  additionalImages?: string[];
   category: string;
   isNew?: boolean;
   isSale?: boolean;
@@ -33,6 +34,7 @@ const ProductCard = ({
   originalPrice, 
   image, 
   imageBack, 
+  additionalImages,
   category, 
   isNew, 
   isSale, 
@@ -84,7 +86,7 @@ const ProductCard = ({
   }, [isIOS]);
 
   // Create images array with front and back images
-  const images = imageBack ? [image, imageBack] : [image];
+  const images = [image, imageBack, ...(additionalImages || [])].filter(Boolean);
 
   // Map specific product names to display garment type labels
   let displayCategory = category;
@@ -205,17 +207,17 @@ const ProductCard = ({
             </span>
           </div>
         )}
-         {/* Tag Badge - Add this back */}
-         {tag && (
+        {isNew && (
           <div className="absolute top-3 left-3 z-20">
-            <span className={`px-2 py-1 text-xs font-bold rounded-full ${
-              tag === "NEW" 
-                ? "bg-green-500 text-white" 
-                : tag === "COMING SOON"
-                ? "bg-orange-500 text-white"
-                : "bg-brand-purple text-white"
-            }`}>
-              {tag}
+            <span className="px-2 py-1 text-xs font-extrabold rounded-full bg-gradient-to-r from-emerald-500 to-green-500 text-white shadow">
+              NEW
+            </span>
+          </div>
+        )}
+        {tag === "HOT" && (
+          <div className="absolute top-3 right-3 z-20">
+            <span className="px-2 py-1 text-xs font-extrabold rounded-full bg-gradient-to-r from-red-500 to-orange-500 text-white shadow">
+              HOT
             </span>
           </div>
         )}
