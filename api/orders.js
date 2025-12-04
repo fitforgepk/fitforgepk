@@ -1,38 +1,45 @@
-import dbConnect from '../src/lib/mongodb.js';
-import Order from '../src/models/Order.js';
+import { connectToDatabase } from './_db';
+import { Order } from './_models/Order';
 
 export default async function handler(req, res) {
-  await dbConnect();
+  try {
+    await connectToDatabase();
+  } catch (err) {
+    return res.status(500).json({ success: false, error: err.message });
+  }
 
   if (req.method === 'POST') {
-    // Save new order
     try {
-      const order = await Order.create(req.body);
-      res.status(201).json({ success: true, data: order });
-    } catch (error) {
-      res.status(400).json({ success: false, error: error.message });
+      const data = req.body;
+      // Ensure unique orderNumber
+      if (!data.orderNumber) {
+        return res.status(400).json({ success: false, error: 'orderNumber is required' });
+      }
+      // Upsert to avoid duplicates
+      const doc = await Order.findOneAndUpdate(
+        { orderNumber: data.orderNumber },
+        { $set: data },
+        { new: true, upsert: true }
+      );
+      return res.status(200).json({ success: true, data: doc });
+    } catch (err) {
+      return res.status(500).json({ success: false, error: err.message });
     }
   } else if (req.method === 'GET') {
-    // Get orders by email or phone
     try {
       const { identifier } = req.query;
-      
-      if (!identifier) {
-        return res.status(400).json({ success: false, error: 'Identifier is required' });
-      }
-
-      const orders = await Order.find({
+      const filter = identifier ? {
         $or: [
           { email: identifier },
           { phone: identifier }
         ]
-      }).sort({ date: -1 });
-
-      res.status(200).json({ success: true, data: orders });
-    } catch (error) {
-      res.status(400).json({ success: false, error: error.message });
+      } : {};
+      const orders = await Order.find(filter).sort({ createdAt: -1 }).lean();
+      return res.status(200).json({ success: true, data: orders });
+    } catch (err) {
+      return res.status(500).json({ success: false, error: err.message });
     }
-  } else {
-    res.status(405).json({ success: false, error: 'Method not allowed' });
   }
+
+  return res.status(405).json({ success: false, error: 'Method not allowed' });
 }
