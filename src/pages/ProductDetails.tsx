@@ -11,14 +11,13 @@ import { CartContext, CartUIContext } from "@/components/CartContext";
 import SEO from "@/components/SEO";
 import { ZoomableImage } from "@/components/ZoomableImage";
 
-const SIZES = [ "S", "M", "L"];
-
 const ProductDetails = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { addToCart } = useContext(CartContext);
   const { setCartOpen } = useContext(CartUIContext);
   const product = allProducts.find((p) => p.id === id);
+  const sizes = (product?.sizes && product.sizes.length > 0) ? product.sizes : ["S", "M", "L"];
   const [size, setSize] = useState<string>("");
   const [quantity, setQuantity] = useState<number>(1);
   const [added, setAdded] = useState(false);
@@ -338,7 +337,7 @@ const ProductDetails = () => {
                           <SelectValue placeholder={isCompletelySoldOut ? "SOLD OUT" : "Select size"} />
                         </SelectTrigger>
                         <SelectContent>
-                          {SIZES.map((s) => {
+                          {sizes.map((s) => {
                             const isSizeDisabled = (isLargeOutOfStock && s === "L") || (isMediumOutOfStock && s === "M") || isCompletelySoldOut;
                             return (
                               <SelectItem 

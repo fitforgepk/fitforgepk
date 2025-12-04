@@ -101,13 +101,14 @@ const Index = () => {
                 Elevate your season with cozy layers, premium warmth, and refined streetwear aesthetics.
               </p>
               <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
-                {winterProducts.slice(0,3).map((p) => (
-                  <a key={p.id} href={`/product/${p.id}`} className="block group">
-                    <div className="rounded-2xl border border-[#a67c52]/30 bg-white/90 backdrop-blur-sm p-4 text-center shadow-md group-hover:shadow-lg transition">
-                      <div className="text-sm font-semibold text-[#805206]">{p.name}</div>
-                      <div className="text-2xl font-black text-[#1a1a1a]">Rs {p.price.toLocaleString()}</div>
-                    </div>
-                  </a>
+                {winterShowcaseImages.slice(0,3).map((src, i) => (
+                  <div key={i} className="rounded-2xl overflow-hidden border border-[#a67c52]/30 bg-white/90 backdrop-blur-sm shadow-md group-hover:shadow-lg transition">
+                    <img
+                      src={src}
+                      alt={`Winter Collection Showcase ${i + 1}`}
+                      className="w-full h-48 sm:h-64 object-cover"
+                    />
+                  </div>
                 ))}
               </div>
               <div className="mt-8 flex items-center justify-center">

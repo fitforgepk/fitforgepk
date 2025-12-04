@@ -24,6 +24,7 @@ interface ProductCardProps {
   isNew?: boolean;
   isSale?: boolean;
   tag?: string; 
+  sizes?: string[];
   onAddToCart?: (product: { id: string; name: string; price: number; image: string; size: string }) => void;
 }
 
@@ -39,6 +40,7 @@ const ProductCard = ({
   isNew, 
   isSale, 
   tag,
+  sizes: sizesProp,
   onAddToCart
 }: ProductCardProps) => {
   const [showSizeDialog, setShowSizeDialog] = useState(false);
@@ -54,7 +56,7 @@ const ProductCard = ({
   // Determine if this is one of the shirts that should be zoomed out
   const isZoomedOutShirt = name === "Visionary + Beige Boy T-shirt" || name === "Charcoal Boy T-shirt" || name === "White girl T-shirt";
   
-  const sizes = ["S", "M", "L"];
+  const sizes = sizesProp && sizesProp.length > 0 ? sizesProp : ["S", "M", "L"];
   const discountPercent = originalPrice && originalPrice > price
     ? Math.round(((originalPrice - price) / originalPrice) * 100)
     : 0;

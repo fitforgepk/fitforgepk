@@ -7,8 +7,7 @@ import {
   menProducts, 
   womenProducts, 
   unisexProducts, 
-  animeProducts, 
-  gamingProducts 
+  winterProducts 
 } from "@/assets/products";
 import SEO from "@/components/SEO";
 
@@ -28,8 +27,7 @@ const Collection = () => {
   const realMenProducts = menProducts.filter(product => product.image && !product.image.includes('featured-collection'));
   const realWomenProducts = womenProducts.filter(product => product.image && !product.image.includes('featured-collection'));
   const realUnisexProducts = unisexProducts.filter(product => product.image && !product.image.includes('featured-collection'));
-  const realAnimeProducts = animeProducts.filter(product => product.image && !product.image.includes('featured-collection'));
-  const realGamingProducts = gamingProducts.filter(product => product.image && !product.image.includes('featured-collection'));
+  const realWinterProducts = winterProducts.filter(product => product.image && !product.image.includes('featured-collection'));
 
   return (
     <div className="min-h-screen bg-background">
@@ -105,34 +103,15 @@ const Collection = () => {
           </section>
         )}
 
-        {/* Anime Collection */}
-        {realAnimeProducts.length > 0 && (
-          <section className="max-w-7xl mx-auto px-4">
+        {/* Winter Collection */}
+        {realWinterProducts.length > 0 && (
+          <section className="max-w-7xl mx-auto px-4" id="winter">
             <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Anime Collection</h2>
-              <p className="text-muted-foreground">Limited edition anime-inspired designs</p>
+              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Winter Collection</h2>
+              <p className="text-muted-foreground">Seasonal essentials designed for comfort and style</p>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-              {realAnimeProducts.map((product) => (
-                <ProductCard 
-                  key={product.id} 
-                  {...product} 
-                  onAddToCart={handleAddToCart}
-                />
-              ))}
-            </div>
-          </section>
-        )}
-
-        {/* Gaming Collection */}
-        {realGamingProducts.length > 0 && (
-          <section className="max-w-7xl mx-auto px-4">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Gaming Collection</h2>
-              <p className="text-muted-foreground">Level up your wardrobe with gaming-inspired apparel</p>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-              {realGamingProducts.map((product) => (
+              {realWinterProducts.map((product) => (
                 <ProductCard 
                   key={product.id} 
                   {...product} 
@@ -160,15 +139,6 @@ const Collection = () => {
                 />
               ))}
             {womenProducts
-              .filter(product => product.image && product.image.includes('featured-collection'))
-              .map((product) => (
-                <ProductCard 
-                  key={product.id} 
-                  {...product} 
-                  onAddToCart={handleAddToCart}
-                />
-              ))}
-            {gamingProducts
               .filter(product => product.image && product.image.includes('featured-collection'))
               .map((product) => (
                 <ProductCard 
