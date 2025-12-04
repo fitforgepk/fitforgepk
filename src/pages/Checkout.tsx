@@ -147,12 +147,7 @@ const Checkout = () => {
       status: "pending"
     };
 
-    try {
-      const existing = localStorage.getItem("orders");
-      const parsed = existing ? JSON.parse(existing) : [];
-      const next = Array.isArray(parsed) ? [...parsed, orderObj] : [orderObj];
-      localStorage.setItem("orders", JSON.stringify(next));
-    } catch {}
+    // Do not persist orders locally; production hosting stores in database
 
     saveOrderToDatabase(orderObj);
     sendOrderEmail(orderObj);
