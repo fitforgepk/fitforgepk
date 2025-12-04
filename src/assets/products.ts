@@ -82,7 +82,6 @@ export interface Product {
   isNew?: boolean;
   isSale?: boolean;
   tag?: string; // Add tag property
-  sizes?: string[];
 }
 
 export const winterProducts: Product[] = [
@@ -95,8 +94,7 @@ export const winterProducts: Product[] = [
     additionalImages: [puffyFront2],
     category: "Winter Collection",
     tag: "HOT",
-    isNew: true,
-    sizes: ["S", "M", "L", "XL"]
+    isNew: true
   },
   {
     id: "winter-2",
@@ -106,13 +104,12 @@ export const winterProducts: Product[] = [
     imageBack: crimsonBack,
     category: "Winter Collection",
     tag: "HOT",
-    isNew: true,
-    sizes: ["S", "M", "L", "XL"]
+    isNew: true
   },
   {
     id: "winter-3",
-    name: "Greyborne Knit",
-    price: 3499,
+    name: "Sweater",
+    price: 2799,
     image: sweaterFront,
     imageBack: sweaterBack,
     additionalImages: [sweaterBack2],
@@ -123,13 +120,12 @@ export const winterProducts: Product[] = [
   {
     id: "winter-4",
     name: "Sphynx",
-    price: 3999,
+    price: 3099,
     image: winterSphynxFront,
     imageBack: winterSphynxBack,
     category: "Winter Collection",
     tag: "HOT",
-    isNew: true,
-    sizes: ["S", "M", "L", "XL"]
+    isNew: true
   }
 ];
 
@@ -459,6 +455,8 @@ export const allProducts: Product[] = [
   ...menProducts,
   ...womenProducts,
   ...unisexProducts,
+  ...gamingProducts,
+  ...animeProducts,
   ...winterProducts
 ];
 

@@ -7,7 +7,8 @@ import { useEffect, useRef } from "react";
 import { Analytics } from "@vercel/analytics/react";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
-// Anime and Gaming temporarily hidden
+import Anime from "./pages/Anime";
+import Gaming from "./pages/Gaming";
 import Collection from "./pages/Collection";
 import Category from "./pages/Category";
 import Men from "./pages/Men";
@@ -94,7 +95,8 @@ const App = () => {
                           <RouteAnalytics />
                           <Routes>
                             <Route path="/" element={<Index />} />
-                            {/* Anime and Gaming routes temporarily disabled */}
+                            <Route path="/anime" element={<Anime />} />
+                            <Route path="/gaming" element={<Gaming />} />
                             <Route path="/collection" element={<Collection />} />
                             <Route path="/category" element={<Category />} />
                             <Route path="/men" element={<Men />} />
