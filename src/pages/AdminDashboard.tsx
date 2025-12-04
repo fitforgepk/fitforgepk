@@ -60,24 +60,6 @@ interface ProductPerformance {
   views: number;
 }
 
-interface FullOrderItem {
-  name: string;
-  quantity: number;
-  price: number;
-  size?: string;
-}
-
-interface FullOrder {
-  orderNumber: string;
-  name: string;
-  email?: string;
-  phone?: string;
-  total: number;
-  status: 'pending' | 'confirmed' | 'shipped' | 'delivered' | 'cancelled';
-  date: string;
-  items: FullOrderItem[];
-}
-
 interface ChartData {
   salesTrend: {
     labels: string[];
@@ -154,10 +136,6 @@ const AdminDashboard: React.FC = () => {
   const [recentOrders, setRecentOrders] = useState<RecentOrder[]>([]);
 
   const [topProducts, setTopProducts] = useState<ProductPerformance[]>([]);
-
-  const [allOrders, setAllOrders] = useState<FullOrder[]>([]);
-  const [ordersPage, setOrdersPage] = useState<number>(1);
-  const pageSize = 10;
 
   const [isLoading, setIsLoading] = useState(true);
   const [chartData, setChartData] = useState<ChartData>({
@@ -273,17 +251,131 @@ const AdminDashboard: React.FC = () => {
 
   const theme = getThemeClasses();
 
-  // No local fallback: dashboard is production-only
+  const computeFromLocalOrders = () => {
+    try {
+      const raw = localStorage.getItem("orders");
+      const orders = raw ? JSON.parse(raw) : [];
+      if (!Array.isArray(orders) || orders.length === 0) return null;
+
+      const totalOrders = orders.length;
+      const totalRevenue = orders.reduce((sum: number, o: any) => sum + (o.total || 0), 0);
+      const customersSet = new Set<string>();
+      orders.forEach((o: any) => {
+        if (o.email) customersSet.add(`e:${o.email}`);
+        if (o.phone) customersSet.add(`p:${o.phone}`);
+      });
+      const totalCustomers = customersSet.size;
+
+      const recentOrdersLocal = orders.slice(-10).reverse().map((o: any) => ({
+        id: o.orderNumber,
+        customer: o.name,
+        product: (o.items && o.items[0] && o.items[0].name) || "",
+        amount: o.total || 0,
+        status: (o.status || "pending") as RecentOrder["status"],
+        date: new Date(o.date).toLocaleString()
+      }));
+
+      const productAgg: Record<string, { name: string; sales: number; revenue: number; views: number; rating: number }> = {};
+      orders.forEach((o: any) => {
+        (o.items || []).forEach((it: any) => {
+          const key = it.name;
+          const qty = it.quantity || 1;
+          const rev = (it.price || 0) * qty;
+          if (!productAgg[key]) productAgg[key] = { name: key, sales: 0, revenue: 0, views: 0, rating: 4.8 };
+          productAgg[key].sales += qty;
+          productAgg[key].revenue += rev;
+        });
+      });
+      const topProductsLocal = Object.values(productAgg).sort((a, b) => b.revenue - a.revenue).slice(0, 10);
+
+      const today = new Date();
+      const salesTrendLabels: string[] = [];
+      const salesTrendData: number[] = [];
+      for (let i = 6; i >= 0; i--) {
+        const d = new Date(today);
+        d.setDate(today.getDate() - i);
+        salesTrendLabels.push(d.toLocaleDateString(undefined, { weekday: "short" }));
+        const dayTotal = orders.filter((o: any) => {
+          const od = new Date(o.date);
+          return od.getFullYear() === d.getFullYear() && od.getMonth() === d.getMonth() && od.getDate() === d.getDate();
+        }).reduce((sum: number, o: any) => sum + (o.total || 0), 0);
+        salesTrendData.push(dayTotal);
+      }
+
+      const statusCounts: Record<string, number> = { pending: 0, confirmed: 0, shipped: 0, delivered: 0, cancelled: 0 };
+      orders.forEach((o: any) => { statusCounts[o.status || "pending"] = (statusCounts[o.status || "pending"] || 0) + 1; });
+
+      const categoryCounts: Record<string, number> = { "Regular Fit": 0, "Oversized Tee": 0, "Crop Top": 0, "Drop Shoulder": 0, "Winter Collection": 0 };
+      orders.forEach((o: any) => {
+        (o.items || []).forEach((it: any) => {
+          const match = allProducts.find(p => p.name.trim().toLowerCase() === String(it.name || "").trim().toLowerCase());
+          if (match) categoryCounts[match.category] = (categoryCounts[match.category] || 0) + (it.quantity || 1);
+        });
+      });
+
+      const monthLabels: string[] = [];
+      const monthData: number[] = [];
+      for (let i = 3; i >= 0; i--) {
+        const d = new Date(today.getFullYear(), today.getMonth() - i, 1);
+        monthLabels.push(d.toLocaleDateString(undefined, { month: "short" }));
+        const mTotal = orders.filter((o: any) => {
+          const od = new Date(o.date);
+          return od.getFullYear() === d.getFullYear() && od.getMonth() === d.getMonth();
+        }).reduce((sum: number, o: any) => sum + (o.total || 0), 0);
+        monthData.push(mTotal);
+      }
+
+      const prev = monthData.length >= 2 ? monthData[monthData.length - 2] : 0;
+      const curr = monthData.length ? monthData[monthData.length - 1] : 0;
+      const monthlyGrowth = prev > 0 ? Math.round(((curr - prev) / prev) * 100) : 0;
+
+      return {
+        stats: {
+          totalOrders,
+          totalRevenue,
+          totalCustomers,
+          totalProducts: allProducts.length,
+          monthlyGrowth,
+          conversionRate: 0
+        },
+        recentOrders: recentOrdersLocal,
+        topProducts: topProductsLocal,
+        chartData: {
+          salesTrend: {
+            labels: salesTrendLabels,
+            datasets: [{ label: "Daily Revenue (Rs)", data: salesTrendData, borderColor: "#a67c52", backgroundColor: "rgba(166, 124, 82, 0.1)" }]
+          },
+          orderStatus: {
+            labels: ["Pending", "Confirmed", "Shipped", "Delivered", "Cancelled"],
+            datasets: [{ data: [statusCounts.pending, statusCounts.confirmed, statusCounts.shipped, statusCounts.delivered, statusCounts.cancelled], backgroundColor: ["#f59e0b", "#3b82f6", "#8b5cf6", "#10b981", "#ef4444"], borderColor: ["#f59e0b", "#3b82f6", "#8b5cf6", "#10b981", "#ef4444"] }]
+          },
+          productCategories: {
+            labels: Object.keys(categoryCounts),
+            datasets: [{ label: "Sales Count", data: Object.values(categoryCounts), backgroundColor: ["#a67c52", "#8b5cf6", "#10b981", "#f59e0b", "#d97706"], borderColor: ["#a67c52", "#8b5cf6", "#10b981", "#f59e0b", "#d97706"] }]
+          },
+          monthlyRevenue: {
+            labels: monthLabels,
+            datasets: [{ label: "Monthly Revenue (Rs)", data: monthData, backgroundColor: "#a67c52", borderColor: "#a67c52" }]
+          },
+          customerAcquisition: {
+            labels: ["Week 1", "Week 2", "Week 3", "Week 4"],
+            datasets: [{ label: "New Customers", data: [0, 0, 0, 0], borderColor: "#10b981", backgroundColor: "rgba(16, 185, 129, 0.1)" }]
+          }
+        }
+      };
+    } catch {
+      return null;
+    }
+  };
 
   // Load real dashboard data from API
   const loadDashboardData = async () => {
       setIsLoading(true);
       try {
         // Load stats and chart data in parallel
-        const [statsResponse, chartResponse, ordersResponse] = await Promise.all([
+        const [statsResponse, chartResponse] = await Promise.all([
           fetch('/api/admin/stats'),
-          fetch('/api/admin/chart-data'),
-          fetch('/api/orders')
+          fetch('/api/admin/chart-data')
         ]);
 
         const statsResult = await statsResponse.json();
@@ -324,38 +416,23 @@ const AdminDashboard: React.FC = () => {
         } else {
           console.error('Failed to fetch chart data:', chartResult.error);
         }
-
-        const ordersResult = await ordersResponse.json();
-        if (ordersResult.success) {
-          const ordersData: any[] = ordersResult.data || [];
-          const mapped: FullOrder[] = ordersData.map((o: any) => ({
-            orderNumber: String(o.orderNumber || ''),
-            name: String(o.name || ''),
-            email: o.email ? String(o.email) : undefined,
-            phone: o.phone ? String(o.phone) : undefined,
-            total: Number(o.total || 0),
-            status: (o.status || 'pending') as FullOrder['status'],
-            date: new Date(o.date).toLocaleString(),
-            items: Array.isArray(o.items) ? o.items.map((it: any) => ({
-              name: String(it.name || ''),
-              quantity: Number(it.quantity || 1),
-              price: Number(it.price || 0),
-              size: it.size ? String(it.size) : undefined,
-            })) : [],
-          }));
-          setAllOrders(mapped);
-        } else {
-          console.error('Failed to fetch orders:', ordersResult.error);
-        }
       } catch (error) {
-        setStats({
-          totalOrders: 0,
-          totalRevenue: 0,
-          totalCustomers: 0,
-          totalProducts: allProducts.length,
-          monthlyGrowth: 0,
-          conversionRate: 0
-        });
+        const local = computeFromLocalOrders();
+        if (local) {
+          setStats(local.stats);
+          setRecentOrders(local.recentOrders);
+          setTopProducts(local.topProducts);
+          setChartData(local.chartData as ChartData);
+        } else {
+          setStats({
+            totalOrders: 0,
+            totalRevenue: 0,
+            totalCustomers: 0,
+            totalProducts: allProducts.length,
+            monthlyGrowth: 0,
+            conversionRate: 0
+          });
+        }
       } finally {
         setIsLoading(false);
       }
@@ -378,11 +455,7 @@ const AdminDashboard: React.FC = () => {
       }
     }
 
-    if (import.meta.env.PROD) {
-      loadDashboardData();
-    } else {
-      setIsLoading(false);
-    }
+    loadDashboardData();
   }, [isAuthenticated, navigate]);
 
   const handleLogout = () => {
@@ -898,7 +971,7 @@ const AdminDashboard: React.FC = () => {
                     <TableRow>
                       <TableHead>Order ID</TableHead>
                       <TableHead>Customer</TableHead>
-                      <TableHead>Items</TableHead>
+                      <TableHead>Product</TableHead>
                       <TableHead>Amount</TableHead>
                       <TableHead>Status</TableHead>
                       <TableHead>Date</TableHead>
@@ -906,7 +979,7 @@ const AdminDashboard: React.FC = () => {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {allOrders.length === 0 ? (
+                    {recentOrders.length === 0 ? (
                       <TableRow>
                         <TableCell colSpan={7} className="text-center py-8">
                           <div className="text-[#a67c52]">
@@ -916,54 +989,38 @@ const AdminDashboard: React.FC = () => {
                         </TableCell>
                       </TableRow>
                     ) : (
-                      (() => {
-                        const start = (ordersPage - 1) * pageSize;
-                        const pageOrders = allOrders.slice(start, start + pageSize);
-                        return pageOrders.map((order) => {
-                          const firstItem = order.items[0];
-                          const extraCount = order.items.length > 1 ? order.items.length - 1 : 0;
-                          const itemsLabel = firstItem ? `${firstItem.name}${extraCount > 0 ? ` +${extraCount} more` : ''}` : '';
-                          return (
-                            <TableRow key={order.orderNumber}>
-                              <TableCell className="font-medium">{order.orderNumber}</TableCell>
-                              <TableCell>{order.name}</TableCell>
-                              <TableCell>{itemsLabel}</TableCell>
-                              <TableCell>Rs {order.total}</TableCell>
-                              <TableCell>
-                                <Select 
-                                  value={order.status} 
-                                  onValueChange={(value) => handleUpdateOrderStatus(order.orderNumber, value)}
-                                >
-                                  <SelectTrigger className="w-32">
-                                    <SelectValue />
-                                  </SelectTrigger>
-                                  <SelectContent>
-                                    <SelectItem value="pending">Pending</SelectItem>
-                                    <SelectItem value="confirmed">Confirmed</SelectItem>
-                                    <SelectItem value="shipped">Shipped</SelectItem>
-                                    <SelectItem value="delivered">Delivered</SelectItem>
-                                    <SelectItem value="cancelled">Cancelled</SelectItem>
-                                  </SelectContent>
-                                </Select>
-                              </TableCell>
-                              <TableCell>{order.date}</TableCell>
-                              <TableCell>
-                                <Button variant="outline" size="sm">View</Button>
-                              </TableCell>
-                            </TableRow>
-                          );
-                        });
-                      })()
+                      recentOrders.map((order) => (
+                        <TableRow key={order.id}>
+                          <TableCell className="font-medium">{order.id}</TableCell>
+                          <TableCell>{order.customer}</TableCell>
+                          <TableCell>{order.product}</TableCell>
+                          <TableCell>Rs {order.amount}</TableCell>
+                          <TableCell>
+                            <Select 
+                              value={order.status} 
+                              onValueChange={(value) => handleUpdateOrderStatus(order.id, value)}
+                            >
+                              <SelectTrigger className="w-32">
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="pending">Pending</SelectItem>
+                                <SelectItem value="confirmed">Confirmed</SelectItem>
+                                <SelectItem value="shipped">Shipped</SelectItem>
+                                <SelectItem value="delivered">Delivered</SelectItem>
+                                <SelectItem value="cancelled">Cancelled</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </TableCell>
+                          <TableCell>{order.date}</TableCell>
+                          <TableCell>
+                            <Button variant="outline" size="sm">View</Button>
+                          </TableCell>
+                        </TableRow>
+                      ))
                     )}
                   </TableBody>
                 </Table>
-                {allOrders.length > pageSize && (
-                  <div className="flex items-center justify-between mt-4">
-                    <Button variant="outline" size="sm" onClick={() => setOrdersPage(Math.max(1, ordersPage - 1))}>Previous</Button>
-                    <div className="text-sm">Page {ordersPage} of {Math.ceil(allOrders.length / pageSize)}</div>
-                    <Button variant="outline" size="sm" onClick={() => setOrdersPage(Math.min(Math.ceil(allOrders.length / pageSize), ordersPage + 1))}>Next</Button>
-                  </div>
-                )}
               </CardContent>
             </Card>
           </TabsContent>
