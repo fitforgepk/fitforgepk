@@ -251,123 +251,6 @@ const AdminDashboard: React.FC = () => {
 
   const theme = getThemeClasses();
 
-  const computeFromLocalOrders = () => {
-    try {
-      const raw = localStorage.getItem("orders");
-      const orders = raw ? JSON.parse(raw) : [];
-      if (!Array.isArray(orders) || orders.length === 0) return null;
-
-      const totalOrders = orders.length;
-      const totalRevenue = orders.reduce((sum: number, o: any) => sum + (o.total || 0), 0);
-      const customersSet = new Set<string>();
-      orders.forEach((o: any) => {
-        if (o.email) customersSet.add(`e:${o.email}`);
-        if (o.phone) customersSet.add(`p:${o.phone}`);
-      });
-      const totalCustomers = customersSet.size;
-
-      const recentOrdersLocal = orders.slice(-10).reverse().map((o: any) => ({
-        id: o.orderNumber,
-        customer: o.name,
-        product: (o.items && o.items[0] && o.items[0].name) || "",
-        amount: o.total || 0,
-        status: (o.status || "pending") as RecentOrder["status"],
-        date: new Date(o.date).toLocaleString()
-      }));
-
-      const productAgg: Record<string, { name: string; sales: number; revenue: number; views: number; rating: number }> = {};
-      orders.forEach((o: any) => {
-        (o.items || []).forEach((it: any) => {
-          const key = it.name;
-          const qty = it.quantity || 1;
-          const rev = (it.price || 0) * qty;
-          if (!productAgg[key]) productAgg[key] = { name: key, sales: 0, revenue: 0, views: 0, rating: 4.8 };
-          productAgg[key].sales += qty;
-          productAgg[key].revenue += rev;
-        });
-      });
-      const topProductsLocal = Object.values(productAgg).sort((a, b) => b.revenue - a.revenue).slice(0, 10);
-
-      const today = new Date();
-      const salesTrendLabels: string[] = [];
-      const salesTrendData: number[] = [];
-      for (let i = 6; i >= 0; i--) {
-        const d = new Date(today);
-        d.setDate(today.getDate() - i);
-        salesTrendLabels.push(d.toLocaleDateString(undefined, { weekday: "short" }));
-        const dayTotal = orders.filter((o: any) => {
-          const od = new Date(o.date);
-          return od.getFullYear() === d.getFullYear() && od.getMonth() === d.getMonth() && od.getDate() === d.getDate();
-        }).reduce((sum: number, o: any) => sum + (o.total || 0), 0);
-        salesTrendData.push(dayTotal);
-      }
-
-      const statusCounts: Record<string, number> = { pending: 0, confirmed: 0, shipped: 0, delivered: 0, cancelled: 0 };
-      orders.forEach((o: any) => { statusCounts[o.status || "pending"] = (statusCounts[o.status || "pending"] || 0) + 1; });
-
-      const categoryCounts: Record<string, number> = { "Regular Fit": 0, "Oversized Tee": 0, "Crop Top": 0, "Drop Shoulder": 0, "Winter Collection": 0 };
-      orders.forEach((o: any) => {
-        (o.items || []).forEach((it: any) => {
-          const match = allProducts.find(p => p.name.trim().toLowerCase() === String(it.name || "").trim().toLowerCase());
-          if (match) categoryCounts[match.category] = (categoryCounts[match.category] || 0) + (it.quantity || 1);
-        });
-      });
-
-      const monthLabels: string[] = [];
-      const monthData: number[] = [];
-      for (let i = 3; i >= 0; i--) {
-        const d = new Date(today.getFullYear(), today.getMonth() - i, 1);
-        monthLabels.push(d.toLocaleDateString(undefined, { month: "short" }));
-        const mTotal = orders.filter((o: any) => {
-          const od = new Date(o.date);
-          return od.getFullYear() === d.getFullYear() && od.getMonth() === d.getMonth();
-        }).reduce((sum: number, o: any) => sum + (o.total || 0), 0);
-        monthData.push(mTotal);
-      }
-
-      const prev = monthData.length >= 2 ? monthData[monthData.length - 2] : 0;
-      const curr = monthData.length ? monthData[monthData.length - 1] : 0;
-      const monthlyGrowth = prev > 0 ? Math.round(((curr - prev) / prev) * 100) : 0;
-
-      return {
-        stats: {
-          totalOrders,
-          totalRevenue,
-          totalCustomers,
-          totalProducts: allProducts.length,
-          monthlyGrowth,
-          conversionRate: 0
-        },
-        recentOrders: recentOrdersLocal,
-        topProducts: topProductsLocal,
-        chartData: {
-          salesTrend: {
-            labels: salesTrendLabels,
-            datasets: [{ label: "Daily Revenue (Rs)", data: salesTrendData, borderColor: "#a67c52", backgroundColor: "rgba(166, 124, 82, 0.1)" }]
-          },
-          orderStatus: {
-            labels: ["Pending", "Confirmed", "Shipped", "Delivered", "Cancelled"],
-            datasets: [{ data: [statusCounts.pending, statusCounts.confirmed, statusCounts.shipped, statusCounts.delivered, statusCounts.cancelled], backgroundColor: ["#f59e0b", "#3b82f6", "#8b5cf6", "#10b981", "#ef4444"], borderColor: ["#f59e0b", "#3b82f6", "#8b5cf6", "#10b981", "#ef4444"] }]
-          },
-          productCategories: {
-            labels: Object.keys(categoryCounts),
-            datasets: [{ label: "Sales Count", data: Object.values(categoryCounts), backgroundColor: ["#a67c52", "#8b5cf6", "#10b981", "#f59e0b", "#d97706"], borderColor: ["#a67c52", "#8b5cf6", "#10b981", "#f59e0b", "#d97706"] }]
-          },
-          monthlyRevenue: {
-            labels: monthLabels,
-            datasets: [{ label: "Monthly Revenue (Rs)", data: monthData, backgroundColor: "#a67c52", borderColor: "#a67c52" }]
-          },
-          customerAcquisition: {
-            labels: ["Week 1", "Week 2", "Week 3", "Week 4"],
-            datasets: [{ label: "New Customers", data: [0, 0, 0, 0], borderColor: "#10b981", backgroundColor: "rgba(16, 185, 129, 0.1)" }]
-          }
-        }
-      };
-    } catch {
-      return null;
-    }
-  };
-
   // Load real dashboard data from API
   const loadDashboardData = async () => {
       setIsLoading(true);
@@ -417,22 +300,16 @@ const AdminDashboard: React.FC = () => {
           console.error('Failed to fetch chart data:', chartResult.error);
         }
       } catch (error) {
-        const local = computeFromLocalOrders();
-        if (local) {
-          setStats(local.stats);
-          setRecentOrders(local.recentOrders);
-          setTopProducts(local.topProducts);
-          setChartData(local.chartData as ChartData);
-        } else {
-          setStats({
-            totalOrders: 0,
-            totalRevenue: 0,
-            totalCustomers: 0,
-            totalProducts: allProducts.length,
-            monthlyGrowth: 0,
-            conversionRate: 0
-          });
-        }
+        console.error('Error loading dashboard data:', error);
+        // Fallback to sample data if API fails
+        setStats({
+          totalOrders: 0,
+          totalRevenue: 0,
+          totalCustomers: 0,
+          totalProducts: allProducts.length,
+          monthlyGrowth: 0,
+          conversionRate: 0
+        });
       } finally {
         setIsLoading(false);
       }

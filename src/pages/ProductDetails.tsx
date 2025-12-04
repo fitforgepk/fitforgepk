@@ -11,7 +11,7 @@ import { CartContext, CartUIContext } from "@/components/CartContext";
 import SEO from "@/components/SEO";
 import { ZoomableImage } from "@/components/ZoomableImage";
 
-const BASE_SIZES = [ "S", "M", "L"];
+const SIZES = [ "S", "M", "L"];
 
 const ProductDetails = () => {
   const { id } = useParams<{ id: string }>();
@@ -19,9 +19,6 @@ const ProductDetails = () => {
   const { addToCart } = useContext(CartContext);
   const { setCartOpen } = useContext(CartUIContext);
   const product = allProducts.find((p) => p.id === id);
-  const sizesToUse = product && product.category === "Winter Collection" && product.name !== "Greyborne Knit"
-    ? [...BASE_SIZES, "XL"]
-    : BASE_SIZES;
   const [size, setSize] = useState<string>("");
   const [quantity, setQuantity] = useState<number>(1);
   const [added, setAdded] = useState(false);
@@ -341,7 +338,7 @@ const ProductDetails = () => {
                           <SelectValue placeholder={isCompletelySoldOut ? "SOLD OUT" : "Select size"} />
                         </SelectTrigger>
                         <SelectContent>
-                          {sizesToUse.map((s) => {
+                          {SIZES.map((s) => {
                             const isSizeDisabled = (isLargeOutOfStock && s === "L") || (isMediumOutOfStock && s === "M") || isCompletelySoldOut;
                             return (
                               <SelectItem 

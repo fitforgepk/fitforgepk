@@ -1,6 +1,5 @@
 import { useContext, useState, useEffect } from "react";
 import { CartContext } from "@/components/CartContext";
-import { allProducts } from "@/assets/products";
 import { useNavigate } from "react-router-dom";
 import { getFitLabelByName } from "@/lib/utils";
 import { ShoppingCart, Truck, Shield, CheckCircle, ArrowLeft, CreditCard, MapPin, User, Mail, Phone } from "lucide-react";
@@ -112,15 +111,10 @@ const Checkout = () => {
     }
 
     // ✅ Ensure sizes are only S, M, L
-    const filteredCartItems = cartItems.map(item => {
-      const baseId = String(item.id || "").split("-")[0];
-      const match = allProducts.find(p => p.id === baseId);
-      return {
-        ...item,
-        size: ["S", "M", "L", "XL"].includes(item.size) ? item.size : "S",
-        category: match?.category,
-      };
-    });
+    const filteredCartItems = cartItems.map(item => ({
+      ...item,
+      size: ["S", "M", "L"].includes(item.size) ? item.size : "S"
+    }));
 
     const now = new Date();
     const datePart = `${now.getFullYear().toString().slice(2)}${(now.getMonth() + 1).toString().padStart(2, '0')}${now.getDate().toString().padStart(2, '0')}`;
@@ -144,15 +138,7 @@ const Checkout = () => {
       deliveryFee: deliveryFee,
       total: total,
       date: now.toISOString(),
-      status: "pending"
     };
-
-    try {
-      const existing = localStorage.getItem("orders");
-      const parsed = existing ? JSON.parse(existing) : [];
-      const next = Array.isArray(parsed) ? [...parsed, orderObj] : [orderObj];
-      localStorage.setItem("orders", JSON.stringify(next));
-    } catch {}
 
     saveOrderToDatabase(orderObj);
     sendOrderEmail(orderObj);
@@ -334,7 +320,7 @@ const Checkout = () => {
                     <div className="flex-1">
                       <p className="font-semibold text-[#1a1a1a]">{item.name}</p>
                       <p className="text-sm text-[#805206]">
-                        Size: ["S", "M", "L", "XL"].includes(item.size) ? item.size : "S" | 
+                        Size: {["S", "M", "L"].includes(item.size) ? item.size : "S"} | 
                         Quantity: {item.quantity}
                         {(() => {
                           const fit = getFitLabelByName(item.name);
