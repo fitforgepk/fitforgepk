@@ -396,11 +396,15 @@ const ProductDetails = () => {
                 {/* Product Description */}
                 <div className="mt-8 p-6 bg-[#e7dbc7]/20 rounded-2xl border border-[#a67c52]/20">
                   <h3 className="text-lg font-semibold text-[#1a1a1a] mb-3">Product Details</h3>
-                  <p className="text-[#1a1a1a] text-base leading-relaxed">
-                    FitForge's premium quality shirt combines ultra-soft, breathable fabric with a tailored fit for all-day comfort. 
-                    Designed for durability and style, it's perfect for both casual wear and active lifestyles. 
-                    Each piece is crafted with attention to detail and premium materials.
-                  </p>
+                  {product.description ? (
+                    <div className="text-[#1a1a1a] text-base leading-relaxed whitespace-pre-wrap">
+                      {product.description}
+                    </div>
+                  ) : (
+                    <p className="text-[#1a1a1a] text-base leading-relaxed">
+                      Premium quality apparel designed for comfort, durability, and effortless style.
+                    </p>
+                  )}
                 </div>
               </div>
             </div>

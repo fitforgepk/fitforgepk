@@ -25,6 +25,7 @@ interface ProductCardProps {
   isSale?: boolean;
   tag?: string; 
   sizes?: string[];
+  subtitle?: string;
   onAddToCart?: (product: { id: string; name: string; price: number; image: string; size: string }) => void;
 }
 
@@ -41,6 +42,7 @@ const ProductCard = ({
   isSale, 
   tag,
   sizes: sizesProp,
+  subtitle,
   onAddToCart
 }: ProductCardProps) => {
   const [showSizeDialog, setShowSizeDialog] = useState(false);
@@ -302,6 +304,11 @@ const ProductCard = ({
               <h3 className="font-bold text-lg text-foreground group-hover:text-brand-purple transition-colors duration-300 line-clamp-2">
                 {name}
               </h3>
+              {subtitle && (
+                <p className="text-sm text-muted-foreground font-medium">
+                  {subtitle}
+                </p>
+              )}
             </div>
 
             {/* Price Section pinned at bottom */}

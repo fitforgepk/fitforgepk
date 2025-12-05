@@ -59,12 +59,14 @@ export const winterWC1 = buildImageKitUrl(convertToImageKitPath("Winter-Collecti
 export const winterWC2 = buildImageKitUrl(convertToImageKitPath("Winter-Collection/WC2.jpg"));
 export const winterWC3 = buildImageKitUrl(convertToImageKitPath("Winter-Collection/WC3.jpg"));
 export const winterShowcaseImages = [winterWC1, winterWC2, winterWC3];
-export const winterSphynxFront = buildImageKitUrl(convertToImageKitPath("Winter-Collection/Sphynx-front.jpg"));
+export const winterSphynxFront = buildImageKitUrl(convertToImageKitPath("Winter-Collection/Sphynx-front.jpeg"));
 export const winterSphynxBack = buildImageKitUrl(convertToImageKitPath("Winter-Collection/Sphynx-back.jpg"));
+export const winterSphynxFront2 = buildImageKitUrl(convertToImageKitPath("Winter-Collection/Sphynx-front2.jpeg"));
+export const winterSphynxBack2 = buildImageKitUrl(convertToImageKitPath("Winter-Collection/Sphynx-back2.jpeg"));
 export const puffyFront = buildImageKitUrl(convertToImageKitPath("Winter-Collection/Puffy-front.jpg"));
 export const puffyFront2 = buildImageKitUrl(convertToImageKitPath("Winter-Collection/Puffy-front2.jpg"));
-export const sweaterFront = buildImageKitUrl(convertToImageKitPath("Winter-Collection/Sweater-front.jpg"));
-export const sweaterBack = buildImageKitUrl(convertToImageKitPath("Winter-Collection/Sweater-back.jpg"));
+export const sweaterFront = buildImageKitUrl(convertToImageKitPath("Winter-Collection/Sweater-front.jpeg"));
+export const sweaterBack = buildImageKitUrl(convertToImageKitPath("Winter-Collection/Sweater-back.jpeg"));
 export const sweaterBack2 = buildImageKitUrl(convertToImageKitPath("Winter-Collection/Sweater-back2.jpg"));
 export const crimsonFront = buildImageKitUrl(convertToImageKitPath("Winter-Collection/Crimson-front.jpg"));
 export const crimsonBack = buildImageKitUrl(convertToImageKitPath("Winter-Collection/Crimson-back.jpg"));
@@ -83,6 +85,8 @@ export interface Product {
   isSale?: boolean;
   tag?: string; // Add tag property
   sizes?: string[];
+  subtitle?: string;
+  description?: string;
 }
 
 export const winterProducts: Product[] = [
@@ -96,7 +100,23 @@ export const winterProducts: Product[] = [
     category: "Winter Collection",
     tag: "HOT",
     isNew: true,
-    sizes: ["S", "M", "L", "XL"]
+    sizes: ["S", "M", "L", "XL"],
+    subtitle: "Puffer-Jacket",
+    description: `Puffy – Premium Puffer Jacket
+
+Premium warmth with a clean, modern silhouette.
+Puffy features a smooth quilted shell, cozy insulation and ribbed cuffs at the sleeves for a secure, comfortable fit. The stand collar and full-zip design give it a polished look that works for everyday wear, travel or evenings out.
+
+This is a statement winter piece — warm, sleek and effortlessly stylish.
+
+Warm. Refined. Always ready.
+
+Highlights:
+ •  Premium quilted puffer construction
+ •  Ribbed cuffs for added comfort
+ •  Stand-up collar & full zip
+ •  Clean stitching and minimal design
+ •  Perfect for winter styling`
   },
   {
     id: "winter-2",
@@ -107,7 +127,23 @@ export const winterProducts: Product[] = [
     category: "Winter Collection",
     tag: "HOT",
     isNew: true,
-    sizes: ["S", "M", "L", "XL"]
+    sizes: ["S", "M", "L", "XL"],
+    description: `Crimson Red – Signature Oversized Hoodie (340 GSM)
+
+Bold, edgy and made to stand out.
+Crimson Red is crafted from 340 GSM premium fleece in both black and red panels, giving weight, warmth and structure. The oversized fit delivers a relaxed streetwear vibe, while the chest graphic and sleeve stripes make it instantly memorable.
+
+This is the signature piece of the collection — powerful, stylish and winter-ready.
+
+Highlights:
+ •  340 GSM heavy fabric
+ •  Oversized fit
+ •  Chest graphic artwork
+ •  Sporty sleeve stripes
+ •  Warm, soft & durable
+ •  Premium winter hoodie
+
+Statement style. Premium comfort.`
   },
   {
     id: "winter-3",
@@ -119,7 +155,22 @@ export const winterProducts: Product[] = [
     category: "Winter Collection",
     tag: "HOT",
     isNew: true,
-    sizes: ["S", "M", "L"]
+    sizes: ["S", "M", "L"],
+    description: `Greyborne Knit – 200 GSM Premium Knitwear
+
+A stylish knitted shirt designed for everyday outfits.
+Greyborne Knit is made from 200 GSM premium knit fabric — soft, light, and perfectly comfortable through the season.
+
+The contrast grey collar and striped sleeves give it a smart, elevated look. Wear it with jeans, trousers or layered — it always stands out.
+
+It’s not just warm — it’s fashionable.
+
+Highlights:
+ •  Premium 200 GSM knitwear
+ •  Soft, breathable & comfortable
+ •  Contrast collar & sleeve stripes
+ •  Relaxed, flattering fit
+ •  Perfect as a main top`
   },
   {
     id: "winter-4",
@@ -127,10 +178,25 @@ export const winterProducts: Product[] = [
     price: 3999,
     image: winterSphynxFront,
     imageBack: winterSphynxBack,
+    additionalImages: [winterSphynxFront2, winterSphynxBack2],
     category: "Winter Collection",
     tag: "HOT",
     isNew: true,
-    sizes: ["S", "M", "L", "XL"]
+    sizes: ["S", "M", "L", "XL"],
+    description: `Sphynyx – 300 GSM Premium Hoodie
+
+Clean, warm, and effortless.
+Sphynyx is built from 300 GSM fleece that feels soft inside and smooth on the outside — perfect for winter.
+
+It has a relaxed fit, kangaroo pocket, and a deep midnight navy tone that goes with everything.
+
+Wear it anywhere. Look good without trying.
+
+Highlights:
+ •  300 GSM premium fabric
+ •  Cozy fleece interior
+ •  Regular fit
+ •  Kangaroo pocket & ribbed cuffs`
   }
 ];
 
