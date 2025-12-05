@@ -7,12 +7,13 @@ import { CartContext } from "@/components/CartContext";
 const Unisex = () => {
   const { addToCart } = useContext(CartContext);
 
-  const handleAddToCart = (product: { id: string; name: string; price: number; image: string; size: string }) => {
+  const handleAddToCart = (product: { id: string; name: string; price: number; image: string; size?: string }) => {
     addToCart({
-      id: product.id + (product.size ? `-${product.size}` : ""),
-      name: `${product.name}${product.size ? ` (${product.size})` : ""}`,
+      id: product.id,
+      name: product.name,
       price: product.price,
       image: product.image,
+      size: product.size,
     });
   };
 

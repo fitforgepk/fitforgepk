@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
  
 
 interface FeaturedSectionProps {
-  onAddToCart?: (product: { id: string; name: string; price: number; image: string }) => void;
+  onAddToCart?: (product: { id: string; name: string; price: number; image: string; size?: string }) => void;
 }
 
 const FeaturedSection = ({ onAddToCart }: FeaturedSectionProps) => {
@@ -56,12 +56,7 @@ const FeaturedSection = ({ onAddToCart }: FeaturedSectionProps) => {
             <ProductCard
               key={product.id}
               {...product}
-              onAddToCart={onAddToCart ? () => onAddToCart({
-                id: product.id,
-                name: product.name,
-                price: product.price,
-                image: product.image
-              }) : undefined}
+              onAddToCart={onAddToCart}
             />
           ))}
         </div>

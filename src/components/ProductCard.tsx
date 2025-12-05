@@ -120,7 +120,9 @@ const ProductCard = ({
   const handleSizeSelect = (size: string) => {
     setSelectedSize(size);
     setShowSizeDialog(false);
-    onAddToCart && onAddToCart({ id, name, price, image, size });
+    const idWithSize = id + (size ? `-${size}` : "");
+    const nameWithSize = name + (size ? ` (${size})` : "");
+    onAddToCart && onAddToCart({ id: idWithSize, name: nameWithSize, price, image, size });
   };
 
   // Touch/Swipe handlers

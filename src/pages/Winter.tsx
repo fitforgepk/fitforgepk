@@ -12,7 +12,7 @@ const Winter = () => {
   const { addToCart } = useContext(CartContext);
 
   const handleAddToCart = (product: { id: string; name: string; price: number; image: string; size?: string }) => {
-    addToCart({ id: product.id, name: product.name, price: product.price, image: product.image });
+    addToCart({ id: product.id, name: product.name, price: product.price, image: product.image, size: product.size });
   };
 
   return (
