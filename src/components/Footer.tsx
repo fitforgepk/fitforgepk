@@ -119,7 +119,7 @@ const Footer = () => {
           <div className="flex-1 overflow-auto px-6 pb-6" style={{height: 'calc(85vh - 80px)'}}>
             <div className="w-full h-full">
               <OptimizedImage
-                src="https://ik.imagekit.io/sy6soezys/assets/public/assets/size_chart.jpg"
+                src="/assets/size_chart.jpg"
                 alt="Size chart"
                 className="w-full h-auto min-h-full object-contain"
               />

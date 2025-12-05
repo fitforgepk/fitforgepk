@@ -17,6 +17,7 @@ const ProductDetails = () => {
   const { addToCart } = useContext(CartContext);
   const { setCartOpen } = useContext(CartUIContext);
   const product = allProducts.find((p) => p.id === id);
+  const isWinterProduct = (product?.category || "").trim().toLowerCase() === "winter collection";
   const sizes = (product?.sizes && product.sizes.length > 0) ? product.sizes : ["S", "M", "L"];
   const [size, setSize] = useState<string>("");
   const [quantity, setQuantity] = useState<number>(1);
@@ -409,17 +410,28 @@ const ProductDetails = () => {
 
       {/* Size Chart Dialog */}
       <Dialog open={showSizeChart} onOpenChange={setShowSizeChart}>
-        <DialogContent className="bg-white border border-[#a67c52]/20 rounded-2xl max-w-4xl w-[90vw] h-[85vh] p-0">
+        <DialogContent aria-describedby="sizechart-desc" className="bg-white border border-[#a67c52]/20 rounded-2xl max-w-4xl w-[90vw] h-[85vh] p-0">
           <DialogHeader className="p-6 pb-2">
             <DialogTitle className="text-xl font-bold text-[#1a1a1a]">Size Chart</DialogTitle>
           </DialogHeader>
           <div className="flex-1 overflow-auto px-6 pb-6" style={{height: 'calc(85vh - 80px)'}}>
+            <p id="sizechart-desc" className="sr-only">Size chart modal with image preview</p>
             <div className="w-full h-full">
-              <OptimizedImage
-                src="https://ik.imagekit.io/sy6soezys/assets/public/assets/size_chart.jpg"
-                alt="Size chart"
-                className="w-full h-auto min-h-full object-contain"
-              />
+              {isWinterProduct ? (
+                <OptimizedImage
+                  src="/assets/Winter-SizeChart.jpg"
+                  alt="Winter Size Chart"
+                  className="w-full h-auto min-h-full object-contain"
+                  disableOptimization
+                />
+              ) : (
+                <OptimizedImage
+                  src="/assets/size_chart.jpg"
+                  alt="Size chart"
+                  className="w-full h-auto min-h-full object-contain"
+                  disableOptimization
+                />
+              )}
             </div>
           </div>
         </DialogContent>

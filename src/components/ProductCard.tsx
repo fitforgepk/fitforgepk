@@ -398,22 +398,33 @@ const ProductCard = ({
       </Dialog>
 
        {/* Size Chart Dialog */}
-       <Dialog open={showSizeChart} onOpenChange={setShowSizeChart}>
-         <DialogContent className="bg-card border border-border rounded-2xl max-w-4xl w-[90vw] h-[85vh] p-0">
-           <DialogHeader className="p-6 pb-2">
-             <DialogTitle className="text-xl font-bold text-foreground">Size Chart</DialogTitle>
-           </DialogHeader>
-           <div className="flex-1 overflow-auto px-6 pb-6" style={{height: 'calc(85vh - 80px)'}}>
-             <div className="w-full h-full">
-               <OptimizedImage
-                 src="https://ik.imagekit.io/sy6soezys/assets/public/assets/size_chart.jpg"
-                 alt="Size chart"
-                 className="w-full h-auto min-h-full object-contain"
-               />
-             </div>
-           </div>
-         </DialogContent>
-       </Dialog>
+      <Dialog open={showSizeChart} onOpenChange={setShowSizeChart}>
+        <DialogContent aria-describedby="sizechart-desc" className="bg-card border border-border rounded-2xl max-w-4xl w-[90vw] h-[85vh] p-0">
+          <DialogHeader className="p-6 pb-2">
+            <DialogTitle className="text-xl font-bold text-foreground">Size Chart</DialogTitle>
+          </DialogHeader>
+          <div className="flex-1 overflow-auto px-6 pb-6" style={{height: 'calc(85vh - 80px)'}}>
+            <p id="sizechart-desc" className="sr-only">Size chart modal with image preview</p>
+            <div className="w-full h-full">
+              {((category || "").trim().toLowerCase() === "winter collection") ? (
+                <OptimizedImage
+                  src="/assets/Winter-SizeChart.jpg"
+                  alt="Winter Size Chart"
+                  className="w-full h-auto min-h-full object-contain"
+                  disableOptimization
+                />
+              ) : (
+                <OptimizedImage
+                  src="/assets/size_chart.jpg"
+                  alt="Size chart"
+                  className="w-full h-auto min-h-full object-contain"
+                  disableOptimization
+                />
+              )}
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </motion.div>
   );
 };
