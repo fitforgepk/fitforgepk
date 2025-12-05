@@ -7,7 +7,8 @@ import {
   menProducts, 
   womenProducts, 
   unisexProducts, 
-  winterProducts 
+  winterProducts,
+  winterShowcaseImages
 } from "@/assets/products";
 import SEO from "@/components/SEO";
 
@@ -51,7 +52,18 @@ const Collection = () => {
           <section className="max-w-7xl mx-auto px-4" id="winter">
             <div className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Winter Collection</h2>
-              <p className="text-muted-foreground">Seasonal essentials designed for comfort and style</p>
+              <p className="text-muted-foreground">Elevate your season with cozy layers, premium warmth, and refined streetwear aesthetics.</p>
+            </div>
+            <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+              {winterShowcaseImages.map((src, i) => (
+                <div key={i} className="rounded-2xl overflow-hidden border border-[#a67c52]/30 bg-white/90 backdrop-blur-sm shadow-md">
+                  <img
+                    src={src}
+                    alt={`Winter Showcase ${i + 1}`}
+                    className="w-full h-64 object-cover"
+                  />
+                </div>
+              ))}
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
               {realWinterProducts.map((product) => (

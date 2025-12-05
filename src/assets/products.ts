@@ -55,10 +55,9 @@ const modelMensBlacksmith = buildImageKitUrl(convertToImageKitPath("mens-collect
 const modelWomensGrace = buildImageKitUrl(convertToImageKitPath("womens-collection-framed/Grace_model-min.png"));
 const modelWomensEighty = buildImageKitUrl(convertToImageKitPath("unisex-collection-framed/80_Girl_model-min.png"));
 
-export const winterWC1 = buildImageKitUrl(convertToImageKitPath("Winter-Collection/WC1.jpg"));
-export const winterWC2 = buildImageKitUrl(convertToImageKitPath("Winter-Collection/WC2.jpg"));
-export const winterWC3 = buildImageKitUrl(convertToImageKitPath("Winter-Collection/WC3.jpg"));
-export const winterShowcaseImages = [winterWC1, winterWC2, winterWC3];
+export const winterShowcase1 = buildImageKitUrl(convertToImageKitPath("Winter-Collection/Showcase.jpeg"));
+export const winterShowcase2 = buildImageKitUrl(convertToImageKitPath("Winter-Collection/Showcase2.jpeg"));
+export const winterShowcaseImages = [winterShowcase1, winterShowcase2];
 export const winterSphynxFront = buildImageKitUrl(convertToImageKitPath("Winter-Collection/Sphynx-front.jpeg"));
 export const winterSphynxBack = buildImageKitUrl(convertToImageKitPath("Winter-Collection/Sphynx-back.jpg"));
 export const winterSphynxFront2 = buildImageKitUrl(convertToImageKitPath("Winter-Collection/Sphynx-front2.jpeg"));
@@ -95,7 +94,7 @@ export const winterProducts: Product[] = [
     name: "Puffy",
     price: 6199,
     image: puffyFront,
-    imageBack: winterWC1,
+    imageBack: puffyFront2,
     additionalImages: [puffyFront2],
     category: "Winter Collection",
     tag: "HOT",

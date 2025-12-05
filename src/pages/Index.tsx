@@ -100,8 +100,8 @@ const Index = () => {
               <p className="mt-4 text-base md:text-lg text-[#e7dbc7] text-center max-w-2xl mx-auto">
                 Elevate your season with cozy layers, premium warmth, and refined streetwear aesthetics.
               </p>
-              <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
-                {winterShowcaseImages.slice(0,3).map((src, i) => (
+              <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {winterShowcaseImages.map((src, i) => (
                   <div key={i} className="rounded-2xl overflow-hidden border border-[#a67c52]/30 bg-white/90 backdrop-blur-sm shadow-md group-hover:shadow-lg transition">
                     <img
                       src={src}
