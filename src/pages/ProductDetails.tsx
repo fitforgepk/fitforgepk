@@ -314,14 +314,6 @@ const ProductDetails = () => {
                   {!product.tag || product.tag !== 'COMING SOON' ? (
                     <div className="flex items-center gap-4">
                       <span className="text-4xl font-black text-[#1a1a1a]">Rs {product.price}</span>
-                      {product.originalPrice && (
-                        <span className="line-through text-[#805206] font-semibold text-lg">Rs {product.originalPrice}</span>
-                      )}
-                      {product.originalPrice && (
-                        <span className="bg-[#a67c52] text-white px-3 py-1 rounded-full text-sm font-bold">
-                          {Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}% OFF
-                        </span>
-                      )}
                     </div>
                   ) : (
                     <span className="text-2xl font-semibold text-[#805206]">Coming Soon</span>
