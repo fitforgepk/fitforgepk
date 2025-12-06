@@ -89,11 +89,7 @@ const Index = () => {
           })()}
           <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="mx-auto max-w-4xl rounded-3xl bg-[#1a1a1a]/70 backdrop-blur-xl border border-[#a67c52]/30 shadow-2xl p-8 md:p-12">
-              <div className="flex items-center justify-center gap-2 mb-4">
-                <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#a67c52]/20 text-[#a67c52] font-bold uppercase text-xs tracking-widest">
-                  <Snowflake className="w-4 h-4" /> Coming Soon
-                </span>
-              </div>
+              
               <h2 className="text-4xl md:text-5xl font-black bg-clip-text text-transparent bg-gradient-to-r from-brand-purple via-[#e7dbc7] to-brand-purple tracking-tight text-center">
                 Winter Collection
               </h2>

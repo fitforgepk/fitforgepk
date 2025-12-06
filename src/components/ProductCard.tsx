@@ -59,9 +59,6 @@ const ProductCard = ({
   const isZoomedOutShirt = name === "Visionary + Beige Boy T-shirt" || name === "Charcoal Boy T-shirt" || name === "White girl T-shirt";
   
   const sizes = sizesProp && sizesProp.length > 0 ? sizesProp : ["S", "M", "L"];
-  const discountPercent = originalPrice && originalPrice > price
-    ? Math.round(((originalPrice - price) / originalPrice) * 100)
-    : 0;
   
   const isComingSoon = tag === "COMING SOON";
   
@@ -227,13 +224,6 @@ const ProductCard = ({
             </span>
           </div>
         )}
-          {discountPercent > 0 && (
-            <div className="absolute top-3 right-3 z-20">
-              <span className="px-2 py-1 text-[10px] font-extrabold rounded-full bg-rose-500 text-white shadow">
-                {discountPercent}% OFF
-              </span>
-            </div>
-          )}
         {/* Blurred Content Container */}
         <div className={`flex flex-col h-full ${isCompletelySoldOut ? 'blur-sm' : ''}`}>
           <Link
@@ -318,11 +308,7 @@ const ProductCard = ({
               {!isComingSoon && (
                 <span className={`text-2xl font-black ${isComingSoon ? 'text-muted-foreground' : 'text-black'}`}>Rs {price}</span>
               )}
-              {originalPrice && (
-                <span className="line-through text-muted-foreground font-semibold">
-                  Rs {originalPrice}
-                </span>
-              )}
+              
             </div>
           </CardContent>
         </Link>
