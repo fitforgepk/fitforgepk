@@ -92,7 +92,8 @@ export const winterProducts: Product[] = [
   {
     id: "winter-1",
     name: "Puffy",
-    price: 6199,
+    price: 5499,
+    originalPrice: 6199,
     image: puffyFront,
     imageBack: puffyFront2,
     additionalImages: [puffyFront2],
@@ -120,7 +121,8 @@ Highlights:
   {
     id: "winter-2",
     name: "Crimson's Crest",
-    price: 4999,
+    price: 4199,
+    originalPrice: 4999,
     image: crimsonFront,
     imageBack: crimsonBack,
     category: "Winter Collection",
@@ -147,7 +149,8 @@ Statement style. Premium comfort.`
   {
     id: "winter-3",
     name: "Greyborne Knit",
-    price: 3499,
+    price: 2999,
+    originalPrice: 3499,
     image: sweaterFront,
     imageBack: sweaterBack,
     additionalImages: [sweaterBack2],
@@ -174,7 +177,8 @@ Highlights:
   {
     id: "winter-4",
     name: "Sphynx",
-    price: 3999,
+    price: 3499,
+    originalPrice: 3999,
     image: winterSphynxFront,
     imageBack: winterSphynxBack,
     additionalImages: [winterSphynxFront2, winterSphynxBack2],
