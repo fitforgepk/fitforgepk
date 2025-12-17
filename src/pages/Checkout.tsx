@@ -110,10 +110,8 @@ const Checkout = () => {
       return;
     }
 
-    // ✅ Ensure sizes are only S, M, L
     const filteredCartItems = cartItems.map(item => ({
-      ...item,
-      size: ["S", "M", "L"].includes(item.size) ? item.size : "S"
+      ...item
     }));
 
     const now = new Date();
@@ -320,7 +318,7 @@ const Checkout = () => {
                     <div className="flex-1">
                       <p className="font-semibold text-[#1a1a1a]">{item.name}</p>
                       <p className="text-sm text-[#805206]">
-                        Size: {["S", "M", "L"].includes(item.size) ? item.size : "S"} | 
+                        Size: {item.size || "N/A"} | 
                         Quantity: {item.quantity}
                         {(() => {
                           const fit = getFitLabelByName(item.name);
