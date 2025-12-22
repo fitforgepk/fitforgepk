@@ -68,9 +68,10 @@ const ProductCard = ({
   // Check if this product has sizes out of stock
   const isLargeOutOfStock = (normalizedName === "breath of sea" || normalizedName === "city eighty");
   const isMediumOutOfStock = (normalizedName === "breath of sea" || normalizedName === "city eighty");
+  const isSmallOutOfStock = (normalizedName.includes("crimson"));
   
   // Check if product is completely sold out (all sizes out of stock)
-  const isCompletelySoldOut = (normalizedName === "breath of sea" || normalizedName === "city eighty");
+  const isCompletelySoldOut = (normalizedName === "breath of sea" || normalizedName === "city eighty" || normalizedName === "sphynx" || normalizedName === "sphynyx");
 
   // Detect iOS/iPadOS (including in-app webviews). Avoid native lazy-loading there.
   const isIOS = useMemo(() => {
@@ -354,9 +355,9 @@ const ProductCard = ({
             <p className="text-muted-foreground">
               Choose your size for: <span className="font-semibold text-foreground">{name}</span>
             </p>
-            <div className="grid grid-cols-3 gap-3">
+              <div className="grid grid-cols-3 gap-3">
               {sizes.map((size) => {
-                const isSizeDisabled = isCompletelySoldOut || (isLargeOutOfStock && size === "L") || (isMediumOutOfStock && size === "M");
+                const isSizeDisabled = isCompletelySoldOut || (isLargeOutOfStock && size === "L") || (isMediumOutOfStock && size === "M") || (isSmallOutOfStock && size === "S");
                 return (
                   <Button
                     key={size}

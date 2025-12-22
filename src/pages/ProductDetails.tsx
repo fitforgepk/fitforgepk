@@ -29,9 +29,10 @@ const ProductDetails = () => {
   const normalizedName = product?.name.trim().toLowerCase() || "";
   const isLargeOutOfStock = (normalizedName === "breath of sea" || normalizedName === "city eighty");
   const isMediumOutOfStock = (normalizedName === "breath of sea" || normalizedName === "city eighty");
+  const isSmallOutOfStock = (normalizedName.includes("crimson"));
   
   // Check if product is completely sold out (all sizes out of stock)
-  const isCompletelySoldOut = (normalizedName === "breath of sea" || normalizedName === "city eighty");
+  const isCompletelySoldOut = (normalizedName === "breath of sea" || normalizedName === "city eighty" || normalizedName === "sphynx" || normalizedName === "sphynyx");
 
   // Create array of all available images for the product
   const productImages = [
@@ -331,7 +332,7 @@ const ProductDetails = () => {
                         </SelectTrigger>
                         <SelectContent>
                           {sizes.map((s) => {
-                            const isSizeDisabled = (isLargeOutOfStock && s === "L") || (isMediumOutOfStock && s === "M") || isCompletelySoldOut;
+                            const isSizeDisabled = (isLargeOutOfStock && s === "L") || (isMediumOutOfStock && s === "M") || (isSmallOutOfStock && s === "S") || isCompletelySoldOut;
                             return (
                               <SelectItem 
                                 key={s} 
