@@ -23,23 +23,23 @@ interface ProductCardProps {
   category: string;
   isNew?: boolean;
   isSale?: boolean;
-  tag?: string; 
+  tag?: string;
   sizes?: string[];
   subtitle?: string;
   onAddToCart?: (product: { id: string; name: string; price: number; image: string; size: string }) => void;
 }
 
-const ProductCard = ({ 
+const ProductCard = ({
   id,
-  name, 
-  price, 
-  originalPrice, 
-  image, 
-  imageBack, 
+  name,
+  price,
+  originalPrice,
+  image,
+  imageBack,
   additionalImages,
-  category, 
-  isNew, 
-  isSale, 
+  category,
+  isNew,
+  isSale,
   tag,
   sizes: sizesProp,
   subtitle,
@@ -52,24 +52,24 @@ const ProductCard = ({
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [currentX, setCurrentX] = useState(0);
-  
+
   const imageContainerRef = useRef<HTMLDivElement>(null);
-  
+
   // Determine if this is one of the shirts that should be zoomed out
   const isZoomedOutShirt = name === "Visionary + Beige Boy T-shirt" || name === "Charcoal Boy T-shirt" || name === "White girl T-shirt";
-  
+
   const sizes = sizesProp && sizesProp.length > 0 ? sizesProp : ["S", "M", "L"];
-  
+
   const isComingSoon = tag === "COMING SOON";
-  
+
   // Map specific product names to display garment type labels
   const normalizedName = name.trim().toLowerCase();
-  
+
   // Check if this product has sizes out of stock
   const isLargeOutOfStock = (normalizedName === "breath of sea" || normalizedName === "city eighty");
   const isMediumOutOfStock = (normalizedName === "breath of sea" || normalizedName === "city eighty");
   const isSmallOutOfStock = (normalizedName.includes("crimson"));
-  
+
   // Check if product is completely sold out (all sizes out of stock)
   const isCompletelySoldOut = (normalizedName === "breath of sea" || normalizedName === "city eighty" || normalizedName === "sphynx" || normalizedName === "sphynyx");
 
@@ -114,7 +114,7 @@ const ProductCard = ({
     e.stopPropagation();
     setShowSizeDialog(true);
   };
-  
+
   const handleSizeSelect = (size: string) => {
     setSelectedSize(size);
     setShowSizeDialog(false);
@@ -137,10 +137,10 @@ const ProductCard = ({
 
   const handleTouchEnd = () => {
     if (!isDragging || images.length <= 1) return;
-    
+
     const diff = startX - currentX;
     const threshold = 50; // Minimum swipe distance
-    
+
     if (Math.abs(diff) > threshold) {
       if (diff > 0) {
         // Swipe left - next image
@@ -150,7 +150,7 @@ const ProductCard = ({
         setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length);
       }
     }
-    
+
     setIsDragging(false);
   };
 
@@ -168,10 +168,10 @@ const ProductCard = ({
 
   const handleMouseUp = () => {
     if (!isDragging || images.length <= 1) return;
-    
+
     const diff = startX - currentX;
     const threshold = 50;
-    
+
     if (Math.abs(diff) > threshold) {
       if (diff > 0) {
         setCurrentImageIndex((prev) => (prev + 1) % images.length);
@@ -179,14 +179,14 @@ const ProductCard = ({
         setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length);
       }
     }
-    
+
     setIsDragging(false);
   };
 
   // Auto-advance images if multiple images exist
   useEffect(() => {
     if (images.length <= 1) return;
-    
+
     const interval = setInterval(() => {
       setCurrentImageIndex((prev) => (prev + 1) % images.length);
     }, 4000); // Change every 4 seconds
@@ -225,6 +225,13 @@ const ProductCard = ({
             </span>
           </div>
         )}
+        {tag === "20% OFF" && (
+          <div className="absolute top-3 right-3 z-20">
+            <span className="px-2 py-1 text-xs font-extrabold rounded-full bg-gradient-to-r from-pink-500 to-rose-600 text-white shadow animate-pulse">
+              20% OFF
+            </span>
+          </div>
+        )}
         {/* Blurred Content Container */}
         <div className={`flex flex-col h-full ${isCompletelySoldOut ? 'blur-sm' : ''}`}>
           <Link
@@ -233,86 +240,88 @@ const ProductCard = ({
             aria-disabled={isComingSoon || isCompletelySoldOut}
             style={{ textDecoration: "none", color: "inherit" }}
           >
-          <div className="relative overflow-hidden rounded-t-2xl sm:rounded-t-3xl">
-            {/* Image Container with Swipe Functionality */}
-            <div
-              ref={imageContainerRef}
-              className="aspect-square overflow-hidden rounded-t-2xl sm:rounded-t-3xl relative cursor-grab active:cursor-grabbing"
-              style={{ background: "linear-gradient(145deg, hsl(0 0% 12%), hsl(45 33% 80%))" }}
-              onTouchStart={handleTouchStart}
-              onTouchMove={handleTouchMove}
-              onTouchEnd={handleTouchEnd}
-              onMouseDown={handleMouseDown}
-              onMouseMove={handleMouseMove}
-              onMouseUp={handleMouseUp}
-              onMouseLeave={handleMouseUp}
-            >
-              {images.map((img, index) => (
-                <img
-                  key={index}
-                  src={img}
-                  alt={index === 0 ? `${name} – ${displayCategory} – FitForgePK` : `${name} – alternate view ${index + 1} – FitForgePK`}
-                  {...imageProps}
-                  className={`w-full h-full object-contain bg-gradient-to-b from-[#f8f9fa] to-[#e9ecef] transition-all duration-700 ${
-                    index === currentImageIndex
+            <div className="relative overflow-hidden rounded-t-2xl sm:rounded-t-3xl">
+              {/* Image Container with Swipe Functionality */}
+              <div
+                ref={imageContainerRef}
+                className="aspect-square overflow-hidden rounded-t-2xl sm:rounded-t-3xl relative cursor-grab active:cursor-grabbing"
+                style={{ background: "linear-gradient(145deg, hsl(0 0% 12%), hsl(45 33% 80%))" }}
+                onTouchStart={handleTouchStart}
+                onTouchMove={handleTouchMove}
+                onTouchEnd={handleTouchEnd}
+                onMouseDown={handleMouseDown}
+                onMouseMove={handleMouseMove}
+                onMouseUp={handleMouseUp}
+                onMouseLeave={handleMouseUp}
+              >
+                {images.map((img, index) => (
+                  <img
+                    key={index}
+                    src={img}
+                    alt={index === 0 ? `${name} – ${displayCategory} – FitForgePK` : `${name} – alternate view ${index + 1} – FitForgePK`}
+                    {...imageProps}
+                    className={`w-full h-full object-contain bg-gradient-to-b from-[#f8f9fa] to-[#e9ecef] transition-all duration-700 ${index === currentImageIndex
                       ? "opacity-100 scale-100"
                       : "opacity-0 scale-105 absolute inset-0"
-                  }`}
-                />
-              ))}
-              
-              {/* Image Counter Dots */}
-              {images.length > 1 && (
-                <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 flex space-x-2 z-10">
-                  {images.map((_, index) => (
-                    <div
-                      key={index}
-                      className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                        index === currentImageIndex
+                      }`}
+                  />
+                ))}
+
+                {/* Image Counter Dots */}
+                {images.length > 1 && (
+                  <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 flex space-x-2 z-10">
+                    {images.map((_, index) => (
+                      <div
+                        key={index}
+                        className={`w-2 h-2 rounded-full transition-all duration-300 ${index === currentImageIndex
                           ? "bg-white scale-125"
                           : "bg-white/50"
-                      }`}
-                    />
-                  ))}
-                </div>
-              )}
-              
-              {isComingSoon && (
-                <div className="absolute inset-0 bg-black/40 backdrop-blur-[1px] flex items-center justify-center z-20">
-                  <span className="px-3 py-1 rounded-full text-xs font-bold bg-orange-500 text-white shadow">
-                    Coming Soon
-                  </span>
-                </div>
-              )}
-              
-            </div>
-          </div>
+                          }`}
+                      />
+                    ))}
+                  </div>
+                )}
 
-          {/* Details Section */}
-          <CardContent className="p-4 sm:p-6 bg-gradient-to-b from-card to-brand-surface/30 flex flex-col justify-between flex-grow">
-            <div className="space-y-3 flex-grow">
-              <p className="text-xs text-brand-purple uppercase tracking-widest font-bold">
-                {displayCategory}
-              </p>
-              <h3 className="font-bold text-lg text-foreground group-hover:text-brand-purple transition-colors duration-300 line-clamp-2">
-                {name}
-              </h3>
-              {subtitle && (
-                <p className="text-sm text-muted-foreground font-medium">
-                  {subtitle}
+                {isComingSoon && (
+                  <div className="absolute inset-0 bg-black/40 backdrop-blur-[1px] flex items-center justify-center z-20">
+                    <span className="px-3 py-1 rounded-full text-xs font-bold bg-orange-500 text-white shadow">
+                      Coming Soon
+                    </span>
+                  </div>
+                )}
+
+              </div>
+            </div>
+
+            {/* Details Section */}
+            <CardContent className="p-4 sm:p-6 bg-gradient-to-b from-card to-brand-surface/30 flex flex-col justify-between flex-grow">
+              <div className="space-y-3 flex-grow">
+                <p className="text-xs text-brand-purple uppercase tracking-widest font-bold">
+                  {displayCategory}
                 </p>
-              )}
-            </div>
+                <h3 className="font-bold text-lg text-foreground group-hover:text-brand-purple transition-colors duration-300 line-clamp-2">
+                  {name}
+                </h3>
+                {subtitle && (
+                  <p className="text-sm text-muted-foreground font-medium">
+                    {subtitle}
+                  </p>
+                )}
+              </div>
 
-            {/* Price Section pinned at bottom */}
-            <div className="flex items-center gap-3 mt-4">
-              {!isComingSoon && (
-                <span className={`text-2xl font-black ${isComingSoon ? 'text-muted-foreground' : 'text-black'}`}>Rs {price}</span>
-              )}
-              
-            </div>
-          </CardContent>
-        </Link>
+              {/* Price Section pinned at bottom */}
+              <div className="flex items-center gap-3 mt-4">
+                {!isComingSoon && (
+                  <>
+                    <span className={`text-2xl font-black ${isSale ? 'text-rose-600' : 'text-black'}`}>Rs {price}</span>
+                    {originalPrice && originalPrice > price && (
+                      <span className="text-lg text-muted-foreground line-through">Rs {originalPrice}</span>
+                    )}
+                  </>
+                )}
+              </div>
+            </CardContent>
+          </Link>
         </div>
 
         {/* Large SOLD OUT Overlay - Outside blurred content */}
@@ -355,7 +364,7 @@ const ProductCard = ({
             <p className="text-muted-foreground">
               Choose your size for: <span className="font-semibold text-foreground">{name}</span>
             </p>
-              <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-3 gap-3">
               {sizes.map((size) => {
                 const isSizeDisabled = isCompletelySoldOut || (isLargeOutOfStock && size === "L") || (isMediumOutOfStock && size === "M") || (isSmallOutOfStock && size === "S");
                 return (
@@ -363,11 +372,10 @@ const ProductCard = ({
                     key={size}
                     variant="outline"
                     disabled={isSizeDisabled}
-                    className={`h-12 text-lg font-semibold border-2 transition-all duration-200 ${
-                      isSizeDisabled
-                        ? "opacity-50 blur-[1px] cursor-not-allowed bg-gray-100 text-gray-400 border-gray-300"
-                        : "hover:border-brand-purple hover:bg-brand-purple/10"
-                    }`}
+                    className={`h-12 text-lg font-semibold border-2 transition-all duration-200 ${isSizeDisabled
+                      ? "opacity-50 blur-[1px] cursor-not-allowed bg-gray-100 text-gray-400 border-gray-300"
+                      : "hover:border-brand-purple hover:bg-brand-purple/10"
+                      }`}
                     onClick={isSizeDisabled ? undefined : () => handleSizeSelect(size)}
                   >
                     {size}
@@ -380,26 +388,26 @@ const ProductCard = ({
                 );
               })}
             </div>
-              <div className="pt-2">
-                <button
-                  type="button"
-                  className="text-sm font-semibold underline text-foreground hover:text-brand-purple"
-                  onClick={() => setShowSizeChart(true)}
-                >
-                  View Size Chart
-                </button>
-              </div>
+            <div className="pt-2">
+              <button
+                type="button"
+                className="text-sm font-semibold underline text-foreground hover:text-brand-purple"
+                onClick={() => setShowSizeChart(true)}
+              >
+                View Size Chart
+              </button>
+            </div>
           </div>
         </DialogContent>
       </Dialog>
 
-       {/* Size Chart Dialog */}
+      {/* Size Chart Dialog */}
       <Dialog open={showSizeChart} onOpenChange={setShowSizeChart}>
         <DialogContent aria-describedby="sizechart-desc" className="bg-card border border-border rounded-2xl max-w-4xl w-[90vw] h-[85vh] p-0">
           <DialogHeader className="p-6 pb-2">
             <DialogTitle className="text-xl font-bold text-foreground">Size Chart</DialogTitle>
           </DialogHeader>
-          <div className="flex-1 overflow-auto px-6 pb-6" style={{height: 'calc(85vh - 80px)'}}>
+          <div className="flex-1 overflow-auto px-6 pb-6" style={{ height: 'calc(85vh - 80px)' }}>
             <p id="sizechart-desc" className="sr-only">Size chart modal with image preview</p>
             <div className="w-full h-full">
               {((category || "").trim().toLowerCase() === "winter collection") ? (

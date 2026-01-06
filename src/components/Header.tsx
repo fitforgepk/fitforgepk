@@ -33,7 +33,7 @@ const Header = () => {
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<any[]>([]);
-  const { cartCount, cartItems, removeFromCart } = useContext(CartContext);
+  const { cartCount, cartItems, removeFromCart, changeSize } = useContext(CartContext);
   const { heroBg, toggleHeroBg } = useHeroBg();
   const { cartOpen, setCartOpen } = useContext(CartUIContext);
   const location = useLocation();
@@ -81,11 +81,10 @@ const Header = () => {
   };
 
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 backdrop-blur-xl bg-[rgba(30,30,36,0.85)] shadow-xl border-b-0 before:content-[''] before:absolute before:inset-x-0 before:bottom-0 before:h-1 before:bg-gradient-to-r before:from-brand-purple before:via-[#e7dbc7] before:to-brand-purple before:rounded-b-xl before:blur-[2px] ${
-      isScrolled 
-        ? 'bg-[linear-gradient(135deg,_hsl(0,0%,15%),_hsl(45,33%,30%))]/90 shadow-elegant border-b border-[hsl(45,33%,30%)]' 
-        : 'bg-gradient-hero/80'
-    }`} style={{boxShadow: '0 8px 32px 0 rgba(31,38,135,0.10)'}}>
+    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 backdrop-blur-xl bg-[rgba(30,30,36,0.85)] shadow-xl border-b-0 before:content-[''] before:absolute before:inset-x-0 before:bottom-0 before:h-1 before:bg-gradient-to-r before:from-brand-purple before:via-[#e7dbc7] before:to-brand-purple before:rounded-b-xl before:blur-[2px] ${isScrolled
+      ? 'bg-[linear-gradient(135deg,_hsl(0,0%,15%),_hsl(45,33%,30%))]/90 shadow-elegant border-b border-[hsl(45,33%,30%)]'
+      : 'bg-gradient-hero/80'
+      }`} style={{ boxShadow: '0 8px 32px 0 rgba(31,38,135,0.10)' }}>
       {/* Search Modal */}
       <Dialog open={searchOpen} onOpenChange={setSearchOpen}>
         <DialogContent className="max-w-xl">
@@ -135,41 +134,90 @@ const Header = () => {
             <DrawerTitle>Your Cart</DrawerTitle>
           </DrawerHeader>
           {/* Static Red Banner */}
-    <div className="w-full py-2 bg-red-600 text-center">
-      <span className="text-white font-bold text-sm tracking-wide">
-        Free shipping on all orders
-      </span>
-    </div>
+          <div className="w-full py-2 bg-red-600 text-center">
+            <span className="text-white font-bold text-sm tracking-wide">
+              Free shipping on all orders
+            </span>
+          </div>
           <div className="p-4 space-y-4">
             {cartItems.length === 0 ? (
               <div className="text-muted-foreground">Your cart is empty.</div>
             ) : (
               <div className="space-y-4">
-                
 
-{cartItems.map((item) => (
-  <div key={`${item.id}-${item.size}`} className="flex items-center gap-4 border-b pb-2 relative">
-    <img src={getImageUrl(item.image)} alt={item.name} className="w-16 h-16 rounded-lg object-contain bg-gradient-to-b from-[#f8f9fa] to-[#e9ecef]" onError={e => { e.currentTarget.src = FALLBACK_IMAGE; }} />
-    <div className="flex-1">
-      <div className="font-semibold text-foreground">{item.name}</div>
-      <div className="text-xs text-muted-foreground">
-        {(() => {
-          const fit = getFitLabelByName(item.name);
-          return fit ? `${fit} • ` : "";
-        })()}
-        Size: {item.size} | Rs {item.price} x {item.quantity}
-      </div>
-    </div>
-    <div className="font-bold text-[#e7dbc7]">Rs {item.price * item.quantity}</div>
-    <button
-      className="absolute top-1 right-0 p-1 text-muted-foreground hover:text-destructive"
-      onClick={() => removeFromCart(item.id)}
-      aria-label={`Remove ${item.name} from cart`}
-    >
-      <X className="w-4 h-4" />
-    </button>
-  </div>
-))}
+
+                {cartItems.map((item) => {
+                  // Extract base product ID (remove size suffix like -S, -M, -L, -XL, -XXL)
+                  const baseId = item.id.replace(/-S$|-M$|-L$|-XL$|-XXL$|-XS$/, '');
+
+                  // Find product by exact base ID match first, then by prefix match
+                  const product = allProducts.find((p) => p.id === baseId) ||
+                    allProducts.find((p) => baseId.startsWith(p.id));
+
+                  // Use product's actual sizes, default to S/M/L only if product not found
+                  const availableSizes = product?.sizes || ["S", "M", "L"];
+
+                  // Get normalized name for out-of-stock checks (strip size suffix from item name)
+                  const baseName = item.name.replace(/\s*\([SMLX]+\)$/, '').trim().toLowerCase();
+
+                  // Out-of-stock logic (matching ProductCard)
+                  const isLargeOutOfStock = (baseName === "breath of sea" || baseName === "city eighty");
+                  const isMediumOutOfStock = (baseName === "breath of sea" || baseName === "city eighty");
+                  const isSmallOutOfStock = baseName.includes("crimson");
+                  const isCompletelySoldOut = (baseName === "breath of sea" || baseName === "city eighty" || baseName === "sphynx" || baseName === "sphynyx");
+
+                  // Function to check if a size is disabled
+                  const isSizeDisabled = (size: string) => {
+                    if (isCompletelySoldOut) return true;
+                    if (isLargeOutOfStock && size === "L") return true;
+                    if (isMediumOutOfStock && size === "M") return true;
+                    if (isSmallOutOfStock && size === "S") return true;
+                    return false;
+                  };
+
+                  return (
+                    <div key={`${item.id}-${item.size}`} className="flex items-center gap-4 border-b pb-3 relative">
+                      <img src={getImageUrl(item.image)} alt={item.name} className="w-16 h-16 rounded-lg object-contain bg-gradient-to-b from-[#f8f9fa] to-[#e9ecef]" onError={e => { e.currentTarget.src = FALLBACK_IMAGE; }} />
+                      <div className="flex-1">
+                        <div className="font-semibold text-foreground text-sm">{item.name}</div>
+                        <div className="text-xs text-muted-foreground">
+                          {(() => {
+                            const fit = getFitLabelByName(item.name);
+                            return fit ? `${fit}` : "";
+                          })()}
+                        </div>
+                        {/* Size Selector */}
+                        <div className="flex items-center gap-2 mt-1">
+                          <label className="text-xs text-muted-foreground">Size:</label>
+                          <select
+                            value={item.size || "M"}
+                            onChange={(e) => changeSize(item.id, e.target.value)}
+                            className="text-xs bg-muted/50 border border-border rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-brand-purple cursor-pointer"
+                          >
+                            {availableSizes.map((size) => (
+                              <option
+                                key={size}
+                                value={size}
+                                disabled={isSizeDisabled(size)}
+                              >
+                                {size}{isSizeDisabled(size) ? " (Out)" : ""}
+                              </option>
+                            ))}
+                          </select>
+                          <span className="text-xs text-muted-foreground">| Rs {item.price} × {item.quantity}</span>
+                        </div>
+                      </div>
+                      <div className="font-bold text-[#e7dbc7]">Rs {item.price * item.quantity}</div>
+                      <button
+                        className="absolute top-1 right-0 p-1 text-muted-foreground hover:text-destructive"
+                        onClick={() => removeFromCart(item.id)}
+                        aria-label={`Remove ${item.name} from cart`}
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+                  );
+                })}
 
 
               </div>
@@ -192,9 +240,8 @@ const Header = () => {
         </DrawerContent>
       </Drawer>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className={`flex items-center justify-between transition-all duration-300 ${
-          isScrolled ? 'h-14' : 'h-20'
-        }`}>
+        <div className={`flex items-center justify-between transition-all duration-300 ${isScrolled ? 'h-14' : 'h-20'
+          }`}>
           {/* Logo */}
           <a href="/" className="logo flex items-center gap-2 group relative">
             <span className="relative">
@@ -270,11 +317,11 @@ const Header = () => {
         {isMenuOpen && (
           <>
             {/* Backdrop Overlay - Touch to Close */}
-            <div 
+            <div
               className="md:hidden fixed inset-0 bg-black/50 z-40"
               onClick={() => setIsMenuOpen(false)}
             />
-            
+
             {/* Mobile Menu */}
             <div className="md:hidden relative z-50">
               {/* Mobile Menu Header with Close Button */}
@@ -289,7 +336,7 @@ const Header = () => {
                   <X className="h-5 w-5" />
                 </Button>
               </div>
-              
+
               {/* Mobile Menu Content */}
               <div className="px-2 pb-3 space-y-1 bg-card">
                 <Link
@@ -330,7 +377,7 @@ const Header = () => {
                     <span className="ml-2 px-2 py-0.5 text-[10px] font-extrabold rounded-full bg-gradient-to-r from-red-500 to-orange-500 text-white">HOT</span>
                   </span>
                 </Link>
-                
+
                 {/* Hidden Admin Link for Mobile */}
                 <Link
                   to="/admin/login"
@@ -339,7 +386,7 @@ const Header = () => {
                 >
                   Admin
                 </Link>
-                
+
                 {/* Action Buttons */}
                 <div className="flex items-center justify-center space-x-4 px-3 py-4 border-t border-border mt-4">
                   <Button variant="ghost" size="icon" onClick={() => setSearchOpen(true)} className="hover:bg-brand-purple/20">

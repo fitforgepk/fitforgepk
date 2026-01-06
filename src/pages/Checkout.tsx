@@ -3,9 +3,10 @@ import { CartContext } from "@/components/CartContext";
 import { useNavigate } from "react-router-dom";
 import { getFitLabelByName } from "@/lib/utils";
 import { ShoppingCart, Truck, Shield, CheckCircle, ArrowLeft, CreditCard, MapPin, User, Mail, Phone } from "lucide-react";
+import { allProducts } from "@/assets/products";
 
 const Checkout = () => {
-  const { cartItems, clearCart } = useContext(CartContext);
+  const { cartItems, clearCart, changeSize } = useContext(CartContext);
   const [form, setForm] = useState({ name: "", email: "", address: "", phone: "" });
   const [paymentMethod, setPaymentMethod] = useState<string>("COD");
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
@@ -311,24 +312,58 @@ const Checkout = () => {
                 <ShoppingCart className="w-6 h-6 text-[#a67c52]" />
                 <h2 className="text-2xl font-bold text-[#1a1a1a]">Order Summary</h2>
               </div>
-              
+
               <div className="space-y-4 mb-6">
-                {cartItems.map((item) => (
-                  <div key={item.id} className="flex justify-between items-center bg-[#e7dbc7]/20 p-4 rounded-xl">
-                    <div className="flex-1">
-                      <p className="font-semibold text-[#1a1a1a]">{item.name}</p>
-                      <p className="text-sm text-[#805206]">
-                        Size: {item.size || "N/A"} | 
-                        Quantity: {item.quantity}
-                        {(() => {
-                          const fit = getFitLabelByName(item.name);
-                          return fit ? ` | Fit: ${fit}` : "";
-                        })()}
-                      </p>
+                {cartItems.map((item) => {
+                  // Extract base product ID (remove size suffix)
+                  const baseId = item.id.replace(/-S$|-M$|-L$|-XL$|-XXL$|-XS$/, '');
+                  const product = allProducts.find((p) => p.id === baseId) ||
+                    allProducts.find((p) => baseId.startsWith(p.id));
+                  const availableSizes = product?.sizes || ["S", "M", "L"];
+
+                  // Out-of-stock logic
+                  const baseName = item.name.replace(/\s*\([SMLX]+\)$/, '').trim().toLowerCase();
+                  const isLargeOutOfStock = (baseName === "breath of sea" || baseName === "city eighty");
+                  const isMediumOutOfStock = (baseName === "breath of sea" || baseName === "city eighty");
+                  const isSmallOutOfStock = baseName.includes("crimson");
+                  const isCompletelySoldOut = (baseName === "breath of sea" || baseName === "city eighty" || baseName === "sphynx" || baseName === "sphynyx");
+
+                  const isSizeDisabled = (size: string) => {
+                    if (isCompletelySoldOut) return true;
+                    if (isLargeOutOfStock && size === "L") return true;
+                    if (isMediumOutOfStock && size === "M") return true;
+                    if (isSmallOutOfStock && size === "S") return true;
+                    return false;
+                  };
+
+                  return (
+                    <div key={item.id} className="flex justify-between items-center bg-[#e7dbc7]/20 p-4 rounded-xl">
+                      <div className="flex-1">
+                        <p className="font-semibold text-[#1a1a1a]">{item.name}</p>
+                        <div className="flex flex-wrap items-center gap-2 text-sm text-[#805206] mt-1">
+                          <label>Size:</label>
+                          <select
+                            value={item.size || "M"}
+                            onChange={(e) => changeSize(item.id, e.target.value)}
+                            className="text-sm bg-white border border-[#a67c52]/30 rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-[#a67c52]"
+                          >
+                            {availableSizes.map((size) => (
+                              <option key={size} value={size} disabled={isSizeDisabled(size)}>
+                                {size}{isSizeDisabled(size) ? " (Out)" : ""}
+                              </option>
+                            ))}
+                          </select>
+                          <span>| Qty: {item.quantity}</span>
+                          {(() => {
+                            const fit = getFitLabelByName(item.name);
+                            return fit ? <span>| {fit}</span> : null;
+                          })()}
+                        </div>
+                      </div>
+                      <span className="font-bold text-[#a67c52] text-lg">Rs {item.price * item.quantity}</span>
                     </div>
-                    <span className="font-bold text-[#a67c52] text-lg">Rs {item.price * item.quantity}</span>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
 
               {/* Price Breakdown */}
@@ -359,7 +394,7 @@ const Checkout = () => {
             {/* Checkout Form */}
             <div className="bg-white rounded-3xl shadow-xl border border-[#a67c52]/10 p-8">
               <h2 className="text-2xl font-bold text-[#1a1a1a] mb-6">Shipping Information</h2>
-              
+
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
                   <label className="block mb-2 font-semibold text-[#1a1a1a]" htmlFor="name">

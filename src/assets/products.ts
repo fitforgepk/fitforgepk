@@ -92,13 +92,14 @@ export const winterProducts: Product[] = [
   {
     id: "winter-1",
     name: "Puffy",
-    price: 5499,
-    originalPrice: 6199,
+    price: 4399,
+    originalPrice: 5499,
     image: puffyFront,
     imageBack: puffyFront2,
     additionalImages: [puffyFront2],
     category: "Winter Collection",
-    tag: "HOT",
+    tag: "20% OFF",
+    isSale: true,
     isNew: true,
     sizes: ["S", "M", "L", "XL"],
     subtitle: "Puffer-Jacket",
@@ -121,12 +122,13 @@ Highlights:
   {
     id: "winter-2",
     name: "Crimson's Crest",
-    price: 4199,
-    originalPrice: 4999,
+    price: 3399,
+    originalPrice: 4249,
     image: crimsonFront,
     imageBack: crimsonBack,
     category: "Winter Collection",
-    tag: "HOT",
+    tag: "20% OFF",
+    isSale: true,
     isNew: true,
     sizes: ["S", "M", "L", "XL"],
     description: `Crimson Red – Signature Oversized Hoodie (340 GSM)
@@ -149,13 +151,14 @@ Statement style. Premium comfort.`
   {
     id: "winter-3",
     name: "Greyborne Knit",
-    price: 2999,
-    originalPrice: 3499,
+    price: 2399,
+    originalPrice: 2999,
     image: sweaterFront,
     imageBack: sweaterBack,
     additionalImages: [sweaterBack2],
     category: "Winter Collection",
-    tag: "HOT",
+    tag: "20% OFF",
+    isSale: true,
     isNew: true,
     sizes: ["S", "M", "L"],
     description: `Greyborne Knit – 200 GSM Premium Knitwear
@@ -216,7 +219,7 @@ export const featuredProducts: Product[] = [
     category: "Regular Fit",
     isNew: true,
     isSale: false,
-    tag: "NEW" 
+    tag: "NEW"
   },
   {
     id: "m4",
@@ -229,7 +232,7 @@ export const featuredProducts: Product[] = [
     category: "Regular Fit",
     isNew: true,
     isSale: false,
-    tag: "NEW" 
+    tag: "NEW"
   },
   {
     id: "m7",
@@ -242,7 +245,7 @@ export const featuredProducts: Product[] = [
     category: "Oversized Tee",
     isNew: true,
     isSale: false,
-    tag: "NEW" 
+    tag: "NEW"
   },
   {
     id: "w1",
@@ -261,8 +264,8 @@ export const featuredProducts: Product[] = [
     name: "City Eighty ",
     price: 1250,
     originalPrice: 2500,
-    image: modelMensEighty, 
-    additionalImages: [,unisexEightysShirtFront, unisexEightysShirtBack],
+    image: modelMensEighty,
+    additionalImages: [, unisexEightysShirtFront, unisexEightysShirtBack],
     category: "Oversized Tee",
     isNew: true,
     isSale: false,
@@ -282,13 +285,13 @@ export const featuredProducts: Product[] = [
     tag: "NEW"
   }
   // Anime Collection (Premium products)
-  
+
 
 ];
 
 export const menProducts: Product[] = [
   // Real products first - NEW MODEL IMAGES FIRST
-  
+
   {
     id: "u1",
     name: "Breath of SEA",
@@ -300,9 +303,9 @@ export const menProducts: Product[] = [
     category: "Regular Fit",
     isNew: true,
     isSale: false,
-    tag: "NEW" 
+    tag: "NEW"
   },
-   {
+  {
     id: "m4",
     name: "The Blacksmith ",
     price: 1100,
@@ -313,7 +316,7 @@ export const menProducts: Product[] = [
     category: "Regular Fit",
     isNew: true,
     isSale: false,
-    tag: "NEW" 
+    tag: "NEW"
   },
   {
     id: "m5",
@@ -326,39 +329,39 @@ export const menProducts: Product[] = [
     category: "Oversized Tee",
     isNew: true,
     isSale: false,
-    tag: "NEW" 
+    tag: "NEW"
   },
   {
     id: "m6",
     name: "Vision Void (White Version)",
     price: 1400,
     originalPrice: 2400,
-  image: mensVisionaryWhiteFront,
-  imageBack: modelUnisexBlackVisionVoid,
-  additionalImages: [mensWhiteVisionVoidBack, mensWhiteVisionVoidFront],
+    image: mensVisionaryWhiteFront,
+    imageBack: modelUnisexBlackVisionVoid,
+    additionalImages: [mensWhiteVisionVoidBack, mensWhiteVisionVoidFront],
     category: "Oversized Tee",
     isNew: true,
     isSale: false,
-    tag: "NEW" 
+    tag: "NEW"
   },
   {
     id: "u21",
     name: "City Eighty ",
     price: 1250,
     originalPrice: 2500,
-    image: modelMensEighty, 
-    additionalImages: [,unisexEightysShirtFront, unisexEightysShirtBack],
+    image: modelMensEighty,
+    additionalImages: [, unisexEightysShirtFront, unisexEightysShirtBack],
     category: "Oversized Tee",
     isNew: true,
     isSale: false,
     tag: "NEW"
   }
-  
+
 ];
 
 export const womenProducts: Product[] = [
   // Real products first - NEW MODEL IMAGE FIRST
-  
+
   {
     id: "w3",
     name: "Afterlight ",
@@ -409,7 +412,7 @@ export const womenProducts: Product[] = [
     category: "Oversized Tee",
     isNew: true,
     isSale: false,
-    tag: "NEW" 
+    tag: "NEW"
   },
   {
     id: "w5",
@@ -422,13 +425,13 @@ export const womenProducts: Product[] = [
     category: "Oversized Tee",
     isNew: true,
     isSale: false,
-    tag: "NEW" 
+    tag: "NEW"
   }
 ];
 
 export const unisexProducts: Product[] = [
   // Real unisex products - NEW MODEL IMAGES FIRST
-  
+
   {
     id: "m7",
     name: "Vision Void ",
@@ -440,7 +443,7 @@ export const unisexProducts: Product[] = [
     category: "Oversized Tee",
     isNew: true,
     isSale: false,
-    tag: "NEW" 
+    tag: "NEW"
   },
   {
     id: "n6",
@@ -453,7 +456,7 @@ export const unisexProducts: Product[] = [
     category: "Oversized Tee",
     isNew: true,
     isSale: false,
-    tag: "NEW" 
+    tag: "NEW"
   },
   {
     id: "u2",
@@ -468,12 +471,12 @@ export const unisexProducts: Product[] = [
     isSale: false,
     tag: "NEW"
   }
- 
+
 ];
 
 export const gamingProducts: Product[] = [
   // All coming soon products (no real products yet)
-  
+
   {
     id: "g2",
     name: "Coming Soon",
@@ -497,7 +500,7 @@ export const animeProducts: Product[] = [
     category: "T-shirts",
     isNew: true,
     isSale: false,
-    tag: "COMING SOON" 
+    tag: "COMING SOON"
   },
   {
     id: "a2",
@@ -508,7 +511,7 @@ export const animeProducts: Product[] = [
     category: "T-shirts",
     isNew: true,
     isSale: false,
-    tag: "COMING SOON" 
+    tag: "COMING SOON"
   },
   {
     id: "a3",
@@ -519,7 +522,7 @@ export const animeProducts: Product[] = [
     category: "T-shirts",
     isNew: true,
     isSale: false,
-    tag: "COMING SOON" 
+    tag: "COMING SOON"
   }
 ];
 

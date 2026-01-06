@@ -6,7 +6,7 @@ export interface CartItem {
   price: number;
   image: string;
   quantity: number;
-   size?: string; 
+  size?: string;
 }
 
 interface CartContextType {
@@ -16,17 +16,19 @@ interface CartContextType {
   removeFromCart: (id: string) => void;
   incrementQuantity: (id: string) => void;
   decrementQuantity: (id: string) => void;
+  changeSize: (id: string, newSize: string) => void;
   clearCart: () => void;
 }
 
 export const CartContext = createContext<CartContextType>({
   cartItems: [],
   cartCount: 0,
-  addToCart: () => {},
-  removeFromCart: () => {},
-  incrementQuantity: () => {},
-  decrementQuantity: () => {},
-  clearCart: () => {},
+  addToCart: () => { },
+  removeFromCart: () => { },
+  incrementQuantity: () => { },
+  decrementQuantity: () => { },
+  changeSize: () => { },
+  clearCart: () => { },
 });
 
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -87,10 +89,45 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setCartItems([]);
   };
 
+  const changeSize = (id: string, newSize: string) => {
+    setCartItems((prev) => {
+      const itemToChange = prev.find((item) => item.id === id);
+      if (!itemToChange) return prev;
+
+      // Extract base id (without size suffix)
+      const baseId = id.replace(/-[SML]$|-[XS]$|-XL$|-XXL$/, '');
+      const newId = `${baseId}-${newSize}`;
+
+      // Update name: replace old size with new size
+      const baseName = itemToChange.name.replace(/\s*\([SMLX]+\)$/, '');
+      const newName = `${baseName} (${newSize})`;
+
+      // Check if an item with the new id already exists
+      const existingItem = prev.find((item) => item.id === newId);
+      if (existingItem) {
+        // Merge quantities and remove old item
+        return prev
+          .map((item) =>
+            item.id === newId
+              ? { ...item, quantity: item.quantity + itemToChange.quantity }
+              : item
+          )
+          .filter((item) => item.id !== id);
+      }
+
+      // Just update the item's id, name, and size
+      return prev.map((item) =>
+        item.id === id
+          ? { ...item, id: newId, name: newName, size: newSize }
+          : item
+      );
+    });
+  };
+
   const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
-    <CartContext.Provider value={{ cartItems, cartCount, addToCart, removeFromCart, incrementQuantity, decrementQuantity, clearCart }}>
+    <CartContext.Provider value={{ cartItems, cartCount, addToCart, removeFromCart, incrementQuantity, decrementQuantity, changeSize, clearCart }}>
       {children}
     </CartContext.Provider>
   );
@@ -104,7 +141,7 @@ interface CartUIContextType {
 
 export const CartUIContext = createContext<CartUIContextType>({
   cartOpen: false,
-  setCartOpen: () => {},
+  setCartOpen: () => { },
 });
 
 export const CartUIProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
